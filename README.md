@@ -2,7 +2,13 @@
 
 This repository contains the source for Wei-Han Yu's personal CV and portfolio website, published with GitHub Pages.
 
-The site highlights quantitative research, machine learning, market data pipelines, algorithmic execution, and computer vision research experience. It also links directly to the PDF CV included in the repository.
+The site highlights three separate projects:
+
+- Qlib Taiwan equity trading workflow
+- BTC trend forecasting
+- Image-processing research for automated native breeder chicken selection
+
+The Qlib Taiwan equity workflow is the primary project and links to the public repository at `https://github.com/hank187548/qlib-public`. The site also links directly to the PDF CV included in this repository.
 
 ## Live Site
 
