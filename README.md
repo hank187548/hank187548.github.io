@@ -1,56 +1,53 @@
-# Hank Yu CV & Portfolio Website
+# Wei-Han Yu Portfolio Website
 
-這是一個可直接部署到 GitHub Pages 的靜態個人網站。首頁已連結資料夾內的 `CV1_Hank_quant.pdf`，適合作為 CV、作品集與公開聯絡資訊入口。
+This repository contains the source for Wei-Han Yu's personal CV and portfolio website, published with GitHub Pages.
 
-## 檔案
+The site highlights quantitative research, machine learning, market data pipelines, algorithmic execution, and computer vision research experience. It also links directly to the PDF CV included in the repository.
 
-- `index.html`: 首頁內容與 CV 連結
-- `styles.css`: 網站樣式
-- `script.js`: 捲動顯示動畫
-- `CV1_Hank_quant.pdf`: PDF CV
-- `.nojekyll`: 讓 GitHub Pages 直接發布靜態檔案
-
-## 本地查看
-
-直接用瀏覽器開啟 `index.html` 即可。
-
-也可以在這個資料夾啟動簡單伺服器：
-
-```bash
-python3 -m http.server 8000
-```
-
-然後開啟：
+## Live Site
 
 ```text
-http://localhost:8000
+https://hank187548.github.io/
 ```
 
-## 部署到 GitHub Pages
+## Contents
 
-1. 在 GitHub 建立 repository。
-2. 在本機初始化 git 並提交：
+- `index.html`: Main portfolio page
+- `styles.css`: Responsive visual design and layout
+- `script.js`: Scroll reveal animation
+- `CV1_Hank_quant.pdf`: Downloadable CV
+- `.nojekyll`: Ensures GitHub Pages serves static files directly
+
+## Local Preview
+
+Open `index.html` directly in a browser, or run a local static server:
 
 ```bash
-git init
-git branch -M main
+python3 -m http.server 8123
+```
+
+Then open:
+
+```text
+http://localhost:8123
+```
+
+## Deployment
+
+This repository is intended for GitHub Pages using the `main` branch.
+
+If you need to push updates:
+
+```bash
 git add .
-git commit -m "Build CV portfolio website"
+git commit -m "Update portfolio website"
+git push
 ```
 
-3. 連到你的 GitHub repository：
+GitHub Pages will rebuild the site automatically after the push.
 
-```bash
-git remote add origin https://github.com/YOUR_ACCOUNT/YOUR_REPO.git
-git push -u origin main
-```
+## Notes
 
-4. 到 GitHub repository 的 `Settings > Pages`。
-5. Source 選 `Deploy from a branch`。
-6. Branch 選 `main`，資料夾選 `/root`，儲存後等待網站生成。
-
-## 上線前建議補齊
-
-- 把 `index.html` 裡的 `Email 待補` 換成公開 email。
-- 把 GitHub / LinkedIn 連結換成真實網址。
-- 將 Projects 區塊改成真實專案、repo、報告或 demo。
+- The homepage is fully static and does not require a backend.
+- The CV file is served directly from the repository.
+- Contact links currently include email, GitHub, and the downloadable CV.

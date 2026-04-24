@@ -1,4 +1,6 @@
-const revealItems = document.querySelectorAll(".section, .project-card, .hero-card");
+const revealItems = document.querySelectorAll(
+  ".section, .signal-board, .panel, .feature-card, .timeline, .education-item, .skill-group"
+);
 
 revealItems.forEach((item) => item.classList.add("reveal"));
 
