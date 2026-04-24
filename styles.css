@@ -119,9 +119,9 @@ a {
 }
 
 .profile-photo-frame {
-  width: 96px;
-  height: 96px;
-  flex: 0 0 96px;
+  width: 192px;
+  height: 192px;
+  flex: 0 0 192px;
   border: 3px solid #ffffff;
   border-radius: 50%;
   box-shadow: 0 10px 24px rgba(20, 32, 51, 0.14);
@@ -613,9 +613,9 @@ h3 {
   }
 
   .profile-photo-frame {
-    width: 76px;
-    height: 76px;
-    flex-basis: 76px;
+    width: 128px;
+    height: 128px;
+    flex-basis: 128px;
   }
 
   h1 {
