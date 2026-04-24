@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=20260424-photo" />
+    <link rel="stylesheet" href="./styles.css?v=20260424-clean-accordion" />
   </head>
   <body>
     <div class="site-shell">
@@ -71,24 +71,14 @@
             <p class="eyebrow">Primary Project</p>
             <h2>Qlib Taiwan Equity Workflow</h2>
             <p>
-              Public research and trading pipeline for Taiwan equities, organized around Qlib
-              data preparation, Alpha158/360 factor handlers, model training, backtesting, and
-              order-preparation scripts.
+              Public research and trading pipeline for Taiwan equities, with the full project
+              breakdown available below.
             </p>
-            <ul class="focus-list">
-              <li>
-                <strong>Pipeline</strong>
-                Raw data -> Qlib provider -> DatasetH -> model -> strategy -> TWExchange -> reports
-              </li>
-              <li>
-                <strong>Models</strong>
-                LightGBM, CatBoost, XGBoost, Alpha158, Alpha360
-              </li>
-              <li>
-                <strong>Execution layer</strong>
-                Paper trading, replay, broker order preparation, and credential-safe config
-              </li>
-            </ul>
+            <div class="focus-mini" aria-label="Qlib project highlights">
+              <span>Qlib</span>
+              <span>Alpha158/360</span>
+              <span>Paper trading</span>
+            </div>
             <a class="text-link focus-link" href="https://github.com/hank187548/qlib-public" target="_blank" rel="noreferrer">
               View qlib-public
             </a>
@@ -97,173 +87,186 @@
       </header>
 
       <main>
-        <section class="section intro-section" id="profile">
-          <div class="section-heading">
-            <p class="eyebrow">Profile</p>
-            <h2>End-to-end quant system experience.</h2>
-          </div>
-          <div class="intro-grid">
-            <article class="panel">
-              <p>
-                My work spans market data scraping, factor generation with Microsoft Qlib
-                Alpha158/360, LightGBM and CatBoost stock selection, GRU-Attention trend
-                forecasting, and live execution workflows with Telegram alerting.
-              </p>
-            </article>
-            <article class="panel compact-panel">
-              <span class="panel-kicker">Current Education</span>
-              <h3>National Taiwan University</h3>
-              <p>M.S. in Bio-Industrial Mechatronics Engineering, expected June 2026.</p>
-            </article>
-          </div>
+        <section class="overview-section" aria-label="At a glance">
+          <article class="overview-item">
+            <span>Primary</span>
+            <strong>Qlib Taiwan equity workflow</strong>
+          </article>
+          <article class="overview-item">
+            <span>Focus</span>
+            <strong>Quant systems, ML, execution</strong>
+          </article>
+          <article class="overview-item">
+            <span>Current</span>
+            <strong>NTU M.S. candidate, 2026</strong>
+          </article>
         </section>
 
-        <section class="section" id="projects">
-          <div class="section-heading section-heading-row">
-            <div>
-              <p class="eyebrow">Projects</p>
-              <h2>Three focused projects.</h2>
+        <section class="accordion-stack" aria-label="Expandable portfolio sections">
+          <details class="accordion-panel" id="projects">
+            <summary>
+              <span>
+                <span class="eyebrow">Projects</span>
+                <strong>Three focused projects</strong>
+              </span>
+              <span class="summary-hint">Open</span>
+            </summary>
+
+            <div class="accordion-content">
+              <div class="project-grid">
+                <article class="project-card primary-project">
+                  <div class="project-main">
+                    <p class="project-tag">Project 01 / Qlib / Taiwan Equity</p>
+                    <h3>Qlib Taiwan equity trading workflow</h3>
+                    <p>
+                      My primary quant project: an end-to-end Taiwan equity workflow built around
+                      Qlib data preparation, Alpha158/360 feature handlers, tree-based stock selection,
+                      backtesting, and trading utilities.
+                    </p>
+                    <a class="repo-link" href="https://github.com/hank187548/qlib-public" target="_blank" rel="noreferrer">
+                      GitHub: hank187548/qlib-public
+                    </a>
+                  </div>
+                  <div class="project-details">
+                    <ul class="project-points">
+                      <li>Processes Taiwan equity data into a Qlib-compatible adjusted-price provider.</li>
+                      <li>Runs model training, model search, backtest search, and report generation.</li>
+                      <li>Separates research logic, trade logic, configs, scripts, and output artifacts.</li>
+                      <li>Includes paper trading, replay, broker order preparation, and safe environment-variable credential handling.</li>
+                    </ul>
+                    <dl class="project-facts">
+                      <div>
+                        <dt>CV backtest</dt>
+                        <dd>22.78% vs 16.83% benchmark</dd>
+                      </div>
+                      <div>
+                        <dt>Signal quality</dt>
+                        <dd>Avg. daily IC 0.031 / positive IC rate 61%</dd>
+                      </div>
+                    </dl>
+                  </div>
+                </article>
+
+                <article class="project-card">
+                  <p class="project-tag">Project 02 / BTC Forecasting</p>
+                  <h3>BTC trend forecasting with GRU-Attention</h3>
+                  <p>
+                    A separate time-series forecasting project for BTC market direction. The model
+                    uses GRU-Attention for 3-class trend prediction and reached 47% accuracy in the
+                    CV-reported experiment.
+                  </p>
+                  <ul class="project-points">
+                    <li>Focuses on sequential crypto market signals rather than cross-sectional equity ranking.</li>
+                    <li>Built as a forecasting module distinct from the Qlib Taiwan equity workflow.</li>
+                  </ul>
+                </article>
+
+                <article class="project-card">
+                  <p class="project-tag">Project 03 / Image Processing</p>
+                  <h3>Automated native breeder chicken selection</h3>
+                  <p>
+                    Research project at NTU combining image processing, detection, segmentation,
+                    pose tracking, gait-feature extraction, and classification.
+                  </p>
+                  <ul class="project-points">
+                    <li>YOLO and Segment Anything Model for detection and instance segmentation.</li>
+                    <li>DeepLabCut for gait tracking and SVM for multidimensional gait classification.</li>
+                    <li>CV-reported results: 97.6% detection accuracy and 94.8% classification accuracy.</li>
+                  </ul>
+                </article>
+              </div>
             </div>
-            <a class="text-link" href="./CV1_Hank_quant.pdf" target="_blank" rel="noreferrer">Full CV</a>
-          </div>
+          </details>
 
-          <div class="project-grid">
-            <article class="project-card primary-project">
-              <div class="project-main">
-                <p class="project-tag">Project 01 / Qlib / Taiwan Equity</p>
-                <h3>Qlib Taiwan equity trading workflow</h3>
-                <p>
-                  My primary quant project: an end-to-end Taiwan equity workflow built around
-                  Qlib data preparation, Alpha158/360 feature handlers, tree-based stock selection,
-                  backtesting, and trading utilities.
-                </p>
-                <a class="repo-link" href="https://github.com/hank187548/qlib-public" target="_blank" rel="noreferrer">
-                  GitHub: hank187548/qlib-public
-                </a>
-              </div>
-              <div class="project-details">
-                <ul class="project-points">
-                  <li>Processes Taiwan equity data into a Qlib-compatible adjusted-price provider.</li>
-                  <li>Runs model training, model search, backtest search, and report generation.</li>
-                  <li>Separates research logic, trade logic, configs, scripts, and output artifacts.</li>
-                  <li>Includes paper trading, replay, broker order preparation, and safe environment-variable credential handling.</li>
-                </ul>
-                <dl class="project-facts">
-                  <div>
-                    <dt>CV backtest</dt>
-                    <dd>22.78% vs 16.83% benchmark</dd>
+          <details class="accordion-panel" id="research">
+            <summary>
+              <span>
+                <span class="eyebrow">Research</span>
+                <strong>Machine learning and machine vision</strong>
+              </span>
+              <span class="summary-hint">Open</span>
+            </summary>
+
+            <div class="accordion-content">
+              <div class="timeline">
+                <article class="timeline-item">
+                  <div class="timeline-date">Jul. 2024 - Present</div>
+                  <div class="timeline-content">
+                    <h3>Graduate Researcher, Lab of Machine Learning and Machine Vision</h3>
+                    <p>
+                      Developing an automated system for native breeder chicken selection under
+                      Prof. Yanfu Kuo, combining data acquisition, detection, segmentation, tracking,
+                      and gait-feature classification.
+                    </p>
+                    <ul class="clean-list">
+                      <li>Applied YOLO and Segment Anything Model for detection and segmentation.</li>
+                      <li>Achieved 97.6% detection accuracy.</li>
+                      <li>Used DeepLabCut for gait tracking, reducing test error to 10.16 pixels.</li>
+                      <li>Classified multidimensional gait features with SVM at 94.8% accuracy.</li>
+                    </ul>
                   </div>
-                  <div>
-                    <dt>Signal quality</dt>
-                    <dd>Avg. daily IC 0.031 / positive IC rate 61%</dd>
-                  </div>
-                </dl>
+                </article>
               </div>
-            </article>
+            </div>
+          </details>
 
-            <article class="project-card">
-              <p class="project-tag">Project 02 / BTC Forecasting</p>
-              <h3>BTC trend forecasting with GRU-Attention</h3>
-              <p>
-                A separate time-series forecasting project for BTC market direction. The model
-                uses GRU-Attention for 3-class trend prediction and reached 47% accuracy in the
-                CV-reported experiment.
-              </p>
-              <ul class="project-points">
-                <li>Focuses on sequential crypto market signals rather than cross-sectional equity ranking.</li>
-                <li>Built as a forecasting module distinct from the Qlib Taiwan equity workflow.</li>
-              </ul>
-            </article>
+          <details class="accordion-panel" id="education">
+            <summary>
+              <span>
+                <span class="eyebrow">Education</span>
+                <strong>Academic background</strong>
+              </span>
+              <span class="summary-hint">Open</span>
+            </summary>
 
-            <article class="project-card">
-              <p class="project-tag">Project 03 / Image Processing</p>
-              <h3>Automated native breeder chicken selection</h3>
-              <p>
-                Research project at NTU combining image processing, detection, segmentation,
-                pose tracking, gait-feature extraction, and classification.
-              </p>
-              <ul class="project-points">
-                <li>YOLO and Segment Anything Model for detection and instance segmentation.</li>
-                <li>DeepLabCut for gait tracking and SVM for multidimensional gait classification.</li>
-                <li>CV-reported results: 97.6% detection accuracy and 94.8% classification accuracy.</li>
-              </ul>
-            </article>
-          </div>
-        </section>
-
-        <section class="section" id="research">
-          <div class="section-heading">
-            <p class="eyebrow">Research Experience</p>
-            <h2>Machine learning and machine vision.</h2>
-          </div>
-
-          <div class="timeline">
-            <article class="timeline-item">
-              <div class="timeline-date">Jul. 2024 - Present</div>
-              <div class="timeline-content">
-                <h3>Graduate Researcher, Lab of Machine Learning and Machine Vision</h3>
-                <p>
-                  Developing an automated system for native breeder chicken selection under
-                  Prof. Yanfu Kuo, combining data acquisition, detection, segmentation, tracking,
-                  and gait-feature classification.
-                </p>
-                <ul class="clean-list">
-                  <li>Applied YOLO and Segment Anything Model for detection and segmentation.</li>
-                  <li>Achieved 97.6% detection accuracy.</li>
-                  <li>Used DeepLabCut for gait tracking, reducing test error to 10.16 pixels.</li>
-                  <li>Classified multidimensional gait features with SVM at 94.8% accuracy.</li>
-                </ul>
+            <div class="accordion-content">
+              <div class="education-grid">
+                <article class="education-item">
+                  <span class="date-label">2024 - Expected 2026</span>
+                  <h3>National Taiwan University</h3>
+                  <p>M.S. in Bio-Industrial Mechatronics Engineering</p>
+                  <p class="muted">Relevant coursework: Machine Learning, FinTech, Data Structures and Algorithms, Image Processing.</p>
+                </article>
+                <article class="education-item">
+                  <span class="date-label">2020 - 2024</span>
+                  <h3>National Chung Hsing University</h3>
+                  <p>Bachelor of Bio-Industrial Mechatronics Engineering</p>
+                  <p class="muted">Relevant coursework: Data Science, Engineering Mathematics.</p>
+                </article>
               </div>
-            </article>
-          </div>
-        </section>
+            </div>
+          </details>
 
-        <section class="section education-section">
-          <div class="section-heading">
-            <p class="eyebrow">Education</p>
-            <h2>Academic background</h2>
-          </div>
+          <details class="accordion-panel" id="skills">
+            <summary>
+              <span>
+                <span class="eyebrow">Skills</span>
+                <strong>Technical stack</strong>
+              </span>
+              <span class="summary-hint">Open</span>
+            </summary>
 
-          <div class="education-grid">
-            <article class="education-item">
-              <span class="date-label">2024 - Expected 2026</span>
-              <h3>National Taiwan University</h3>
-              <p>M.S. in Bio-Industrial Mechatronics Engineering</p>
-              <p class="muted">Relevant coursework: Machine Learning, FinTech, Data Structures and Algorithms, Image Processing.</p>
-            </article>
-            <article class="education-item">
-              <span class="date-label">2020 - 2024</span>
-              <h3>National Chung Hsing University</h3>
-              <p>Bachelor of Bio-Industrial Mechatronics Engineering</p>
-              <p class="muted">Relevant coursework: Data Science, Engineering Mathematics.</p>
-            </article>
-          </div>
-        </section>
-
-        <section class="section" id="skills">
-          <div class="section-heading">
-            <p class="eyebrow">Skills</p>
-            <h2>Technical stack</h2>
-          </div>
-
-          <div class="skills-grid">
-            <article class="skill-group">
-              <h3>Programming</h3>
-              <p>Python, C++, C#, Bash/Shell scripting, Git, Linux</p>
-            </article>
-            <article class="skill-group">
-              <h3>Quant & ML</h3>
-              <p>Qlib Alpha158/360, factor generation, stock selection, time-series forecasting, LightGBM, CatBoost, GRU, SVM</p>
-            </article>
-            <article class="skill-group">
-              <h3>Frameworks</h3>
-              <p>PyTorch, Scikit-learn, Pandas, NumPy, OpenCV</p>
-            </article>
-            <article class="skill-group">
-              <h3>Systems</h3>
-              <p>Web scraping, automated data pipelines, brokerage API integration, Telegram alerting</p>
-            </article>
-          </div>
+            <div class="accordion-content">
+              <div class="skills-grid">
+                <article class="skill-group">
+                  <h3>Programming</h3>
+                  <p>Python, C++, C#, Bash/Shell scripting, Git, Linux</p>
+                </article>
+                <article class="skill-group">
+                  <h3>Quant & ML</h3>
+                  <p>Qlib Alpha158/360, factor generation, stock selection, time-series forecasting, LightGBM, CatBoost, GRU, SVM</p>
+                </article>
+                <article class="skill-group">
+                  <h3>Frameworks</h3>
+                  <p>PyTorch, Scikit-learn, Pandas, NumPy, OpenCV</p>
+                </article>
+                <article class="skill-group">
+                  <h3>Systems</h3>
+                  <p>Web scraping, automated data pipelines, brokerage API integration, Telegram alerting</p>
+                </article>
+              </div>
+            </div>
+          </details>
         </section>
 
         <section class="section contact-section" id="contact">
