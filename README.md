@@ -24,6 +24,8 @@ https://hank187548.github.io/
 - `script.js`: Scroll reveal animation and expandable work-panel navigation
 - `CV1_Hank_quant.pdf`: Downloadable CV
 - `assets/photos/`: Web-optimized travel, life, and lab photos used by the site
+- `assets/videos/`: Short MP4 clips used by the Motion Notes section
+- `assets/video-posters/`: Lightweight poster images for the video cards
 - `.nojekyll`: Ensures GitHub Pages serves static files directly
 
 ## Local Preview

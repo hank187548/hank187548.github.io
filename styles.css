@@ -38,7 +38,8 @@ a {
   text-decoration: none;
 }
 
-img {
+img,
+video {
   display: block;
   max-width: 100%;
 }
@@ -102,6 +103,7 @@ img {
 .hero-board,
 .memory-card,
 .photo-tile,
+.video-card,
 .work-panel,
 .project-card,
 .work-meta-grid article,
@@ -284,8 +286,12 @@ h3 {
   grid-row: 1 / -1;
 }
 
+.hero-photo-large img {
+  object-position: 62% 28%;
+}
+
 .hero-photo-portrait img {
-  object-position: 52% 28%;
+  object-position: 50% 48%;
 }
 
 .hero-photo-small img {
@@ -294,6 +300,7 @@ h3 {
 
 .life-section,
 .gallery-section,
+.clips-section,
 .work-panel,
 .contact-section {
   margin-top: 74px;
@@ -371,6 +378,44 @@ h3 {
 
 .photo-tall {
   grid-row: span 2;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.video-card {
+  overflow: hidden;
+  background: rgba(255, 253, 247, 0.86);
+}
+
+.video-frame {
+  position: relative;
+  overflow: hidden;
+  background: #111827;
+}
+
+.video-frame video {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  background: #111827;
+}
+
+.video-copy {
+  padding: 18px;
+}
+
+.video-copy h3 {
+  margin-bottom: 8px;
+}
+
+.video-copy p:last-child {
+  margin-bottom: 0;
+  color: var(--ink-soft);
+  line-height: 1.62;
 }
 
 .work-panel {
@@ -590,7 +635,8 @@ h3 {
   }
 
   .memory-grid,
-  .photo-grid {
+  .photo-grid,
+  .video-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -614,7 +660,7 @@ h3 {
   .nav-links {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 
   .nav-links a {
@@ -650,6 +696,7 @@ h3 {
   }
 
   .memory-grid,
+  .video-grid,
   .photo-grid,
   .project-grid,
   .work-meta-grid {
