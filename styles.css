@@ -61,6 +61,7 @@ video {
 .brand,
 .eyebrow,
 .photo-tile figcaption,
+.video-card figcaption,
 .memory-card span,
 .project-tag,
 .work-meta-grid span {
@@ -235,7 +236,7 @@ h3 {
 
 .hero-board {
   display: grid;
-  grid-template-columns: 1.08fr 0.82fr;
+  grid-template-columns: 1.2fr 0.8fr;
   grid-template-rows: 1.1fr 0.9fr;
   gap: 12px;
   min-height: 620px;
@@ -259,7 +260,8 @@ h3 {
 }
 
 .hero-photo::after,
-.photo-tile::after {
+.photo-tile::after,
+.video-card::after {
   position: absolute;
   inset: auto 0 0;
   height: 44%;
@@ -269,7 +271,8 @@ h3 {
 }
 
 .hero-photo figcaption,
-.photo-tile figcaption {
+.photo-tile figcaption,
+.video-card figcaption {
   position: absolute;
   left: 14px;
   right: 14px;
@@ -287,7 +290,7 @@ h3 {
 }
 
 .hero-photo-large img {
-  object-position: 62% 28%;
+  object-position: 62% 30%;
 }
 
 .hero-photo-portrait img {
@@ -383,39 +386,32 @@ h3 {
 .video-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  gap: 12px;
 }
 
 .video-card {
-  overflow: hidden;
-  background: rgba(255, 253, 247, 0.86);
-}
-
-.video-frame {
   position: relative;
+  height: 260px;
+  margin: 0;
   overflow: hidden;
   background: #111827;
 }
 
-.video-frame video {
+.video-card video {
   width: 100%;
-  aspect-ratio: 4 / 5;
+  height: 100%;
   object-fit: cover;
   background: #111827;
 }
 
-.video-copy {
-  padding: 18px;
-}
-
-.video-copy h3 {
-  margin-bottom: 8px;
-}
-
-.video-copy p:last-child {
-  margin-bottom: 0;
-  color: var(--ink-soft);
-  line-height: 1.62;
+.video-card figcaption {
+  top: 12px;
+  bottom: auto;
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: rgba(21, 29, 47, 0.62);
+  width: fit-content;
+  max-width: calc(100% - 28px);
 }
 
 .work-panel {
