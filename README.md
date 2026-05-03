@@ -1,14 +1,15 @@
-# Wei-Han Yu Portfolio Website
+# Wei-Han Yu Life Log
 
-This repository contains the source for Wei-Han Yu's personal CV and portfolio website, published with GitHub Pages.
+This repository contains the source for Wei-Han Yu's personal website, published with GitHub Pages.
 
-The site highlights three separate projects:
+The main site is a life log for travel, friends, ocean days, lab moments, and personal memories. Professional material is still included, but it lives in one compact expandable work section.
+
+The work section highlights:
 
 - Qlib Taiwan equity trading workflow
 - BTC trend forecasting
 - Image-processing research for automated native breeder chicken selection
-
-The Qlib Taiwan equity workflow is the primary project and links to the public repository at `https://github.com/hank187548/qlib-public`. The site also links directly to the PDF CV included in this repository.
+- Downloadable CV
 
 ## Live Site
 
@@ -18,10 +19,11 @@ https://hank187548.github.io/
 
 ## Contents
 
-- `index.html`: Main portfolio page
+- `index.html`: Main life log page
 - `styles.css`: Responsive visual design and layout
-- `script.js`: Scroll reveal animation
+- `script.js`: Scroll reveal animation and expandable work-panel navigation
 - `CV1_Hank_quant.pdf`: Downloadable CV
+- `assets/photos/`: Web-optimized travel, life, and lab photos used by the site
 - `.nojekyll`: Ensures GitHub Pages serves static files directly
 
 ## Local Preview

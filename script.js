@@ -1,5 +1,5 @@
 const revealItems = document.querySelectorAll(
-  ".section, .focus-card, .overview-item, .accordion-panel, .panel, .project-card, .timeline, .education-item, .skill-group"
+  ".hero-story, .hero-photo, .memory-card, .photo-tile, .work-panel, .contact-panel"
 );
 
 revealItems.forEach((item) => item.classList.add("reveal"));
@@ -14,7 +14,7 @@ const observer = new IntersectionObserver(
     });
   },
   {
-    threshold: 0.18,
+    threshold: 0.02,
   }
 );
 
@@ -33,7 +33,7 @@ function openLinkedPanel(hash) {
   target.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-document.querySelectorAll('.nav-links a[href^="#"]').forEach((link) => {
+document.querySelectorAll('.nav-links a[href^="#"], .hero-actions a[href^="#"]').forEach((link) => {
   link.addEventListener("click", (event) => {
     event.preventDefault();
     const hash = link.getAttribute("href");
