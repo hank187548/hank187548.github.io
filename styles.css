@@ -117,7 +117,7 @@ video {
 
 .hero-story {
   display: flex;
-  min-height: 620px;
+  min-height: 590px;
   flex-direction: column;
   justify-content: center;
   padding: 42px;
@@ -142,7 +142,7 @@ p {
 h1 {
   max-width: 710px;
   margin-bottom: 22px;
-  font-size: clamp(3rem, 6vw, 5.7rem);
+  font-size: clamp(2.8rem, 5.2vw, 5rem);
   line-height: 0.95;
   letter-spacing: 0;
 }
@@ -239,7 +239,7 @@ h3 {
   grid-template-columns: 1.2fr 0.8fr;
   grid-template-rows: 1.1fr 0.9fr;
   gap: 12px;
-  min-height: 620px;
+  min-height: 590px;
   padding: 12px;
   background: rgba(21, 29, 47, 0.94);
 }
