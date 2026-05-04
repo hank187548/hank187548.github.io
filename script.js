@@ -1,5 +1,5 @@
 const revealItems = document.querySelectorAll(
-  ".hero-story, .hero-photo, .memory-card, .photo-tile, .work-panel, .contact-panel"
+  ".hero-copy, .collage-tile, .profile-card, .chapter-card, .theme-card, .work-panel, .contact-panel"
 );
 
 revealItems.forEach((item) => item.classList.add("reveal"));
@@ -33,7 +33,7 @@ function openLinkedPanel(hash) {
   target.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-document.querySelectorAll('.nav-links a[href^="#"], .hero-actions a[href^="#"]').forEach((link) => {
+document.querySelectorAll('a[href^="#"]').forEach((link) => {
   link.addEventListener("click", (event) => {
     event.preventDefault();
     const hash = link.getAttribute("href");
@@ -43,3 +43,13 @@ document.querySelectorAll('.nav-links a[href^="#"], .hero-actions a[href^="#"]')
 });
 
 openLinkedPanel(window.location.hash);
+
+if (window.location.hash) {
+  window.addEventListener(
+    "load",
+    () => {
+      openLinkedPanel(window.location.hash);
+    },
+    { once: true }
+  );
+}

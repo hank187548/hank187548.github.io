@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Wei-Han Yu | Life Log</title>
+    <title>Hank | Life Log</title>
     <meta
       name="description"
-      content="Wei-Han Yu's personal life log: travel, friends, ocean days, lab moments, and a compact professional page."
+      content="Hank's personal life log: travel chapters, diving, friends, lab moments, research work, and memories from Taiwan and elsewhere."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,56 +14,57 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=20260503-hero" />
+    <link rel="stylesheet" href="./styles.css?v=20260505-life" />
   </head>
   <body>
     <div class="site-shell">
       <nav class="nav" aria-label="Primary navigation">
-        <a class="brand" href="#top" aria-label="Back to top">Wei-Han Yu</a>
+        <a class="brand" href="#top" aria-label="Back to top">Hank</a>
         <div class="nav-links">
           <a href="#life">Life</a>
-          <a href="#gallery">Gallery</a>
-          <a href="#clips">Clips</a>
+          <a href="#stories">Stories</a>
           <a href="#work">Work</a>
           <a href="#contact">Contact</a>
         </div>
       </nav>
 
-      <header class="life-hero" id="top">
-        <section class="hero-story">
+      <header class="journey-hero" id="top">
+        <section class="hero-copy">
           <p class="eyebrow">Life log / Taipei and elsewhere</p>
-          <h1>Trips, waves, and good days.</h1>
+          <h1>Hank.</h1>
           <p class="lead">
-            I am Wei-Han Yu. This site is my personal record of trips, friends,
-            ocean days, lab moments, and the small pieces of life I want to keep.
-            The quant and machine learning side still lives here, but it has its own
-            compact corner.
+            A personal site for the parts of life I want to keep: travel, diving,
+            friends, lab days, research, and the small scenes between bigger plans.
+            The newest China, Tibet, Chongqing, and Japan route is one chapter here,
+            not the whole story.
           </p>
-          <div class="hero-tags" aria-label="Life themes">
+
+          <div class="hero-topics" aria-label="Life themes">
             <span>Travel</span>
-            <span>Food</span>
-            <span>Ocean</span>
+            <span>Diving</span>
             <span>Friends</span>
-            <span>Research</span>
+            <span>Lab</span>
+            <span>Work</span>
           </div>
+
           <div class="hero-actions">
-            <a class="button button-primary" href="#gallery">Browse Photos</a>
+            <a class="button button-primary" href="#stories">Browse Stories</a>
             <a class="button button-secondary" href="#work">Professional Page</a>
           </div>
         </section>
 
-        <section class="hero-board" aria-label="Featured memories">
-          <figure class="hero-photo hero-photo-large">
-            <img src="./assets/photos/me-outside.jpg" alt="Wei-Han Yu outdoors" />
+        <section class="hero-collage" aria-label="Featured life moments">
+          <figure class="collage-tile collage-main">
+            <img src="./assets/photos/me-outside.jpg" alt="Hank outdoors" />
             <figcaption>Outside days</figcaption>
           </figure>
-          <figure class="hero-photo hero-photo-portrait">
-            <img src="./assets/photos/vietnam-street.jpg" alt="Vietnam street moment" />
-            <figcaption>Street light</figcaption>
+          <figure class="collage-tile">
+            <img src="./assets/trips/china-japan/Heighest_template_tibet.jpg" alt="Potala Palace below a bright Tibet sky" />
+            <figcaption>Travel chapter</figcaption>
           </figure>
-          <figure class="hero-photo hero-photo-small">
-            <img src="./assets/photos/surf.jpg" alt="Surfing in Bali" />
-            <figcaption>Wave practice</figcaption>
+          <figure class="collage-tile">
+            <img src="./assets/photos/diving-open-water.jpg" alt="Open-water diving day" />
+            <figcaption>Ocean</figcaption>
           </figure>
         </section>
       </header>
@@ -71,125 +72,221 @@
       <main>
         <section class="life-section" id="life">
           <div class="section-heading">
-            <p class="eyebrow">Life Map</p>
-            <h2>Places and phases I keep coming back to.</h2>
+            <p class="eyebrow">Life Themes</p>
+            <h2>The site is organized around me, then the stories inside my life.</h2>
           </div>
 
-          <div class="memory-grid">
-            <article class="memory-card">
-              <span>China</span>
-              <h3>Mountains, trains, and city lights</h3>
-              <p>Potala Palace, Mount Everest, Chongqing bridges, temple walks, and Qinghai-Tibet railway hours.</p>
+          <div class="profile-grid">
+            <article class="profile-card">
+              <span>Travel</span>
+              <h3>Trips as chapters</h3>
+              <p>Each bigger trip gets its own section, timeline, notes, photos, and clips.</p>
             </article>
-            <article class="memory-card">
-              <span>Bali / Australia</span>
-              <h3>Ocean days and open skies</h3>
-              <p>Surfing, beaches, Sydney views, and the feeling of being outside all day.</p>
+            <article class="profile-card">
+              <span>Ocean</span>
+              <h3>Diving and outside days</h3>
+              <p>Open-water moments, surf practice, beaches, and days built around movement.</p>
             </article>
-            <article class="memory-card">
-              <span>Thailand / Vietnam</span>
-              <h3>Friends, streets, and late nights</h3>
-              <p>Hot weather, busy streets, groups of friends, and travel stories that age well.</p>
+            <article class="profile-card">
+              <span>People</span>
+              <h3>Friends and everyday scenes</h3>
+              <p>Group travel, night walks, food, streets, and the ordinary photos worth keeping.</p>
             </article>
-            <article class="memory-card">
-              <span>Lab / Taipei</span>
-              <h3>The everyday base</h3>
-              <p>Research, classes, code, lab people, and the normal days between trips.</p>
+            <article class="profile-card">
+              <span>Research</span>
+              <h3>Lab and professional work</h3>
+              <p>Research, code, quant workflows, machine learning projects, and the compact CV corner.</p>
             </article>
           </div>
         </section>
 
-        <section class="gallery-section" id="gallery">
+        <section class="stories-section" id="stories">
           <div class="section-heading section-heading-row">
             <div>
-              <p class="eyebrow">Photo Notes</p>
-              <h2>A loose wall of memories.</h2>
+              <p class="eyebrow">Story Chapters</p>
+              <h2>Open a theme, then follow the timeline inside it.</h2>
             </div>
-            <p class="section-note">Not a portfolio grid. More like a living scrapbook.</p>
+            <p class="section-note">Not one mixed wall. Each chapter keeps its own context.</p>
           </div>
 
-          <div class="photo-grid">
-            <figure class="photo-tile photo-wide">
-              <img src="./assets/photos/highland-architecture.jpg" alt="Potala Palace in Tibet" loading="lazy" decoding="async" />
-              <figcaption>Potala Palace</figcaption>
-            </figure>
-            <figure class="photo-tile">
-              <img src="./assets/photos/chongqing-bridge.jpg" alt="Chongqing bridge" loading="lazy" decoding="async" />
-              <figcaption>Red bridge hour</figcaption>
-            </figure>
-            <figure class="photo-tile photo-tall">
-              <img src="./assets/photos/vietnam-street.jpg" alt="Vietnam street moment" loading="lazy" decoding="async" />
-              <figcaption>Street light</figcaption>
-            </figure>
-            <figure class="photo-tile">
-              <img src="./assets/photos/sydney-harbor.jpg" alt="Sydney bridge climb" loading="lazy" decoding="async" />
-              <figcaption>Sydney above the harbor</figcaption>
-            </figure>
-            <figure class="photo-tile">
-              <img src="./assets/photos/diving-open-water.jpg" alt="PADI diving certificate day" loading="lazy" decoding="async" />
-              <figcaption>Open water checked</figcaption>
-            </figure>
-            <figure class="photo-tile photo-wide">
-              <img src="./assets/photos/lab-people.jpg" alt="Lab gathering" loading="lazy" decoding="async" />
-              <figcaption>Lab people</figcaption>
-            </figure>
-            <figure class="photo-tile">
-              <img src="./assets/photos/mountain-lake.jpg" alt="Mount Everest landscape" loading="lazy" decoding="async" />
-              <figcaption>Mount Everest</figcaption>
-            </figure>
-            <figure class="photo-tile">
-              <img src="./assets/photos/thailand-friends.jpg" alt="Friends in Thailand" loading="lazy" decoding="async" />
-              <figcaption>Group travel energy</figcaption>
-            </figure>
-            <figure class="photo-tile">
-              <img src="./assets/photos/china-train.jpg" alt="Qinghai-Tibet Railway station" loading="lazy" decoding="async" />
-              <figcaption>Qinghai-Tibet Railway</figcaption>
-            </figure>
-            <figure class="photo-tile photo-wide">
-              <img src="./assets/photos/bali-beach.jpg" alt="Bali beach" loading="lazy" decoding="async" />
-              <figcaption>Beach glare</figcaption>
-            </figure>
-            <figure class="photo-tile">
-              <img src="./assets/photos/monk-procession.jpg" alt="Monks walking outdoors" loading="lazy" decoding="async" />
-              <figcaption>Quiet procession</figcaption>
-            </figure>
-            <figure class="photo-tile">
-              <img src="./assets/photos/temple-stop.jpg" alt="Temple in China" loading="lazy" decoding="async" />
-              <figcaption>Temple stop</figcaption>
-            </figure>
-          </div>
-        </section>
+          <div class="story-stack">
+            <details class="chapter-card story-feature" id="china-japan" open>
+              <summary>
+                <img src="./assets/trips/china-japan/Heighest_template_tibet.jpg" alt="Potala Palace in Tibet" />
+                <span class="chapter-summary">
+                  <span class="chapter-kicker">Travel Chapter / 2025</span>
+                  <strong>Taiwan to Hong Kong, Tibet, Chongqing, and Japan</strong>
+                  <span>A long trip from departure gates to highland trains, neon rivers, and firework nights.</span>
+                </span>
+                <span class="chapter-action">View</span>
+              </summary>
 
-        <section class="clips-section" id="clips">
-          <div class="section-heading section-heading-row">
-            <div>
-              <p class="eyebrow">Motion Notes</p>
-              <h2>Short clips from days that needed movement.</h2>
+              <div class="chapter-body">
+                <div class="chapter-copy">
+                  <p>
+                    This is one travel chapter inside the larger life log. The route starts
+                    from Taiwan, passes through Hong Kong, stretches across Tibet by train,
+                    drops into Chongqing city lights, and ends in Japan with friends and
+                    fireworks.
+                  </p>
+                  <ol class="timeline">
+                    <li>
+                      <span>Taiwan</span>
+                      <strong>Pack, leave the everyday base, and start moving.</strong>
+                    </li>
+                    <li>
+                      <span>Hong Kong</span>
+                      <strong>Use the first transfer as the gateway into the longer route.</strong>
+                    </li>
+                    <li>
+                      <span>Tibet</span>
+                      <strong>Train hours, altitude, temples, mountains, and bright sky.</strong>
+                    </li>
+                    <li>
+                      <span>Chongqing</span>
+                      <strong>Switch from highland space into dense neon city energy.</strong>
+                    </li>
+                    <li>
+                      <span>Japan</span>
+                      <strong>Close the chapter with crowded trains, friends, and fireworks.</strong>
+                    </li>
+                  </ol>
+                </div>
+
+                <div class="media-grid">
+                  <figure class="media-tile media-wide">
+                    <img src="./assets/trips/china-japan/Depature_to_Hongkong.jpg" alt="Departure sign before flying to Hong Kong" loading="lazy" decoding="async" />
+                    <figcaption>Departure</figcaption>
+                  </figure>
+                  <figure class="media-tile">
+                    <img src="./assets/trips/china-japan/Take_train_to_Tibet.jpg" alt="Train platform before riding to Tibet" loading="lazy" decoding="async" />
+                    <figcaption>Train to Tibet</figcaption>
+                  </figure>
+                  <figure class="media-tile">
+                    <img src="./assets/trips/china-japan/Tibet_landscape.jpg" alt="Rocky mountain landscape in Tibet" loading="lazy" decoding="async" />
+                    <figcaption>Highland road</figcaption>
+                  </figure>
+                  <figure class="media-tile media-wide">
+                    <img src="./assets/trips/china-japan/Me_in_Tibet_2.jpg" alt="Hank in Tibet" loading="lazy" decoding="async" />
+                    <figcaption>Altitude portrait</figcaption>
+                  </figure>
+                  <figure class="media-tile">
+                    <img src="./assets/trips/china-japan/The_height_pool_tibet.jpg" alt="High-altitude pool in Tibet" loading="lazy" decoding="async" />
+                    <figcaption>Highland water</figcaption>
+                  </figure>
+                  <figure class="media-tile">
+                    <img src="./assets/trips/china-japan/Chongqing_bridge.jpg" alt="Red bridge in Chongqing" loading="lazy" decoding="async" />
+                    <figcaption>Chongqing red</figcaption>
+                  </figure>
+                  <figure class="media-tile media-wide">
+                    <img src="./assets/trips/china-japan/Chongqing_night.jpg" alt="Chongqing night skyline" loading="lazy" decoding="async" />
+                    <figcaption>Night skyline</figcaption>
+                  </figure>
+                  <figure class="media-tile">
+                    <img src="./assets/trips/china-japan/Me_Japen_3.jpg" alt="Portrait in Japan" loading="lazy" decoding="async" />
+                    <figcaption>Japan portrait</figcaption>
+                  </figure>
+                  <figure class="media-tile media-portrait">
+                    <img src="./assets/trips/china-japan/Take_train_to_see_firework_Japen.png" alt="Crowded train on the way to a firework event in Japan" loading="lazy" decoding="async" />
+                    <figcaption>Train to fireworks</figcaption>
+                  </figure>
+                  <figure class="media-tile">
+                    <img src="./assets/trips/china-japan/Firework.jpg" alt="Fireworks in Japan" loading="lazy" decoding="async" />
+                    <figcaption>Firework night</figcaption>
+                  </figure>
+                  <figure class="media-tile">
+                    <img src="./assets/trips/china-japan/Sleep_in_park.jpg" alt="Resting during the Japan trip" loading="lazy" decoding="async" />
+                    <figcaption>Soft landing</figcaption>
+                  </figure>
+                  <figure class="media-tile media-video">
+                    <video controls playsinline preload="none" poster="./assets/trips/china-japan/Take_train_to_Tibet.jpg" aria-label="Inside the train to Tibet">
+                      <source src="./assets/trips/china-japan/Train_inside.mp4" type="video/mp4" />
+                    </video>
+                    <figcaption>Inside the train</figcaption>
+                  </figure>
+                </div>
+              </div>
+            </details>
+
+            <div class="theme-grid">
+              <details class="theme-card" id="diving">
+                <summary>
+                  <img src="./assets/photos/diving-open-water.jpg" alt="Open-water diving day" loading="lazy" decoding="async" />
+                  <span>
+                    <strong>Diving / Open water</strong>
+                    <small>PADI check, quiet water, and the kind of day that belongs outside.</small>
+                  </span>
+                </summary>
+                <div class="theme-body">
+                  <figure>
+                    <img src="./assets/photos/diving-open-water.jpg" alt="Diving open-water certificate day" loading="lazy" decoding="async" />
+                    <figcaption>Open water checked</figcaption>
+                  </figure>
+                  <video controls playsinline preload="none" poster="./assets/video-posters/diving-open-water.jpg" aria-label="Open-water diving clip">
+                    <source src="./assets/videos/diving-open-water.mp4" type="video/mp4" />
+                  </video>
+                </div>
+              </details>
+
+              <details class="theme-card" id="bali-australia">
+                <summary>
+                  <img src="./assets/photos/bali-beach.jpg" alt="Bali beach" loading="lazy" decoding="async" />
+                  <span>
+                    <strong>Bali / Australia</strong>
+                    <small>Surf practice, beach light, Sydney views, and desert-road movement.</small>
+                  </span>
+                </summary>
+                <div class="theme-body">
+                  <figure>
+                    <img src="./assets/photos/surf.jpg" alt="Surfing in Bali" loading="lazy" decoding="async" />
+                    <figcaption>Wave practice</figcaption>
+                  </figure>
+                  <video controls playsinline preload="none" poster="./assets/video-posters/desert-ride.jpg" aria-label="Desert ride clip">
+                    <source src="./assets/videos/desert-ride.mp4" type="video/mp4" />
+                  </video>
+                </div>
+              </details>
+
+              <details class="theme-card" id="thailand-vietnam">
+                <summary>
+                  <img src="./assets/photos/thailand-friends.jpg" alt="Friends traveling in Thailand" loading="lazy" decoding="async" />
+                  <span>
+                    <strong>Thailand / Vietnam</strong>
+                    <small>Friends, streets, heat, late-night walks, and travel stories that age well.</small>
+                  </span>
+                </summary>
+                <div class="theme-body">
+                  <figure>
+                    <img src="./assets/photos/vietnam-street.jpg" alt="Vietnam street moment" loading="lazy" decoding="async" />
+                    <figcaption>Street light</figcaption>
+                  </figure>
+                  <figure>
+                    <img src="./assets/photos/thailand-friends.jpg" alt="Group travel in Thailand" loading="lazy" decoding="async" />
+                    <figcaption>Group travel energy</figcaption>
+                  </figure>
+                </div>
+              </details>
+
+              <details class="theme-card" id="lab-taipei">
+                <summary>
+                  <img src="./assets/photos/lab-people.jpg" alt="Lab gathering" loading="lazy" decoding="async" />
+                  <span>
+                    <strong>Lab / Taipei</strong>
+                    <small>The everyday base: research, code, classes, and people between trips.</small>
+                  </span>
+                </summary>
+                <div class="theme-body">
+                  <figure>
+                    <img src="./assets/photos/lab-people.jpg" alt="Lab people gathering" loading="lazy" decoding="async" />
+                    <figcaption>Lab people</figcaption>
+                  </figure>
+                  <figure>
+                    <img src="./assets/photos/me-outside.jpg" alt="Hank outside in Taipei" loading="lazy" decoding="async" />
+                    <figcaption>Taipei base</figcaption>
+                  </figure>
+                </div>
+              </details>
             </div>
-            <p class="section-note">Small video cards, kept quiet until you press play.</p>
-          </div>
-
-          <div class="video-grid">
-            <figure class="video-card">
-              <video controls playsinline preload="none" poster="./assets/video-posters/diving-open-water.jpg" aria-label="Open-water check">
-                <source src="./assets/videos/diving-open-water.mp4" type="video/mp4" />
-              </video>
-              <figcaption>Ocean / Open-water check</figcaption>
-            </figure>
-
-            <figure class="video-card">
-              <video controls playsinline preload="none" poster="./assets/video-posters/desert-ride.jpg" aria-label="Desert ride">
-                <source src="./assets/videos/desert-ride.mp4" type="video/mp4" />
-              </video>
-              <figcaption>Australia / Desert ride</figcaption>
-            </figure>
-
-            <figure class="video-card">
-              <video controls playsinline preload="none" poster="./assets/video-posters/qinghai-tibet-railway.jpg" aria-label="Qinghai-Tibet Railway">
-                <source src="./assets/videos/qinghai-tibet-railway.mp4" type="video/mp4" />
-              </video>
-              <figcaption>Tibet / Qinghai-Tibet Railway</figcaption>
-            </figure>
           </div>
         </section>
 
