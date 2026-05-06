@@ -20,6 +20,41 @@ const observer = new IntersectionObserver(
 
 revealItems.forEach((item) => observer.observe(item));
 
+function loadPanelMedia(panel) {
+  panel.querySelectorAll("img[data-src]").forEach((image) => {
+    image.src = image.dataset.src;
+    image.removeAttribute("data-src");
+  });
+
+  panel.querySelectorAll("video[data-poster]").forEach((video) => {
+    video.poster = video.dataset.poster;
+    video.removeAttribute("data-poster");
+  });
+
+  panel.querySelectorAll("source[data-src]").forEach((source) => {
+    source.src = source.dataset.src;
+    source.removeAttribute("data-src");
+  });
+
+  panel.querySelectorAll("video").forEach((video) => {
+    if (video.querySelector("source[src]")) {
+      video.load();
+    }
+  });
+}
+
+document.querySelectorAll("details").forEach((panel) => {
+  panel.addEventListener("toggle", () => {
+    if (panel.open) {
+      loadPanelMedia(panel);
+    }
+  });
+
+  if (panel.open) {
+    loadPanelMedia(panel);
+  }
+});
+
 function openLinkedPanel(hash) {
   if (!hash) return;
 
@@ -28,6 +63,7 @@ function openLinkedPanel(hash) {
 
   if (target.tagName.toLowerCase() === "details") {
     target.open = true;
+    loadPanelMedia(target);
   }
 
   target.scrollIntoView({ behavior: "smooth", block: "start" });
