@@ -614,7 +614,22 @@ h3 {
   content: none;
 }
 
+.theme-video::after {
+  content: none;
+}
+
 .media-video figcaption {
+  top: 12px;
+  right: auto;
+  bottom: auto;
+  width: fit-content;
+  max-width: calc(100% - 28px);
+  padding: 7px 9px;
+  border-radius: 8px;
+  background: rgba(21, 32, 43, 0.72);
+}
+
+.theme-video figcaption {
   top: 12px;
   right: auto;
   bottom: auto;
