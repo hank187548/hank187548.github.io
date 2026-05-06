@@ -513,7 +513,11 @@ h3 {
 }
 
 .chapter-action,
+.theme-action,
 .summary-hint {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-width: 70px;
   padding: 8px 11px;
   border: 1px solid var(--line);
@@ -526,12 +530,14 @@ h3 {
 }
 
 .chapter-card[open] .chapter-action,
+.theme-card[open] .theme-action,
 .work-panel[open] .summary-hint {
   color: var(--ink-soft);
   font-size: 0;
 }
 
 .chapter-card[open] .chapter-action::before,
+.theme-card[open] .theme-action::before,
 .work-panel[open] .summary-hint::before {
   content: "Close";
   font-size: 0.84rem;
@@ -674,7 +680,7 @@ h3 {
 
 .theme-card summary {
   display: grid;
-  grid-template-columns: 150px minmax(0, 1fr);
+  grid-template-columns: 150px minmax(0, 1fr) auto;
   gap: 16px;
   align-items: center;
   padding: 14px;
@@ -1025,6 +1031,7 @@ h3 {
   }
 
   .chapter-action,
+  .theme-action,
   .summary-hint,
   .button,
   .contact-links a {

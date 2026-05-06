@@ -4,35 +4,47 @@ const revealItems = document.querySelectorAll(
 
 revealItems.forEach((item) => item.classList.add("reveal"));
 
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("is-visible");
-        observer.unobserve(entry.target);
-      }
-    });
-  },
-  {
-    threshold: 0.02,
-  }
-);
+if ("IntersectionObserver" in window) {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      threshold: 0.02,
+    }
+  );
 
-revealItems.forEach((item) => observer.observe(item));
+  revealItems.forEach((item) => observer.observe(item));
+} else {
+  revealItems.forEach((item) => item.classList.add("is-visible"));
+}
 
 function loadPanelMedia(panel) {
+  if (!panel) return;
+
   panel.querySelectorAll("img[data-src]").forEach((image) => {
-    image.src = image.dataset.src;
+    const source = image.getAttribute("data-src");
+    if (!source) return;
+    image.setAttribute("src", source);
     image.removeAttribute("data-src");
   });
 
   panel.querySelectorAll("video[data-poster]").forEach((video) => {
-    video.poster = video.dataset.poster;
+    const poster = video.getAttribute("data-poster");
+    if (!poster) return;
+    video.setAttribute("poster", poster);
     video.removeAttribute("data-poster");
   });
 
   panel.querySelectorAll("source[data-src]").forEach((source) => {
-    source.src = source.dataset.src;
+    const mediaSource = source.getAttribute("data-src");
+    if (!mediaSource) return;
+    source.setAttribute("src", mediaSource);
     source.removeAttribute("data-src");
   });
 
@@ -44,6 +56,18 @@ function loadPanelMedia(panel) {
 }
 
 document.querySelectorAll("details").forEach((panel) => {
+  const summary = panel.querySelector("summary");
+
+  if (summary) {
+    summary.addEventListener("click", () => {
+      window.setTimeout(() => {
+        if (panel.open) {
+          loadPanelMedia(panel);
+        }
+      }, 0);
+    });
+  }
+
   panel.addEventListener("toggle", () => {
     if (panel.open) {
       loadPanelMedia(panel);
