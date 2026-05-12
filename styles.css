@@ -63,7 +63,6 @@ summary {
 
 .brand,
 .eyebrow,
-.hero-route,
 .chapter-kicker,
 .route-stop span,
 .timeline span,
@@ -183,54 +182,6 @@ h3 {
   max-width: 650px;
   margin-bottom: 0;
   font-size: 1.08rem;
-}
-
-.hero-topics,
-.hero-route {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 8px;
-  margin: 30px 0 0;
-  padding: 0;
-}
-
-.hero-route {
-  list-style: none;
-}
-
-.hero-topics span,
-.hero-route li {
-  position: relative;
-  display: flex;
-  min-height: 50px;
-  align-items: center;
-  justify-content: center;
-  padding: 8px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  color: var(--dark);
-  background: var(--surface-soft);
-  font-size: 0.78rem;
-  font-weight: 800;
-  text-align: center;
-}
-
-.hero-topics span::after {
-  content: none;
-}
-
-.hero-route li::after {
-  position: absolute;
-  top: 50%;
-  right: -9px;
-  width: 8px;
-  height: 1px;
-  content: "";
-  background: var(--line);
-}
-
-.hero-route li:last-child::after {
-  content: none;
 }
 
 .hero-actions,
@@ -727,6 +678,20 @@ h3 {
   background: #111820;
 }
 
+.theme-empty {
+  display: flex;
+  min-height: 220px;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-empty p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 1.08rem;
+  font-weight: 800;
+}
+
 .work-panel {
   overflow: hidden;
 }
@@ -989,20 +954,6 @@ h3 {
 
   h2 {
     font-size: 2rem;
-  }
-
-  .hero-topics,
-  .hero-route {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-route li::after {
-    top: auto;
-    right: auto;
-    bottom: -9px;
-    left: 50%;
-    width: 1px;
-    height: 8px;
   }
 
   .hero-collage {
