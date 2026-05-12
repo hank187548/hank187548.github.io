@@ -967,7 +967,7 @@ h3 {
   .nav-links {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .nav-links a {
@@ -1006,15 +1006,18 @@ h3 {
   }
 
   .hero-collage {
-    grid-template-columns: 1fr;
-    grid-template-rows: none;
+    grid-template-columns: 1.08fr 0.92fr;
+    grid-template-rows: repeat(2, minmax(0, 150px));
+    min-height: 324px;
   }
 
   .collage-tile,
   .collage-main {
-    grid-column: auto;
-    grid-row: auto;
-    min-height: 270px;
+    min-height: 0;
+  }
+
+  .collage-main {
+    grid-row: 1 / -1;
   }
 
   .chapter-card summary {
@@ -1093,8 +1096,18 @@ h3 {
     font-size: 2.55rem;
   }
 
-  .nav-links {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .hero-collage {
+    gap: 8px;
+    grid-template-rows: repeat(2, minmax(0, 128px));
+    min-height: 272px;
+    padding: 8px;
+  }
+
+  .collage-tile figcaption {
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+    font-size: 0.68rem;
   }
 
   .media-grid {
