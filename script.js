@@ -1,5 +1,5 @@
 const revealItems = document.querySelectorAll(
-  ".hero-copy, .collage-tile, .profile-card, .chapter-card, .theme-card, .work-panel, .contact-panel"
+  ".hero-copy, .collage-tile, .chapter-card, .theme-card, .work-panel, .contact-panel"
 );
 
 revealItems.forEach((item) => item.classList.add("reveal"));
