@@ -57,7 +57,7 @@ function stopHeroTimer() {
 }
 
 function startHeroTimer() {
-  if (motionQuery.matches || heroSlides.length < 2) return;
+  if (heroSlides.length < 2 || document.hidden) return;
   stopHeroTimer();
   heroTimer = window.setInterval(() => {
     setHeroSlide(activeHeroSlide + 1);
@@ -66,12 +66,6 @@ function startHeroTimer() {
 
 function syncHeroMotionPreference() {
   stopHeroTimer();
-
-  if (motionQuery.matches) {
-    setHeroSlide(0);
-    return;
-  }
-
   startHeroTimer();
 }
 
