@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Life Log</title>
+    <title>Hank | Life Log and Work Portfolio</title>
     <meta
       name="description"
-      content="Keep memory."
+      content="Hank's personal life log and work portfolio across travel, diving, friends, machine learning, quant systems, and computer vision research."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,12 +14,17 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=20260512-clean-hero" />
+    <link rel="stylesheet" href="./styles.css?v=20260601-liquid-hero" />
   </head>
   <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
     <div class="site-shell">
-      <nav class="nav" aria-label="Primary navigation">
-        <a class="brand" href="#top" aria-label="Back to top">Memory</a>
+      <nav class="nav glass-surface" aria-label="Primary navigation">
+        <a class="brand" href="#top" aria-label="Back to top">
+          <span>Hank</span>
+          <small>Memory / Work</small>
+        </a>
         <div class="nav-links">
           <a href="#stories">Stories</a>
           <a href="#work">Work</a>
@@ -27,43 +32,63 @@
         </div>
       </nav>
 
-      <header class="journey-hero" id="top">
-        <section class="hero-copy">
-          <h1>Hank</h1>
-          <p class="lead">
-            Travel. Diving. Friends. Work.
-          </p>
+      <header class="journey-hero" id="top" data-hero-tone="cool">
+        <div class="hero-slideshow" aria-hidden="true">
+          <figure class="hero-slide is-active" data-hero-slide>
+            <img src="./assets/trips/china-japan/Tibet_landscape_2.jpg" alt="" />
+          </figure>
+          <figure class="hero-slide" data-hero-slide>
+            <img src="./assets/trips/china-japan/Chongqing_night.jpg" alt="" loading="lazy" decoding="async" />
+          </figure>
+          <figure class="hero-slide" data-hero-slide>
+            <img src="./assets/trips/diving/Diving_in_okinawa.jpg" alt="" loading="lazy" decoding="async" />
+          </figure>
+          <figure class="hero-slide" data-hero-slide>
+            <img src="./assets/trips/bali-australia/Sydney.jpg" alt="" loading="lazy" decoding="async" />
+          </figure>
+        </div>
 
-          <div class="hero-actions">
-            <a class="button button-primary" href="#stories">Stories</a>
-            <a class="button button-secondary" href="#work">Work</a>
+        <div class="hero-overlay" aria-hidden="true"></div>
+        <div class="hero-glow" aria-hidden="true"></div>
+
+        <section class="hero-copy" aria-labelledby="hero-title">
+          <div class="hero-kicker">
+            <span class="glass-chip">Life Log</span>
+            <span class="glass-chip">Work Portfolio</span>
           </div>
-        </section>
 
-        <section class="hero-collage" aria-label="Featured life moments">
-          <figure class="collage-tile collage-main">
-            <img src="./assets/life/ME.jpg" alt="Memory portrait" />
-            <figcaption>Memory</figcaption>
-          </figure>
-          <figure class="collage-tile">
-            <img src="./assets/trips/china-japan/Tibet_landscape_2.jpg" alt="Tibet landscape below a bright sky" />
-            <figcaption>Travel chapter</figcaption>
-          </figure>
-          <figure class="collage-tile">
-            <img src="./assets/trips/diving/Diving_in_okinawa.jpg" alt="Diving in Okinawa" />
-            <figcaption>Ocean</figcaption>
-          </figure>
+          <div class="hero-title-block">
+            <p class="eyebrow">Taipei / ML / Quant / Computer Vision</p>
+            <h1 id="hero-title">Hank</h1>
+            <p class="hero-statement">
+              Cinematic memories and applied machine learning work, edited into one living archive.
+            </p>
+          </div>
+
+          <div class="hero-lower glass-surface">
+            <p class="lead">
+              NTU graduate student building quant workflows, BTC forecasting models, and computer vision projects while keeping a visual record of travel, diving, and friends.
+            </p>
+
+            <div class="hero-actions">
+              <a class="button button-primary" href="#stories">View Stories</a>
+              <a class="button button-secondary glass-button" href="#work">View Work</a>
+              <a class="button button-quiet glass-button" href="./CV1_Hank_quant.pdf" target="_blank" rel="noreferrer">Download CV</a>
+            </div>
+          </div>
         </section>
       </header>
 
-      <main>
-        <section class="stories-section" id="stories">
+      <main id="main">
+        <section class="stories-section" id="stories" aria-labelledby="stories-title">
           <div class="section-heading section-heading-row">
             <div>
-              <p class="eyebrow">Story Chapters</p>
-              <h2>Open a theme.</h2>
+              <p class="eyebrow">Life Log</p>
+              <h2 id="stories-title">Story chapters built like a visual archive.</h2>
             </div>
-            <p class="section-note">Each set keeps its own timeline.</p>
+            <p class="section-note">
+              Expand a chapter to load the heavier images and videos only when you need them.
+            </p>
           </div>
 
           <div class="story-stack">
@@ -73,36 +98,36 @@
                 <span class="chapter-summary">
                   <span class="chapter-kicker">Travel Chapter / 2025</span>
                   <strong>Taiwan, Hong Kong, Tibet, Chongqing, Japan</strong>
-                  <span>Train, city, fireworks.</span>
+                  <span>Train routes, altitude, city nights, friends, and fireworks.</span>
                 </span>
-                <span class="chapter-action">View</span>
+                <span class="chapter-action" aria-hidden="true">View</span>
               </summary>
 
               <div class="chapter-body">
                 <div class="chapter-copy">
                   <p>
-                    One trip chapter.
+                    A long route through transit, temples, highland landscapes, dense city nights, and a final firework chapter in Japan.
                   </p>
                   <ol class="timeline">
                     <li>
                       <span>Taiwan</span>
-                      <strong>Start.</strong>
+                      <strong>Departure and first frame.</strong>
                     </li>
                     <li>
                       <span>Hong Kong</span>
-                      <strong>Transfer.</strong>
+                      <strong>Transfer before the long railway segment.</strong>
                     </li>
                     <li>
                       <span>Tibet</span>
-                      <strong>Train, altitude, temples.</strong>
+                      <strong>Train windows, altitude, temples, and open roads.</strong>
                     </li>
                     <li>
                       <span>Chongqing</span>
-                      <strong>City night.</strong>
+                      <strong>Bridge lights, Hongya Cave, and night performance.</strong>
                     </li>
                     <li>
                       <span>Japan</span>
-                      <strong>Friends and fireworks.</strong>
+                      <strong>Friends, trains, parks, and fireworks.</strong>
                     </li>
                   </ol>
                 </div>
@@ -204,15 +229,16 @@
               </div>
             </details>
 
-            <div class="theme-grid">
+            <div class="theme-grid" aria-label="Additional life log themes">
               <details class="theme-card" id="diving">
                 <summary>
                   <img src="./assets/trips/diving/Diving_in_okinawa.jpg" alt="Diving in Okinawa" loading="lazy" decoding="async" />
                   <span>
-                    <strong>Diving / Open water</strong>
-                    <small>Okinawa water.</small>
+                    <small>Diving / Open water</small>
+                    <strong>Okinawa water</strong>
+                    <em>Training, ocean light, and open water clips.</em>
                   </span>
-                  <span class="theme-action">View</span>
+                  <span class="theme-action" aria-hidden="true">View</span>
                 </summary>
                 <div class="theme-body">
                   <figure>
@@ -240,10 +266,11 @@
                 <summary>
                   <img src="./assets/trips/bali-australia/Sydney.jpg" alt="Sydney travel moment" loading="lazy" decoding="async" />
                   <span>
-                    <strong>Bali / Australia</strong>
-                    <small>Beach, surf, road.</small>
+                    <small>Bali / Australia</small>
+                    <strong>Beach, surf, road</strong>
+                    <em>Coastlines, Sydney frames, Uluru, and a road chapter.</em>
                   </span>
-                  <span class="theme-action">View</span>
+                  <span class="theme-action" aria-hidden="true">View</span>
                 </summary>
                 <div class="theme-body">
                   <figure>
@@ -279,10 +306,11 @@
                 <summary>
                   <img src="./assets/trips/thailand-vietnam/Thai.jpg" alt="Thailand" loading="lazy" decoding="async" />
                   <span>
-                    <strong>Thailand / Vietnam</strong>
-                    <small>Friends and streets.</small>
+                    <small>Thailand / Vietnam</small>
+                    <strong>Friends and streets</strong>
+                    <em>Street scenes, local guide frames, and group memories.</em>
                   </span>
-                  <span class="theme-action">View</span>
+                  <span class="theme-action" aria-hidden="true">View</span>
                 </summary>
                 <div class="theme-body">
                   <figure>
@@ -314,10 +342,11 @@
                 <summary>
                   <img src="./assets/life/LAb.jpg" alt="Lab" loading="lazy" decoding="async" />
                   <span>
-                    <strong>Lab / Taipei</strong>
-                    <small>Lab and code.</small>
+                    <small>Lab / Taipei</small>
+                    <strong>Research rhythm</strong>
+                    <em>Lab, code, and the quieter side of the archive.</em>
                   </span>
-                  <span class="theme-action">View</span>
+                  <span class="theme-action" aria-hidden="true">View</span>
                 </summary>
                 <div class="theme-body theme-empty">
                   <p>Coming soon.</p>
@@ -327,104 +356,102 @@
           </div>
         </section>
 
-        <details class="work-panel" id="work">
-          <summary>
-            <span>
-              <span class="eyebrow">Work</span>
-              <strong>Quant, ML, CV</strong>
-            </span>
-            <span class="summary-hint">Open</span>
-          </summary>
-
-          <div class="work-content">
-            <section class="work-intro">
-              <div>
-                <h2>Systems and research.</h2>
-                <p>
-                  Qlib, BTC, computer vision.
-                </p>
-              </div>
-              <div class="work-actions">
-                <a class="button button-primary" href="./CV1_Hank_quant.pdf" target="_blank" rel="noreferrer">View CV</a>
-                <a class="button button-secondary" href="https://github.com/hank187548/qlib-public" target="_blank" rel="noreferrer">qlib-public</a>
-              </div>
-            </section>
-
-            <div class="project-grid">
-              <article class="project-card primary-project">
-                <div class="project-main">
-                  <p class="project-tag">Project 01 / Qlib / Taiwan Equity</p>
-                  <h3>Qlib Taiwan workflow</h3>
-                  <p>
-                    Data, factors, models, backtests.
-                  </p>
-                  <a class="repo-link" href="https://github.com/hank187548/qlib-public" target="_blank" rel="noreferrer">
-                    GitHub repo
-                  </a>
-                </div>
-                <div class="project-details">
-                  <ul class="project-points">
-                    <li>Taiwan equity data.</li>
-                    <li>Training and backtests.</li>
-                    <li>Paper trading tools.</li>
-                  </ul>
-                  <dl class="project-facts">
-                    <div>
-                      <dt>CV backtest</dt>
-                      <dd>22.78% vs 16.83% benchmark</dd>
-                    </div>
-                    <div>
-                      <dt>Signal quality</dt>
-                      <dd>Avg. daily IC 0.031 / positive IC rate 61%</dd>
-                    </div>
-                  </dl>
-                </div>
-              </article>
-
-              <article class="project-card">
-                <p class="project-tag">Project 02 / BTC Forecasting</p>
-                <h3>BTC forecasting</h3>
-                <p>
-                  GRU-Attention trend model.
-                </p>
-                <a class="repo-link" href="https://github.com/hank187548/Binance3_public" target="_blank" rel="noreferrer">
-                  BTC repo
-                </a>
-              </article>
-
-              <article class="project-card">
-                <p class="project-tag">Project 03 / Image Processing</p>
-                <h3>Computer vision research</h3>
-                <p>
-                  Detection, tracking, classification.
-                </p>
-                <a class="repo-link" href="https://github.com/hank187548/Image-Processing" target="_blank" rel="noreferrer">
-                  Image repo
-                </a>
-              </article>
+        <section class="work-panel" id="work" aria-labelledby="work-title">
+          <div class="section-heading work-heading">
+            <div>
+              <p class="eyebrow">Work Portfolio</p>
+              <h2 id="work-title">Quant systems, forecasting, and computer vision.</h2>
             </div>
-
-            <div class="work-meta-grid">
-              <article>
-                <span>Education</span>
-                <strong>National Taiwan University</strong>
-                <p>M.S., expected June 2026.</p>
-              </article>
-              <article>
-                <span>Stack</span>
-                <strong>Python / Qlib / PyTorch</strong>
-                <p>ML, data, CV, Linux, Git.</p>
-              </article>
+            <div class="work-actions">
+              <a class="button button-primary" href="./CV1_Hank_quant.pdf" target="_blank" rel="noreferrer">View CV</a>
+              <a class="button button-secondary" href="https://github.com/hank187548/qlib-public" target="_blank" rel="noreferrer">Qlib Repo</a>
             </div>
           </div>
-        </details>
 
-        <section class="contact-section" id="contact">
+          <div class="project-grid">
+            <article class="project-card primary-project">
+              <div class="project-main">
+                <p class="project-tag">Project 01 / Qlib / Taiwan Equity</p>
+                <h3>Qlib Taiwan workflow</h3>
+                <p>
+                  A research workflow for Taiwan equity data, factor experiments, model training, backtests, and paper trading tools.
+                </p>
+                <a class="repo-link" href="https://github.com/hank187548/qlib-public" target="_blank" rel="noreferrer">
+                  Open GitHub repo
+                </a>
+              </div>
+              <div class="project-details">
+                <ul class="project-points">
+                  <li><strong>Problem:</strong> adapt Qlib-style research workflows to Taiwan equity data.</li>
+                  <li><strong>Method:</strong> prepare data, train models, evaluate signals, and run backtests.</li>
+                  <li><strong>Tools:</strong> Python, Qlib, data pipelines, Linux, Git.</li>
+                </ul>
+                <dl class="project-facts">
+                  <div>
+                    <dt>CV backtest</dt>
+                    <dd>22.78% vs 16.83% benchmark</dd>
+                  </div>
+                  <div>
+                    <dt>Signal quality</dt>
+                    <dd>Avg. daily IC 0.031 / positive IC rate 61%</dd>
+                  </div>
+                </dl>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <p class="project-tag">Project 02 / BTC Forecasting</p>
+              <h3>BTC forecasting</h3>
+              <p>
+                Trend modeling around Binance market data with a GRU-Attention direction model.
+              </p>
+              <ul class="project-points compact-list">
+                <li>Sequence modeling workflow.</li>
+                <li>Forecasting-oriented research repo.</li>
+                <li>Python and market data experiments.</li>
+              </ul>
+              <a class="repo-link" href="https://github.com/hank187548/Binance3_public" target="_blank" rel="noreferrer">
+                Open BTC repo
+              </a>
+            </article>
+
+            <article class="project-card">
+              <p class="project-tag">Project 03 / Image Processing</p>
+              <h3>Computer vision research</h3>
+              <p>
+                Detection, tracking, and classification experiments organized as practical image processing work.
+              </p>
+              <ul class="project-points compact-list">
+                <li>Image processing experiments.</li>
+                <li>Computer vision research practice.</li>
+                <li>Python, ML, and visual data workflows.</li>
+              </ul>
+              <a class="repo-link" href="https://github.com/hank187548/Image-Processing" target="_blank" rel="noreferrer">
+                Open image repo
+              </a>
+            </article>
+          </div>
+
+          <div class="work-meta-grid" aria-label="Education and technical stack">
+            <article>
+              <span>Education</span>
+              <strong>National Taiwan University</strong>
+              <p>M.S., expected June 2026.</p>
+            </article>
+            <article>
+              <span>Stack</span>
+              <strong>Python / Qlib / PyTorch</strong>
+              <p>Machine learning, data, computer vision, Linux, Git.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="contact-section" id="contact" aria-labelledby="contact-title">
           <div class="contact-panel">
             <div>
               <p class="eyebrow">Contact</p>
-              <h2>Ideas or work.</h2>
-              <p>Taipei, Taiwan.</p>
+              <h2 id="contact-title">Ideas, research, or work.</h2>
+              <p>Taipei, Taiwan. Email, GitHub, and CV are linked here.</p>
             </div>
             <div class="contact-links">
               <a href="mailto:hank187548@gmail.com">Email</a>
@@ -436,6 +463,6 @@
       </main>
     </div>
 
-    <script src="./script.js?v=20260506-load-on-open"></script>
+    <script src="./script.js?v=20260601-liquid-hero"></script>
   </body>
 </html>
