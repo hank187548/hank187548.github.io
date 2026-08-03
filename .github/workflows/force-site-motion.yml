@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - '.github/workflows/force-site-motion.yml'
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -25,98 +26,58 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
+          import re
 
           script_path = Path('script.js')
           style_path = Path('styles.css')
           index_path = Path('index.html')
 
           script = script_path.read_text(encoding='utf-8')
-
-          replacements = [
-              (
-                  'const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");\n',
-                  '',
-                  'motion query declaration',
-              ),
-              (
-                  'const reducedMotion = () => motionQuery.matches;',
-                  'const reducedMotion = () => false;',
-                  'reduced motion helper',
-              ),
-              (
-                  'const reducedHeroInterval = 8600;\n',
-                  '',
-                  'reduced hero interval',
-              ),
-              (
-                  'const interval = reducedMotion() ? reducedHeroInterval : heroInterval;\nheroTimer = window.setInterval(() => setHeroSlide(activeHeroIndex + 1, false), interval);',
-                  'heroTimer = window.setInterval(() => setHeroSlide(activeHeroIndex + 1, false), heroInterval);',
-                  'hero timer interval',
-              ),
-              (
-                  'if (motionQuery.addEventListener) {\nmotionQuery.addEventListener("change", () => {\nstartHeroTimer();\nif (reducedMotion()) revealItems.forEach((item) => item.classList.add("is-visible"));\n});\n}\n',
-                  '',
-                  'motion preference listener',
-              ),
-          ]
-
-          for old, new, label in replacements:
-              if old not in script:
-                  raise SystemExit(f'Could not find {label}')
-              script = script.replace(old, new, 1)
-
+          script = script.replace(
+              'const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");\n',
+              '',
+          )
+          script = script.replace(
+              'const reducedMotion = () => motionQuery.matches;',
+              'const reducedMotion = () => false;',
+          )
+          script = script.replace('const reducedHeroInterval = 8600;\n', '')
+          script = script.replace(
+              'const interval = reducedMotion() ? reducedHeroInterval : heroInterval;\nheroTimer = window.setInterval(() => setHeroSlide(activeHeroIndex + 1, false), interval);',
+              'heroTimer = window.setInterval(() => setHeroSlide(activeHeroIndex + 1, false), heroInterval);',
+          )
+          script = script.replace(
+              'if (motionQuery.addEventListener) {\nmotionQuery.addEventListener("change", () => {\nstartHeroTimer();\nif (reducedMotion()) revealItems.forEach((item) => item.classList.add("is-visible"));\n});\n}\n',
+              '',
+          )
           script_path.write_text(script, encoding='utf-8')
 
           styles = style_path.read_text(encoding='utf-8')
-
-          base_reduced_motion = '''@media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-          scroll-behavior: auto !important;
-          animation-duration: 0.01ms !important;
-          animation-iteration-count: 1 !important;
-          transition-duration: 0.01ms !important;
-          }
-          .js [data-reveal] {
-          opacity: 1;
-          transform: none;
-          }
-          .hero-slide,
-          .hero-slide.is-active,
-          .hero-slide img {
-          transform: none;
-          }
-          }
-          '''
-
-          ultrawide_reduced_motion = '''@media (prefers-reduced-motion: reduce) {
-          .hero-slide {
-          transition: opacity 680ms ease !important;
-          transform: none !important;
-          }
-          .hero-slide.is-active {
-          transform: none !important;
-          }
-          .hero-slide img {
-          transform: none !important;
-          }
-          }
-          '''
-
-          for block, label in [
-              (base_reduced_motion, 'base reduced-motion CSS'),
-              (ultrawide_reduced_motion, 'ultrawide reduced-motion CSS'),
-          ]:
-              if block not in styles:
-                  raise SystemExit(f'Could not find {label}')
-              styles = styles.replace(block, '', 1)
-
+          needle = '@media (prefers-reduced-motion: reduce)'
+          while needle in styles:
+              start = styles.index(needle)
+              brace = styles.index('{', start)
+              depth = 0
+              end = None
+              for position in range(brace, len(styles)):
+                  char = styles[position]
+                  if char == '{':
+                      depth += 1
+                  elif char == '}':
+                      depth -= 1
+                      if depth == 0:
+                          end = position + 1
+                          break
+              if end is None:
+                  raise SystemExit('Unclosed reduced-motion media query')
+              while start > 0 and styles[start - 1] == '\n':
+                  start -= 1
+              while end < len(styles) and styles[end] == '\n':
+                  end += 1
+              styles = styles[:start] + '\n' + styles[end:]
           style_path.write_text(styles, encoding='utf-8')
 
           index = index_path.read_text(encoding='utf-8')
-          if index.count('20260803-ultrawide-motion') != 2:
-              raise SystemExit('Unexpected cache-busting version count')
           index = index.replace('20260803-ultrawide-motion', '20260803-force-motion')
           index_path.write_text(index, encoding='utf-8')
           PY
@@ -135,8 +96,9 @@ jobs:
           assert 'prefers-reduced-motion' not in script
           assert 'prefers-reduced-motion' not in styles
           assert 'const reducedMotion = () => false;' in script
+          assert 'motionQuery' not in script
           assert 'reducedHeroInterval' not in script
-          assert 'heroInterval);' in script
+          assert 'heroTimer = window.setInterval(() => setHeroSlide(activeHeroIndex + 1, false), heroInterval);' in script
           assert '@media (min-width: 1600px) and (min-aspect-ratio: 21/9)' in styles
           assert index.count('20260803-force-motion') == 2
           assert index.count('data-hero-slide') == 4
@@ -146,6 +108,10 @@ jobs:
       - name: Commit patched website
         shell: bash
         run: |
+          if git diff --quiet -- index.html styles.css script.js; then
+            echo 'Website already uses forced motion'
+            exit 0
+          fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add index.html styles.css script.js
