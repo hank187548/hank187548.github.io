@@ -1,0 +1,153 @@
+name: Force site motion
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/force-site-motion.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch-site:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Remove reduced-motion handling
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          script_path = Path('script.js')
+          style_path = Path('styles.css')
+          index_path = Path('index.html')
+
+          script = script_path.read_text(encoding='utf-8')
+
+          replacements = [
+              (
+                  'const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");\n',
+                  '',
+                  'motion query declaration',
+              ),
+              (
+                  'const reducedMotion = () => motionQuery.matches;',
+                  'const reducedMotion = () => false;',
+                  'reduced motion helper',
+              ),
+              (
+                  'const reducedHeroInterval = 8600;\n',
+                  '',
+                  'reduced hero interval',
+              ),
+              (
+                  'const interval = reducedMotion() ? reducedHeroInterval : heroInterval;\nheroTimer = window.setInterval(() => setHeroSlide(activeHeroIndex + 1, false), interval);',
+                  'heroTimer = window.setInterval(() => setHeroSlide(activeHeroIndex + 1, false), heroInterval);',
+                  'hero timer interval',
+              ),
+              (
+                  'if (motionQuery.addEventListener) {\nmotionQuery.addEventListener("change", () => {\nstartHeroTimer();\nif (reducedMotion()) revealItems.forEach((item) => item.classList.add("is-visible"));\n});\n}\n',
+                  '',
+                  'motion preference listener',
+              ),
+          ]
+
+          for old, new, label in replacements:
+              if old not in script:
+                  raise SystemExit(f'Could not find {label}')
+              script = script.replace(old, new, 1)
+
+          script_path.write_text(script, encoding='utf-8')
+
+          styles = style_path.read_text(encoding='utf-8')
+
+          base_reduced_motion = '''@media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+          scroll-behavior: auto !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          }
+          .js [data-reveal] {
+          opacity: 1;
+          transform: none;
+          }
+          .hero-slide,
+          .hero-slide.is-active,
+          .hero-slide img {
+          transform: none;
+          }
+          }
+          '''
+
+          ultrawide_reduced_motion = '''@media (prefers-reduced-motion: reduce) {
+          .hero-slide {
+          transition: opacity 680ms ease !important;
+          transform: none !important;
+          }
+          .hero-slide.is-active {
+          transform: none !important;
+          }
+          .hero-slide img {
+          transform: none !important;
+          }
+          }
+          '''
+
+          for block, label in [
+              (base_reduced_motion, 'base reduced-motion CSS'),
+              (ultrawide_reduced_motion, 'ultrawide reduced-motion CSS'),
+          ]:
+              if block not in styles:
+                  raise SystemExit(f'Could not find {label}')
+              styles = styles.replace(block, '', 1)
+
+          style_path.write_text(styles, encoding='utf-8')
+
+          index = index_path.read_text(encoding='utf-8')
+          if index.count('20260803-ultrawide-motion') != 2:
+              raise SystemExit('Unexpected cache-busting version count')
+          index = index.replace('20260803-ultrawide-motion', '20260803-force-motion')
+          index_path.write_text(index, encoding='utf-8')
+          PY
+
+      - name: Validate forced motion
+        shell: bash
+        run: |
+          node --check script.js
+          python3 - <<'PY'
+          from pathlib import Path
+
+          script = Path('script.js').read_text(encoding='utf-8')
+          styles = Path('styles.css').read_text(encoding='utf-8')
+          index = Path('index.html').read_text(encoding='utf-8')
+
+          assert 'prefers-reduced-motion' not in script
+          assert 'prefers-reduced-motion' not in styles
+          assert 'const reducedMotion = () => false;' in script
+          assert 'reducedHeroInterval' not in script
+          assert 'heroInterval);' in script
+          assert '@media (min-width: 1600px) and (min-aspect-ratio: 21/9)' in styles
+          assert index.count('20260803-force-motion') == 2
+          assert index.count('data-hero-slide') == 4
+          print('Forced-motion site patch validated')
+          PY
+
+      - name: Commit patched website
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html styles.css script.js
+          git commit -m 'Force full motion for all visitors'
+          git push origin main
