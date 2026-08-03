@@ -1,468 +1,416 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hank | Life Log and Work Portfolio</title>
-    <meta
-      name="description"
-      content="Hank's personal life log and work portfolio across travel, diving, friends, machine learning, quant systems, and computer vision research."
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./styles.css?v=20260601-ios-glass" />
-  </head>
-  <body>
-    <a class="skip-link" href="#main">Skip to content</a>
-
-    <div class="site-shell">
-      <nav class="nav glass-surface" aria-label="Primary navigation">
-        <a class="brand" href="#top" aria-label="Back to top">
-          <span>Hank</span>
-          <small>Memory / Work</small>
-        </a>
-        <div class="nav-links">
-          <a href="#stories">Stories</a>
-          <a href="#work">Work</a>
-          <a href="#contact">Contact</a>
-        </div>
-      </nav>
-
-      <header class="journey-hero" id="top" data-hero-tone="cool">
-        <div class="hero-slideshow" aria-hidden="true">
-          <figure class="hero-slide is-active" data-hero-slide>
-            <img src="./assets/trips/china-japan/Tibet_landscape_2.jpg" alt="" />
-          </figure>
-          <figure class="hero-slide" data-hero-slide>
-            <img src="./assets/trips/china-japan/Chongqing_night.jpg" alt="" loading="lazy" decoding="async" />
-          </figure>
-          <figure class="hero-slide" data-hero-slide>
-            <img src="./assets/trips/diving/Diving_in_okinawa.jpg" alt="" loading="lazy" decoding="async" />
-          </figure>
-          <figure class="hero-slide" data-hero-slide>
-            <img src="./assets/trips/bali-australia/Sydney.jpg" alt="" loading="lazy" decoding="async" />
-          </figure>
-        </div>
-
-        <div class="hero-overlay" aria-hidden="true"></div>
-        <div class="hero-glow" aria-hidden="true"></div>
-
-        <section class="hero-copy" aria-labelledby="hero-title">
-          <div class="hero-kicker">
-            <span class="glass-chip">Life Log</span>
-            <span class="glass-chip">Work Portfolio</span>
-          </div>
-
-          <div class="hero-title-block">
-            <p class="eyebrow">Taipei / ML / Quant / Computer Vision</p>
-            <h1 id="hero-title">Hank</h1>
-            <p class="hero-statement">
-              Cinematic memories and applied machine learning work, edited into one living archive.
-            </p>
-          </div>
-
-          <div class="hero-lower glass-surface">
-            <p class="lead">
-              NTU graduate student building quant workflows, BTC forecasting models, and computer vision projects while keeping a visual record of travel, diving, and friends.
-            </p>
-
-            <div class="hero-actions">
-              <a class="button button-primary" href="#stories">View Stories</a>
-              <a class="button button-secondary glass-button" href="#work">View Work</a>
-              <a class="button button-quiet glass-button" href="./CV1_Hank_quant.pdf" target="_blank" rel="noreferrer">Download CV</a>
-            </div>
-          </div>
-        </section>
-      </header>
-
-      <main id="main">
-        <section class="stories-section" id="stories" aria-labelledby="stories-title">
-          <div class="section-heading section-heading-row">
-            <div>
-              <p class="eyebrow">Life Log</p>
-              <h2 id="stories-title">Story chapters built like a visual archive.</h2>
-            </div>
-            <p class="section-note">
-              Expand a chapter to load the heavier images and videos only when you need them.
-            </p>
-          </div>
-
-          <div class="story-stack">
-            <details class="chapter-card story-feature" id="china-japan">
-              <summary>
-                <img src="./assets/trips/china-japan/Tibet_landscape_2.jpg" alt="Tibet landscape" />
-                <span class="chapter-summary">
-                  <span class="chapter-kicker">Travel Chapter / 2025</span>
-                  <strong>Taiwan, Hong Kong, Tibet, Chongqing, Japan</strong>
-                  <span>Train routes, altitude, city nights, friends, and fireworks.</span>
-                </span>
-                <span class="chapter-action" aria-hidden="true">View</span>
-              </summary>
-
-              <div class="chapter-body">
-                <div class="chapter-copy">
-                  <p>
-                    A long route through transit, temples, highland landscapes, dense city nights, and a final firework chapter in Japan.
-                  </p>
-                  <ol class="timeline">
-                    <li>
-                      <span>Taiwan</span>
-                      <strong>Departure and first frame.</strong>
-                    </li>
-                    <li>
-                      <span>Hong Kong</span>
-                      <strong>Transfer before the long railway segment.</strong>
-                    </li>
-                    <li>
-                      <span>Tibet</span>
-                      <strong>Train windows, altitude, temples, and open roads.</strong>
-                    </li>
-                    <li>
-                      <span>Chongqing</span>
-                      <strong>Bridge lights, Hongya Cave, and night performance.</strong>
-                    </li>
-                    <li>
-                      <span>Japan</span>
-                      <strong>Friends, trains, parks, and fireworks.</strong>
-                    </li>
-                  </ol>
-                </div>
-
-                <div class="media-grid">
-                  <figure class="media-tile media-wide">
-                    <img data-src="./assets/trips/china-japan/Depature_to_Hongkong.jpg" alt="Departure" loading="lazy" decoding="async" />
-                    <figcaption>Departure</figcaption>
-                  </figure>
-                  <figure class="media-tile">
-                    <img data-src="./assets/trips/china-japan/Take_train_to_Tibet.jpg" alt="Train to Tibet" loading="lazy" decoding="async" />
-                    <figcaption>Train</figcaption>
-                  </figure>
-                  <figure class="media-tile">
-                    <img data-src="./assets/trips/china-japan/Heighest_template_tibet.jpg" alt="Tibet temple" loading="lazy" decoding="async" />
-                    <figcaption>Temple</figcaption>
-                  </figure>
-                  <figure class="media-tile">
-                    <img data-src="./assets/trips/china-japan/Tibet_landscape.jpg" alt="Tibet road" loading="lazy" decoding="async" />
-                    <figcaption>Road</figcaption>
-                  </figure>
-                  <figure class="media-tile media-wide">
-                    <img data-src="./assets/trips/china-japan/Me_in_Tibet_2.jpg" alt="Tibet portrait" loading="lazy" decoding="async" />
-                    <figcaption>Altitude</figcaption>
-                  </figure>
-                  <figure class="media-tile">
-                    <img data-src="./assets/trips/china-japan/Me_In_tibet.jpg" alt="Tibet portrait" loading="lazy" decoding="async" />
-                    <figcaption>Tibet</figcaption>
-                  </figure>
-                  <figure class="media-tile">
-                    <img data-src="./assets/trips/china-japan/The_height_moutain_tibet.jpg" alt="Tibet mountain" loading="lazy" decoding="async" />
-                    <figcaption>Mountain</figcaption>
-                  </figure>
-                  <figure class="media-tile">
-                    <img data-src="./assets/trips/china-japan/The_height_pool_tibet.jpg" alt="Tibet pool" loading="lazy" decoding="async" />
-                    <figcaption>Water</figcaption>
-                  </figure>
-                  <figure class="media-tile">
-                    <img data-src="./assets/trips/china-japan/Tibet3.jpg" alt="Tibet view" loading="lazy" decoding="async" />
-                    <figcaption>Tibet view</figcaption>
-                  </figure>
-                  <figure class="media-tile">
-                    <img data-src="./assets/trips/china-japan/monk_in_tibet.jpg" alt="Tibet monk" loading="lazy" decoding="async" />
-                    <figcaption>Monk</figcaption>
-                  </figure>
-                  <figure class="media-tile">
-                    <img data-src="./assets/trips/china-japan/Bye_Tibet_to_chongqing.jpg" alt="To Chongqing" loading="lazy" decoding="async" />
-                    <figcaption>Next city</figcaption>
-                  </figure>
-                  <figure class="media-tile">
-                    <img data-src="./assets/trips/china-japan/Chongqing.jpg" alt="Chongqing" loading="lazy" decoding="async" />
-                    <figcaption>Chongqing</figcaption>
-                  </figure>
-                  <figure class="media-tile">
-                    <img data-src="./assets/trips/china-japan/Chongqing_bridge.jpg" alt="Chongqing bridge" loading="lazy" decoding="async" />
-                    <figcaption>Bridge</figcaption>
-                  </figure>
-                  <figure class="media-tile">
-                    <img data-src="./assets/trips/china-japan/Chongqing_Hongya_Cave.jpg" alt="Hongya Cave" loading="lazy" decoding="async" />
-                    <figcaption>Hongya Cave</figcaption>
-                  </figure>
-                  <figure class="media-tile media-wide">
-                    <img data-src="./assets/trips/china-japan/Chongqing_night.jpg" alt="Chongqing night" loading="lazy" decoding="async" />
-                    <figcaption>Night</figcaption>
-                  </figure>
-                  <figure class="media-tile media-video">
-                    <video controls playsinline preload="none" data-poster="./assets/video-posters/chongqing-performance-first-frame.jpg" aria-label="Chongqing performance">
-                      <source data-src="./assets/trips/china-japan/Chongqing_performance.mp4" type="video/mp4" />
-                    </video>
-                    <figcaption>Show</figcaption>
-                  </figure>
-                  <figure class="media-tile">
-                    <img data-src="./assets/trips/china-japan/Me_Japen_3.jpg" alt="Japan portrait" loading="lazy" decoding="async" />
-                    <figcaption>Japan</figcaption>
-                  </figure>
-                  <figure class="media-tile media-portrait">
-                    <img data-src="./assets/trips/china-japan/Take_train_to_see_firework_Japen.png" alt="Train to fireworks" loading="lazy" decoding="async" />
-                    <figcaption>Firework train</figcaption>
-                  </figure>
-                  <figure class="media-tile">
-                    <img data-src="./assets/trips/china-japan/Firework.jpg" alt="Firework" loading="lazy" decoding="async" />
-                    <figcaption>Firework</figcaption>
-                  </figure>
-                  <figure class="media-tile">
-                    <img data-src="./assets/trips/china-japan/Firework%202.jpg" alt="Firework" loading="lazy" decoding="async" />
-                    <figcaption>Firework</figcaption>
-                  </figure>
-                  <figure class="media-tile">
-                    <img data-src="./assets/trips/china-japan/Sleep_in_park.jpg" alt="Park rest" loading="lazy" decoding="async" />
-                    <figcaption>Rest</figcaption>
-                  </figure>
-                  <figure class="media-tile media-video">
-                    <video controls playsinline preload="none" data-poster="./assets/video-posters/train-inside-first-frame.jpg" aria-label="Train inside">
-                      <source data-src="./assets/trips/china-japan/Train_inside.mp4" type="video/mp4" />
-                    </video>
-                    <figcaption>Inside train</figcaption>
-                  </figure>
-                </div>
-              </div>
-            </details>
-
-            <div class="theme-grid" aria-label="Additional life log themes">
-              <details class="theme-card" id="diving">
-                <summary>
-                  <img src="./assets/trips/diving/Diving_in_okinawa.jpg" alt="Diving in Okinawa" loading="lazy" decoding="async" />
-                  <span>
-                    <small>Diving / Open water</small>
-                    <strong>Okinawa water</strong>
-                    <em>Training, ocean light, and open water clips.</em>
-                  </span>
-                  <span class="theme-action" aria-hidden="true">View</span>
-                </summary>
-                <div class="theme-body">
-                  <figure>
-                    <img data-src="./assets/trips/diving/Div2.jpg" alt="Dive moment" loading="lazy" decoding="async" />
-                    <figcaption>Dive</figcaption>
-                  </figure>
-                  <figure>
-                    <img data-src="./assets/trips/diving/Diving_test_PADI_OW.jpg" alt="PADI open water" loading="lazy" decoding="async" />
-                    <figcaption>PADI</figcaption>
-                  </figure>
-                  <figure>
-                    <img data-src="./assets/photos/diving-open-water.jpg" alt="Open water" loading="lazy" decoding="async" />
-                    <figcaption>Open water</figcaption>
-                  </figure>
-                  <figure class="theme-video">
-                    <video controls playsinline preload="none" data-poster="./assets/video-posters/diving-first-frame.jpg" aria-label="Dive clip">
-                      <source data-src="./assets/trips/diving/Diving.mp4" type="video/mp4" />
-                    </video>
-                    <figcaption>Clip</figcaption>
-                  </figure>
-                </div>
-              </details>
-
-              <details class="theme-card" id="bali-australia">
-                <summary>
-                  <img src="./assets/trips/bali-australia/Sydney.jpg" alt="Sydney travel moment" loading="lazy" decoding="async" />
-                  <span>
-                    <small>Bali / Australia</small>
-                    <strong>Beach, surf, road</strong>
-                    <em>Coastlines, Sydney frames, Uluru, and a road chapter.</em>
-                  </span>
-                  <span class="theme-action" aria-hidden="true">View</span>
-                </summary>
-                <div class="theme-body">
-                  <figure>
-                    <img data-src="./assets/trips/bali-australia/Bali_beach.jpg" alt="Bali beach" loading="lazy" decoding="async" />
-                    <figcaption>Bali</figcaption>
-                  </figure>
-                  <figure>
-                    <img data-src="./assets/trips/bali-australia/Diamond_beach.jpg" alt="Diamond Beach" loading="lazy" decoding="async" />
-                    <figcaption>Diamond</figcaption>
-                  </figure>
-                  <figure>
-                    <img data-src="./assets/trips/bali-australia/Surf.jpg" alt="Surf" loading="lazy" decoding="async" />
-                    <figcaption>Surf</figcaption>
-                  </figure>
-                  <figure>
-                    <img data-src="./assets/trips/bali-australia/Sydney_bridge.jpg" alt="Sydney bridge" loading="lazy" decoding="async" />
-                    <figcaption>Bridge</figcaption>
-                  </figure>
-                  <figure>
-                    <img data-src="./assets/trips/bali-australia/Uluru_with_brother.jpg" alt="Uluru" loading="lazy" decoding="async" />
-                    <figcaption>Uluru</figcaption>
-                  </figure>
-                  <figure class="theme-video">
-                    <video controls playsinline preload="none" data-poster="./assets/video-posters/camel-with-brother-first-frame.jpg" aria-label="Camel clip">
-                      <source data-src="./assets/trips/bali-australia/Camel_with_brother.mp4" type="video/mp4" />
-                    </video>
-                    <figcaption>Camel</figcaption>
-                  </figure>
-                </div>
-              </details>
-
-              <details class="theme-card" id="thailand-vietnam">
-                <summary>
-                  <img src="./assets/trips/thailand-vietnam/Thai.jpg" alt="Thailand" loading="lazy" decoding="async" />
-                  <span>
-                    <small>Thailand / Vietnam</small>
-                    <strong>Friends and streets</strong>
-                    <em>Street scenes, local guide frames, and group memories.</em>
-                  </span>
-                  <span class="theme-action" aria-hidden="true">View</span>
-                </summary>
-                <div class="theme-body">
-                  <figure>
-                    <img data-src="./assets/trips/thailand-vietnam/vietnam.jpg" alt="Vietnam" loading="lazy" decoding="async" />
-                    <figcaption>Vietnam</figcaption>
-                  </figure>
-                  <figure>
-                    <img data-src="./assets/trips/thailand-vietnam/US.jpg" alt="Thailand travel" loading="lazy" decoding="async" />
-                    <figcaption>Thailand</figcaption>
-                  </figure>
-                  <figure>
-                    <img data-src="./assets/trips/thailand-vietnam/With_our_guide.jpg" alt="Guide" loading="lazy" decoding="async" />
-                    <figcaption>Guide</figcaption>
-                  </figure>
-                  <figure>
-                    <img data-src="./assets/trips/thailand-vietnam/Weed.jpg" alt="Thailand street" loading="lazy" decoding="async" />
-                    <figcaption>Street</figcaption>
-                  </figure>
-                  <figure class="theme-video">
-                    <video controls playsinline preload="none" data-poster="./assets/video-posters/thailand-first-frame.jpg" aria-label="Thailand clip">
-                      <source data-src="./assets/trips/thailand-vietnam/Thai_2_with_master.mp4" type="video/mp4" />
-                    </video>
-                    <figcaption>Clip</figcaption>
-                  </figure>
-                </div>
-              </details>
-
-              <details class="theme-card" id="lab-taipei">
-                <summary>
-                  <img src="./assets/life/LAb.jpg" alt="Lab" loading="lazy" decoding="async" />
-                  <span>
-                    <small>Lab / Taipei</small>
-                    <strong>Research rhythm</strong>
-                    <em>Lab, code, and the quieter side of the archive.</em>
-                  </span>
-                  <span class="theme-action" aria-hidden="true">View</span>
-                </summary>
-                <div class="theme-body theme-empty">
-                  <p>Coming soon.</p>
-                </div>
-              </details>
-            </div>
-          </div>
-        </section>
-
-        <section class="work-panel" id="work" aria-labelledby="work-title">
-          <div class="section-heading work-heading">
-            <div>
-              <p class="eyebrow">Work Portfolio</p>
-              <h2 id="work-title">Quant systems, forecasting, and computer vision.</h2>
-            </div>
-            <div class="work-actions">
-              <a class="button button-primary" href="./CV1_Hank_quant.pdf" target="_blank" rel="noreferrer">View CV</a>
-              <a class="button button-secondary" href="https://github.com/hank187548/qlib-public" target="_blank" rel="noreferrer">Qlib Repo</a>
-            </div>
-          </div>
-
-          <div class="project-grid">
-            <article class="project-card primary-project">
-              <div class="project-main">
-                <p class="project-tag">Project 01 / Qlib / Taiwan Equity</p>
-                <h3>Qlib Taiwan workflow</h3>
-                <p>
-                  A research workflow for Taiwan equity data, factor experiments, model training, backtests, and paper trading tools.
-                </p>
-                <a class="repo-link" href="https://github.com/hank187548/qlib-public" target="_blank" rel="noreferrer">
-                  Open GitHub repo
-                </a>
-              </div>
-              <div class="project-details">
-                <ul class="project-points">
-                  <li><strong>Problem:</strong> adapt Qlib-style research workflows to Taiwan equity data.</li>
-                  <li><strong>Method:</strong> prepare data, train models, evaluate signals, and run backtests.</li>
-                  <li><strong>Tools:</strong> Python, Qlib, data pipelines, Linux, Git.</li>
-                </ul>
-                <dl class="project-facts">
-                  <div>
-                    <dt>CV backtest</dt>
-                    <dd>22.78% vs 16.83% benchmark</dd>
-                  </div>
-                  <div>
-                    <dt>Signal quality</dt>
-                    <dd>Avg. daily IC 0.031 / positive IC rate 61%</dd>
-                  </div>
-                </dl>
-              </div>
-            </article>
-
-            <article class="project-card">
-              <p class="project-tag">Project 02 / BTC Forecasting</p>
-              <h3>BTC forecasting</h3>
-              <p>
-                Trend modeling around Binance market data with a GRU-Attention direction model.
-              </p>
-              <ul class="project-points compact-list">
-                <li>Sequence modeling workflow.</li>
-                <li>Forecasting-oriented research repo.</li>
-                <li>Python and market data experiments.</li>
-              </ul>
-              <a class="repo-link" href="https://github.com/hank187548/Binance3_public" target="_blank" rel="noreferrer">
-                Open BTC repo
-              </a>
-            </article>
-
-            <article class="project-card">
-              <p class="project-tag">Project 03 / Image Processing</p>
-              <h3>Computer vision research</h3>
-              <p>
-                Detection, tracking, and classification experiments organized as practical image processing work.
-              </p>
-              <ul class="project-points compact-list">
-                <li>Image processing experiments.</li>
-                <li>Computer vision research practice.</li>
-                <li>Python, ML, and visual data workflows.</li>
-              </ul>
-              <a class="repo-link" href="https://github.com/hank187548/Image-Processing" target="_blank" rel="noreferrer">
-                Open image repo
-              </a>
-            </article>
-          </div>
-
-          <div class="work-meta-grid" aria-label="Education and technical stack">
-            <article>
-              <span>Education</span>
-              <strong>National Taiwan University</strong>
-              <p>M.S., expected June 2026.</p>
-            </article>
-            <article>
-              <span>Stack</span>
-              <strong>Python / Qlib / PyTorch</strong>
-              <p>Machine learning, data, computer vision, Linux, Git.</p>
-            </article>
-          </div>
-        </section>
-
-        <section class="contact-section" id="contact" aria-labelledby="contact-title">
-          <div class="contact-panel">
-            <div>
-              <p class="eyebrow">Contact</p>
-              <h2 id="contact-title">Ideas, research, or work.</h2>
-              <p>Taipei, Taiwan. Email, GitHub, and CV are linked here.</p>
-            </div>
-            <div class="contact-links">
-              <a href="mailto:hank187548@gmail.com">Email</a>
-              <a href="https://github.com/hank187548" target="_blank" rel="noreferrer">GitHub</a>
-              <a href="./CV1_Hank_quant.pdf" target="_blank" rel="noreferrer">CV PDF</a>
-            </div>
-          </div>
-        </section>
-      </main>
-    </div>
-
-    <script src="./script.js?v=20260601-ios-glass"></script>
-  </body>
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0a0a0a" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Hank — Quant Research & Visual Archive" />
+<meta property="og:description" content="Quantitative research, machine learning systems, and a visual archive of life beyond the model." />
+<meta property="og:url" content="https://hank187548.github.io/" />
+<meta name="twitter:card" content="summary" />
+<link rel="canonical" href="https://hank187548.github.io/" />
+<link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+<meta
+name="description"
+content="Hank's portfolio: quantitative research, machine learning systems, computer vision, and a visual archive of travel and life."
+/>
+<title>Hank — Quant Research & Visual Archive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap"
+rel="stylesheet"
+/>
+<link rel="preload" as="image" href="./assets/trips/china-japan/Tibet_landscape_2.jpg" fetchpriority="high" />
+<script>document.documentElement.classList.replace("no-js", "js");</script>
+<link rel="stylesheet" href="./styles.css?v=20260803-editorial" />
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="scroll-progress" aria-hidden="true"><span></span></div>
+<div class="cursor-light" aria-hidden="true"></div>
+<header class="site-header" data-header>
+<a class="wordmark magnetic" href="#top" aria-label="Hank, back to top">
+<span>Hank</span>
+<small>Quant × Life</small>
+</a>
+<nav class="desktop-nav" aria-label="Primary navigation">
+<a href="#profile">Profile</a>
+<a href="#work">Work</a>
+<a href="#stories">Stories</a>
+<a href="#contact">Contact</a>
+</nav>
+<div class="header-meta" aria-hidden="true">
+<span>Taipei</span>
+<span class="status-dot"></span>
+<span>2026</span>
+</div>
+<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu">
+<span class="menu-label">Menu</span>
+<span class="menu-icon" aria-hidden="true"><i></i><i></i></span>
+</button>
+</header>
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+<div class="mobile-menu__backdrop"></div>
+<nav aria-label="Mobile navigation">
+<a href="#profile"><span>01</span>Profile</a>
+<a href="#work"><span>02</span>Work</a>
+<a href="#stories"><span>03</span>Stories</a>
+<a href="#contact"><span>04</span>Contact</a>
+</nav>
+<div class="mobile-menu__footer">
+<a href="mailto:hank187548@gmail.com">hank187548@gmail.com</a>
+<span>Taipei, Taiwan</span>
+</div>
+</div>
+<main id="main">
+<section class="hero" id="top" data-section-theme="dark" aria-labelledby="hero-title">
+<div class="hero-media" aria-hidden="true">
+<figure class="hero-slide is-active" data-hero-slide data-label="Tibet / 2025">
+<img src="./assets/trips/china-japan/Tibet_landscape_2.jpg" alt="" fetchpriority="high" decoding="async" />
+</figure>
+<figure class="hero-slide" data-hero-slide data-label="Chongqing / 2025">
+<img src="./assets/trips/china-japan/Chongqing_night.jpg" alt="" loading="lazy" decoding="async" />
+</figure>
+<figure class="hero-slide" data-hero-slide data-label="Okinawa / Open Water">
+<img src="./assets/trips/diving/Diving_in_okinawa.jpg" alt="" loading="lazy" decoding="async" />
+</figure>
+<figure class="hero-slide" data-hero-slide data-label="Sydney / Australia">
+<img src="./assets/trips/bali-australia/Sydney.jpg" alt="" loading="lazy" decoding="async" />
+</figure>
+</div>
+<div class="hero-shade" aria-hidden="true"></div>
+<div class="hero-grain" aria-hidden="true"></div>
+<div class="hero-inner shell">
+<div class="hero-topline" data-reveal>
+<p>Quantitative research<br />Machine learning systems</p>
+<p>Life documented<br />one frame at a time</p>
+</div>
+<div class="hero-heading" data-reveal>
+<p class="section-code">Independent portfolio / Taipei</p>
+<h1 id="hero-title">
+Models move markets.<br />
+<em>Moments move me.</em>
+</h1>
+</div>
+<div class="hero-bottom" data-reveal>
+<p class="hero-intro">
+I build research systems for markets and machine learning—then step outside to collect the places,
+people, and movement that make the work worth doing.
+</p>
+<div class="hero-actions">
+<a class="text-link magnetic" href="#work">Explore work <span>↘</span></a>
+<a class="text-link magnetic" href="#stories">Open archive <span>↘</span></a>
+</div>
+</div>
+</div>
+<div class="hero-index" aria-label="Hero slideshow controls">
+<button type="button" class="hero-index__button" data-hero-prev aria-label="Previous image">←</button>
+<div class="hero-index__status">
+<span data-hero-current>01</span>
+<i></i>
+<span data-hero-total>04</span>
+</div>
+<p data-hero-label>Tibet / 2025</p>
+<button type="button" class="hero-index__button" data-hero-next aria-label="Next image">→</button>
+</div>
+<a class="scroll-cue" href="#profile" aria-label="Scroll to profile">
+<span>Scroll</span>
+<i aria-hidden="true"></i>
+</a>
+</section>
+<div class="ticker" aria-hidden="true">
+<div class="ticker-track">
+<span>Quant Research</span><i>✦</i><span>Machine Learning</span><i>✦</i><span>Computer Vision</span><i>✦</i>
+<span>Travel</span><i>✦</i><span>Diving</span><i>✦</i><span>Taipei</span><i>✦</i>
+<span>Quant Research</span><i>✦</i><span>Machine Learning</span><i>✦</i><span>Computer Vision</span><i>✦</i>
+<span>Travel</span><i>✦</i><span>Diving</span><i>✦</i><span>Taipei</span><i>✦</i>
+</div>
+</div>
+<section class="profile section shell" id="profile" data-section-theme="light" aria-labelledby="profile-title">
+<div class="section-marker" data-reveal>
+<span>01</span>
+<p>Profile</p>
+</div>
+<div class="profile-grid">
+<h2 id="profile-title" data-reveal>
+I work where <em>data, systems,</em> and human judgment meet.
+</h2>
+<div class="profile-copy" data-reveal>
+<p>
+I am an NTU graduate researcher focused on quantitative workflows, forecasting, and applied machine
+learning. My work is practical: build the pipeline, test the signal, understand what survives, and
+make the result usable.
+</p>
+<a class="arrow-link magnetic" href="./CV1_Hank_quant.pdf" target="_blank" rel="noreferrer">
+View full CV <span>↗</span>
+</a>
+</div>
+</div>
+<div class="profile-facts" data-reveal>
+<article>
+<span>Base</span>
+<strong>Taipei, Taiwan</strong>
+</article>
+<article>
+<span>Research</span>
+<strong>Quant / ML / CV</strong>
+</article>
+<article>
+<span>Core stack</span>
+<strong>Python / Qlib / PyTorch</strong>
+</article>
+<article>
+<span>Method</span>
+<strong>Build / Test / Iterate</strong>
+</article>
+</div>
+</section>
+<section class="work section section-dark" id="work" data-section-theme="dark" aria-labelledby="work-title">
+<div class="shell">
+<div class="section-marker section-marker--light" data-reveal>
+<span>02</span>
+<p>Selected work</p>
+</div>
+<div class="work-heading">
+<h2 id="work-title" data-reveal>Systems built to answer <em>real questions.</em></h2>
+<p data-reveal>
+Research is more than a model score. Each project connects data preparation, validation, evaluation,
+and a path toward actual use.
+</p>
+</div>
+<div class="case-list">
+<article class="case-study case-study--featured" data-reveal data-pointer-card>
+<a href="https://github.com/hank187548/qlib-public" target="_blank" rel="noreferrer" aria-label="Open Qlib Taiwan workflow on GitHub">
+<div class="case-number">01</div>
+<div class="case-copy">
+<p class="case-kicker">Qlib / Taiwan Equity / Research System</p>
+<h3>Qlib Taiwan<br />workflow</h3>
+<p class="case-description">
+An end-to-end research workflow for Taiwan equity data, factor experiments, model training,
+backtests, and paper-trading tools.
+</p>
+<ul class="tag-list" aria-label="Technologies">
+<li>Python</li><li>Qlib</li><li>Data pipelines</li><li>Linux</li>
+</ul>
+</div>
+<div class="case-metrics">
+<div><span>CV backtest</span><strong>22.78%</strong><small>vs 16.83% benchmark</small></div>
+<div><span>Average daily IC</span><strong>0.031</strong><small>61% positive IC rate</small></div>
+</div>
+<span class="case-arrow" aria-hidden="true">↗</span>
+<div class="case-visual" aria-hidden="true">
+<div class="market-grid"></div>
+<div class="market-line market-line--one"></div>
+<div class="market-line market-line--two"></div>
+<span>TWSE / RESEARCH / 01</span>
+</div>
+</a>
+</article>
+<article class="case-study" data-reveal data-pointer-card>
+<a href="https://github.com/hank187548/Binance3_public" target="_blank" rel="noreferrer" aria-label="Open BTC forecasting project on GitHub">
+<div class="case-number">02</div>
+<div class="case-copy">
+<p class="case-kicker">BTC / Sequence Modeling</p>
+<h3>Market direction<br />forecasting</h3>
+<p class="case-description">
+Direction modeling around Binance market data with GRU-attention experiments and repeatable
+evaluation workflows.
+</p>
+<ul class="tag-list"><li>GRU</li><li>Attention</li><li>Market data</li></ul>
+</div>
+<span class="case-arrow" aria-hidden="true">↗</span>
+</a>
+</article>
+<article class="case-study" data-reveal data-pointer-card>
+<a href="https://github.com/hank187548/Image-Processing" target="_blank" rel="noreferrer" aria-label="Open computer vision research project on GitHub">
+<div class="case-number">03</div>
+<div class="case-copy">
+<p class="case-kicker">Vision / Applied ML</p>
+<h3>Computer vision<br />research</h3>
+<p class="case-description">
+Detection, tracking, classification, and image-processing experiments organized as practical,
+reproducible research.
+</p>
+<ul class="tag-list"><li>Detection</li><li>Tracking</li><li>PyTorch</li></ul>
+</div>
+<span class="case-arrow" aria-hidden="true">↗</span>
+</a>
+</article>
+</div>
+</div>
+</section>
+<section class="stories section" id="stories" data-section-theme="light" aria-labelledby="stories-title">
+<div class="shell">
+<div class="section-marker" data-reveal>
+<span>03</span>
+<p>Visual archive</p>
+</div>
+<div class="stories-heading">
+<h2 id="stories-title" data-reveal>Outside the model,<br /><em>life keeps moving.</em></h2>
+<p data-reveal>
+A growing archive of long routes, open water, city nights, and the people who made each frame matter.
+Open a chapter only when you want the full story.
+</p>
+</div>
+<div class="story-list">
+<details class="story-card story-card--feature" id="china-japan" data-story data-reveal>
+<summary>
+<img src="./assets/trips/china-japan/Tibet_landscape_2.jpg" alt="Mountain landscape in Tibet" decoding="async" />
+<span class="story-wash" aria-hidden="true"></span>
+<span class="story-index">01 / 05</span>
+<span class="story-title">
+<small>Travel chapter / 2025</small>
+<strong>Taiwan → Tibet<br />→ Chongqing → Japan</strong>
+<em>Train routes, altitude, city nights, friends, and fireworks.</em>
+</span>
+<span class="story-toggle" aria-hidden="true"><i></i><i></i></span>
+</summary>
+<div class="story-content">
+<div class="story-intro">
+<p>
+A long route through transit, temples, highland landscapes, dense city nights, and a final
+firework chapter in Japan.
+</p>
+<ol class="timeline">
+<li><span>Taiwan</span><strong>Departure and first frame.</strong></li>
+<li><span>Hong Kong</span><strong>Transfer before the long railway segment.</strong></li>
+<li><span>Tibet</span><strong>Train windows, altitude, temples, and open roads.</strong></li>
+<li><span>Chongqing</span><strong>Bridge lights, Hongya Cave, and night performance.</strong></li>
+<li><span>Japan</span><strong>Friends, trains, parks, and fireworks.</strong></li>
+</ol>
+</div>
+<div class="media-grid">
+<figure class="media-tile media-tile--wide"><img data-src="./assets/trips/china-japan/Depature_to_Hongkong.jpg" alt="Departure to Hong Kong" loading="lazy" decoding="async" /><figcaption>Departure</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/china-japan/Take_train_to_Tibet.jpg" alt="Train to Tibet" loading="lazy" decoding="async" /><figcaption>Train</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/china-japan/Heighest_template_tibet.jpg" alt="Temple in Tibet" loading="lazy" decoding="async" /><figcaption>Temple</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/china-japan/Tibet_landscape.jpg" alt="Road through Tibet" loading="lazy" decoding="async" /><figcaption>Road</figcaption></figure>
+<figure class="media-tile media-tile--wide"><img data-src="./assets/trips/china-japan/Me_in_Tibet_2.jpg" alt="Portrait in Tibet" loading="lazy" decoding="async" /><figcaption>Altitude</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/china-japan/Me_In_tibet.jpg" alt="Portrait in Tibet" loading="lazy" decoding="async" /><figcaption>Tibet</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/china-japan/The_height_moutain_tibet.jpg" alt="Tibet mountain" loading="lazy" decoding="async" /><figcaption>Mountain</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/china-japan/The_height_pool_tibet.jpg" alt="High-altitude pool in Tibet" loading="lazy" decoding="async" /><figcaption>Water</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/china-japan/Tibet3.jpg" alt="Tibet landscape" loading="lazy" decoding="async" /><figcaption>Tibet view</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/china-japan/monk_in_tibet.jpg" alt="Monk in Tibet" loading="lazy" decoding="async" /><figcaption>Monk</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/china-japan/Bye_Tibet_to_chongqing.jpg" alt="Leaving Tibet for Chongqing" loading="lazy" decoding="async" /><figcaption>Next city</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/china-japan/Chongqing.jpg" alt="Chongqing city" loading="lazy" decoding="async" /><figcaption>Chongqing</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/china-japan/Chongqing_bridge.jpg" alt="Chongqing bridge" loading="lazy" decoding="async" /><figcaption>Bridge</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/china-japan/Chongqing_Hongya_Cave.jpg" alt="Hongya Cave" loading="lazy" decoding="async" /><figcaption>Hongya Cave</figcaption></figure>
+<figure class="media-tile media-tile--wide"><img data-src="./assets/trips/china-japan/Chongqing_night.jpg" alt="Chongqing at night" loading="lazy" decoding="async" /><figcaption>Night</figcaption></figure>
+<figure class="media-tile media-tile--video"><video controls playsinline preload="none" data-poster="./assets/video-posters/chongqing-performance-first-frame.jpg" aria-label="Chongqing performance"><source data-src="./assets/trips/china-japan/Chongqing_performance.mp4" type="video/mp4" /></video><figcaption>Show</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/china-japan/Me_Japen_3.jpg" alt="Portrait in Japan" loading="lazy" decoding="async" /><figcaption>Japan</figcaption></figure>
+<figure class="media-tile media-tile--portrait"><img data-src="./assets/trips/china-japan/Take_train_to_see_firework_Japen.png" alt="Train to see fireworks in Japan" loading="lazy" decoding="async" /><figcaption>Firework train</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/china-japan/Firework.jpg" alt="Fireworks" loading="lazy" decoding="async" /><figcaption>Firework</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/china-japan/Firework%202.jpg" alt="Fireworks" loading="lazy" decoding="async" /><figcaption>Firework</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/china-japan/Sleep_in_park.jpg" alt="Resting in a park" loading="lazy" decoding="async" /><figcaption>Rest</figcaption></figure>
+<figure class="media-tile media-tile--video"><video controls playsinline preload="none" data-poster="./assets/video-posters/train-inside-first-frame.jpg" aria-label="Inside a train"><source data-src="./assets/trips/china-japan/Train_inside.mp4" type="video/mp4" /></video><figcaption>Inside train</figcaption></figure>
+</div>
+</div>
+</details>
+<div class="story-grid">
+<details class="story-card" id="diving" data-story data-reveal>
+<summary>
+<img src="./assets/trips/diving/Diving_in_okinawa.jpg" alt="Diving in Okinawa" loading="lazy" decoding="async" />
+<span class="story-wash" aria-hidden="true"></span>
+<span class="story-index">02 / 05</span>
+<span class="story-title"><small>Diving / Open water</small><strong>Okinawa<br />water</strong><em>Training, ocean light, and open-water clips.</em></span>
+<span class="story-toggle" aria-hidden="true"><i></i><i></i></span>
+</summary>
+<div class="story-content story-content--compact">
+<div class="media-grid media-grid--compact">
+<figure class="media-tile"><img data-src="./assets/trips/diving/Div2.jpg" alt="Dive moment" loading="lazy" decoding="async" /><figcaption>Dive</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/diving/Diving_test_PADI_OW.jpg" alt="PADI open-water training" loading="lazy" decoding="async" /><figcaption>PADI</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/photos/diving-open-water.jpg" alt="Open water" loading="lazy" decoding="async" /><figcaption>Open water</figcaption></figure>
+<figure class="media-tile media-tile--video"><video controls playsinline preload="none" data-poster="./assets/video-posters/diving-first-frame.jpg" aria-label="Diving clip"><source data-src="./assets/trips/diving/Diving.mp4" type="video/mp4" /></video><figcaption>Clip</figcaption></figure>
+</div>
+</div>
+</details>
+<details class="story-card" id="bali-australia" data-story data-reveal>
+<summary>
+<img src="./assets/trips/bali-australia/Sydney.jpg" alt="Sydney travel moment" loading="lazy" decoding="async" />
+<span class="story-wash" aria-hidden="true"></span>
+<span class="story-index">03 / 05</span>
+<span class="story-title"><small>Bali / Australia</small><strong>Beach, surf,<br />road</strong><em>Coastlines, Sydney, Uluru, and movement.</em></span>
+<span class="story-toggle" aria-hidden="true"><i></i><i></i></span>
+</summary>
+<div class="story-content story-content--compact">
+<div class="media-grid media-grid--compact">
+<figure class="media-tile"><img data-src="./assets/trips/bali-australia/Bali_beach.jpg" alt="Bali beach" loading="lazy" decoding="async" /><figcaption>Bali</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/bali-australia/Diamond_beach.jpg" alt="Diamond Beach" loading="lazy" decoding="async" /><figcaption>Diamond</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/bali-australia/Surf.jpg" alt="Surfing" loading="lazy" decoding="async" /><figcaption>Surf</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/bali-australia/Sydney_bridge.jpg" alt="Sydney bridge" loading="lazy" decoding="async" /><figcaption>Bridge</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/bali-australia/Uluru_with_brother.jpg" alt="Uluru with brother" loading="lazy" decoding="async" /><figcaption>Uluru</figcaption></figure>
+<figure class="media-tile media-tile--video"><video controls playsinline preload="none" data-poster="./assets/video-posters/camel-with-brother-first-frame.jpg" aria-label="Camel clip"><source data-src="./assets/trips/bali-australia/Camel_with_brother.mp4" type="video/mp4" /></video><figcaption>Camel</figcaption></figure>
+</div>
+</div>
+</details>
+<details class="story-card" id="thailand-vietnam" data-story data-reveal>
+<summary>
+<img src="./assets/trips/thailand-vietnam/Thai.jpg" alt="Thailand travel" loading="lazy" decoding="async" />
+<span class="story-wash" aria-hidden="true"></span>
+<span class="story-index">04 / 05</span>
+<span class="story-title"><small>Thailand / Vietnam</small><strong>Friends &<br />streets</strong><em>Street scenes, local guides, and group memories.</em></span>
+<span class="story-toggle" aria-hidden="true"><i></i><i></i></span>
+</summary>
+<div class="story-content story-content--compact">
+<div class="media-grid media-grid--compact">
+<figure class="media-tile"><img data-src="./assets/trips/thailand-vietnam/vietnam.jpg" alt="Vietnam" loading="lazy" decoding="async" /><figcaption>Vietnam</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/thailand-vietnam/US.jpg" alt="Thailand travel" loading="lazy" decoding="async" /><figcaption>Thailand</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/thailand-vietnam/With_our_guide.jpg" alt="With a local guide" loading="lazy" decoding="async" /><figcaption>Guide</figcaption></figure>
+<figure class="media-tile"><img data-src="./assets/trips/thailand-vietnam/Weed.jpg" alt="Thailand street" loading="lazy" decoding="async" /><figcaption>Street</figcaption></figure>
+<figure class="media-tile media-tile--video"><video controls playsinline preload="none" data-poster="./assets/video-posters/thailand-first-frame.jpg" aria-label="Thailand clip"><source data-src="./assets/trips/thailand-vietnam/Thai_2_with_master.mp4" type="video/mp4" /></video><figcaption>Clip</figcaption></figure>
+</div>
+</div>
+</details>
+<details class="story-card story-card--quiet" id="lab-taipei" data-story data-reveal>
+<summary>
+<img src="./assets/life/LAb.jpg" alt="Research lab" loading="lazy" decoding="async" />
+<span class="story-wash" aria-hidden="true"></span>
+<span class="story-index">05 / 05</span>
+<span class="story-title"><small>Lab / Taipei</small><strong>Research<br />rhythm</strong><em>Code, experiments, and the quieter side of the archive.</em></span>
+<span class="story-toggle" aria-hidden="true"><i></i><i></i></span>
+</summary>
+<div class="story-content story-content--empty"><p>More frames are being developed.</p></div>
+</details>
+</div>
+</div>
+</div>
+</section>
+<section class="manifesto section section-accent" data-section-theme="accent" aria-label="Working philosophy">
+<div class="shell manifesto-grid">
+<p class="section-code" data-reveal>Working philosophy</p>
+<blockquote data-reveal>
+“The best work is rigorous enough to trust,<br />and clear enough to <em>feel.</em>”
+</blockquote>
+<p data-reveal>
+Whether the output is a research signal, a model, or a visual story, I care about the same things:
+structure, honesty, and a result that earns attention.
+</p>
+</div>
+</section>
+</main>
+<footer class="footer" id="contact" data-section-theme="dark">
+<div class="shell">
+<div class="section-marker section-marker--light">
+<span>04</span>
+<p>Contact</p>
+</div>
+<div class="footer-heading">
+<p>Ideas, research, or work.</p>
+<h2>Let’s make something<br /><em>useful and memorable.</em></h2>
+</div>
+<div class="footer-actions">
+<a class="footer-cta magnetic" href="mailto:hank187548@gmail.com"><span>Email me</span><i>↗</i></a>
+<a class="footer-cta magnetic" href="https://github.com/hank187548" target="_blank" rel="noreferrer"><span>GitHub</span><i>↗</i></a>
+<a class="footer-cta magnetic" href="./CV1_Hank_quant.pdf" target="_blank" rel="noreferrer"><span>CV PDF</span><i>↗</i></a>
+</div>
+<div class="footer-meta">
+<p>Hank — Taipei, Taiwan</p>
+<p>Quant research / Machine learning / Visual archive</p>
+<p>© <span data-year>2026</span></p>
+</div>
+</div>
+</footer>
+<script src="./script.js?v=20260803-editorial"></script>
+</body>
 </html>
