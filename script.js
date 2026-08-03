@@ -171,7 +171,6 @@ if (workMarker) workMarker.textContent = "03";
 installLayoutRefinements();
 const documentElement = document.documentElement;
 const body = document.body;
-const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 const finePointerQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
 const header = document.querySelector("[data-header]");
 const themeColorMeta = document.querySelector('meta[name="theme-color"]');
@@ -181,7 +180,7 @@ const mobileMenu = document.querySelector(".mobile-menu");
 const mobileMenuLinks = mobileMenu ? [...mobileMenu.querySelectorAll("a[href]")] : [];
 const navLinks = [...document.querySelectorAll('.desktop-nav a[href^="#"]')];
 const sectionTargets = [...document.querySelectorAll("[data-section-theme]")];
-const reducedMotion = () => motionQuery.matches;
+const reducedMotion = () => false;
 let menuLastFocus = null;
 document.querySelectorAll("[data-year]").forEach((item) => {
 item.textContent = String(new Date().getFullYear());
@@ -309,7 +308,6 @@ const heroLabel = document.querySelector("[data-hero-label]");
 const previousHeroButton = document.querySelector("[data-hero-prev]");
 const nextHeroButton = document.querySelector("[data-hero-next]");
 const heroInterval = 5600;
-const reducedHeroInterval = 8600;
 let activeHeroIndex = 0;
 let heroTimer = 0;
 let heroIsVisible = true;
@@ -345,8 +343,7 @@ heroTimer = 0;
 function startHeroTimer() {
 stopHeroTimer();
 if ((!heroIsVisible && !heroInViewport()) || document.hidden || heroSlides.length < 2) return;
-const interval = reducedMotion() ? reducedHeroInterval : heroInterval;
-heroTimer = window.setInterval(() => setHeroSlide(activeHeroIndex + 1, false), interval);
+heroTimer = window.setInterval(() => setHeroSlide(activeHeroIndex + 1, false), heroInterval);
 }
 previousHeroButton?.addEventListener("click", () => setHeroSlide(activeHeroIndex - 1));
 nextHeroButton?.addEventListener("click", () => setHeroSlide(activeHeroIndex + 1));
@@ -369,12 +366,6 @@ document.addEventListener("visibilitychange", () => {
 if (document.hidden) stopHeroTimer();
 else startHeroTimer();
 });
-if (motionQuery.addEventListener) {
-motionQuery.addEventListener("change", () => {
-startHeroTimer();
-if (reducedMotion()) revealItems.forEach((item) => item.classList.add("is-visible"));
-});
-}
 setHeroSlide(0, false);
 startHeroTimer();
 function loadPanelMedia(panel) {
