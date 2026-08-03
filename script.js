@@ -309,9 +309,15 @@ const heroLabel = document.querySelector("[data-hero-label]");
 const previousHeroButton = document.querySelector("[data-hero-prev]");
 const nextHeroButton = document.querySelector("[data-hero-next]");
 const heroInterval = 5600;
+const reducedHeroInterval = 8600;
 let activeHeroIndex = 0;
 let heroTimer = 0;
 let heroIsVisible = true;
+function heroInViewport() {
+if (!hero) return true;
+const rect = hero.getBoundingClientRect();
+return rect.bottom > 0 && rect.top < window.innerHeight;
+}
 function formatIndex(index) {
 return String(index + 1).padStart(2, "0");
 }
@@ -338,8 +344,9 @@ heroTimer = 0;
 }
 function startHeroTimer() {
 stopHeroTimer();
-if (reducedMotion() || !heroIsVisible || document.hidden || heroSlides.length < 2) return;
-heroTimer = window.setInterval(() => setHeroSlide(activeHeroIndex + 1, false), heroInterval);
+if ((!heroIsVisible && !heroInViewport()) || document.hidden || heroSlides.length < 2) return;
+const interval = reducedMotion() ? reducedHeroInterval : heroInterval;
+heroTimer = window.setInterval(() => setHeroSlide(activeHeroIndex + 1, false), interval);
 }
 previousHeroButton?.addEventListener("click", () => setHeroSlide(activeHeroIndex - 1));
 nextHeroButton?.addEventListener("click", () => setHeroSlide(activeHeroIndex + 1));
@@ -354,6 +361,10 @@ else stopHeroTimer();
 );
 heroObserver.observe(hero);
 }
+window.addEventListener("resize", () => {
+heroIsVisible = heroInViewport();
+startHeroTimer();
+}, { passive: true });
 document.addEventListener("visibilitychange", () => {
 if (document.hidden) stopHeroTimer();
 else startHeroTimer();

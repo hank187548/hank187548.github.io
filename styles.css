@@ -1833,3 +1833,34 @@ gap: 14px;
 font-size: 0.56rem;
 }
 }
+
+
+/* Ultrawide hero motion resilience / 20260803 */
+@media (prefers-reduced-motion: reduce) {
+.hero-slide {
+transition: opacity 680ms ease !important;
+transform: none !important;
+}
+.hero-slide.is-active {
+transform: none !important;
+}
+.hero-slide img {
+transform: none !important;
+}
+}
+@media (min-width: 1600px) and (min-aspect-ratio: 21/9) {
+.hero-slide,
+.hero-slide.is-active {
+transform: none;
+}
+.hero-slide {
+transition: opacity 1400ms var(--ease-smooth);
+}
+.hero-slide img {
+backface-visibility: hidden;
+transition: transform 7600ms linear;
+}
+.hero-slide.is-active img {
+transform: translate3d(0, var(--hero-parallax, 0px), 0) scale(1.055);
+}
+}
