@@ -1,5 +1,174 @@
 (() => {
 "use strict";
+function installLayoutRefinements() {
+const style = document.createElement("style");
+style.dataset.layoutFix = "20260803";
+style.textContent = `
+:root {
+--shell: min(1440px, calc(100% - 64px));
+}
+body {
+overflow-x: hidden;
+overflow-x: clip;
+}
+.shell,
+.profile-grid,
+.profile-grid > *,
+.profile-copy,
+.work-heading > *,
+.stories-heading > *,
+.case-study > a > *,
+.case-copy,
+.case-metrics,
+.story-title,
+.story-intro > *,
+.footer-meta > * {
+min-width: 0;
+max-width: 100%;
+}
+.profile-copy p,
+.work-heading > p,
+.stories-heading > p,
+.case-description,
+.story-title em,
+.footer-meta p,
+.case-copy h3,
+.case-kicker,
+.profile-grid h2 {
+overflow-wrap: anywhere;
+}
+.profile::before {
+right: max(0px, calc((100% - var(--shell)) / 2));
+}
+.profile-grid {
+grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.62fr);
+gap: clamp(44px, 6vw, 108px);
+}
+.profile-copy {
+width: 100%;
+max-width: 400px;
+justify-self: end;
+padding: 0 clamp(12px, 1.2vw, 18px) 8px 0;
+}
+.profile-copy p {
+max-width: 42ch;
+}
+.work-heading {
+grid-template-columns: minmax(0, 1.45fr) minmax(260px, 0.52fr);
+gap: clamp(44px, 6vw, 108px);
+}
+.stories-heading {
+grid-template-columns: minmax(0, 1.48fr) minmax(260px, 0.54fr);
+gap: clamp(44px, 6vw, 108px);
+}
+.work-heading > p,
+.stories-heading > p {
+max-width: 40ch;
+}
+.story-card {
+overflow: hidden;
+overflow: clip;
+}
+.mobile-menu {
+width: 100%;
+height: 100vh;
+height: 100dvh;
+min-height: 100lvh;
+overflow-y: auto;
+overscroll-behavior: contain;
+padding-bottom: max(30px, env(safe-area-inset-bottom));
+}
+.case-copy,
+.case-study:not(.case-study--featured) .case-copy {
+grid-template-columns: minmax(0, 1fr);
+}
+@media (max-width: 1180px) {
+:root {
+--shell: min(1440px, calc(100% - 48px));
+}
+}
+@media (max-width: 1080px) {
+.profile-grid,
+.work-heading,
+.stories-heading {
+grid-template-columns: 1fr;
+}
+.profile-grid {
+gap: 42px;
+align-items: start;
+}
+.profile-copy {
+max-width: 620px;
+justify-self: start;
+padding-right: 0;
+}
+.work-heading,
+.stories-heading {
+gap: 34px;
+}
+.work-heading > p,
+.stories-heading > p {
+max-width: 620px;
+}
+.case-study:not(.case-study--featured) .case-copy {
+grid-template-columns: minmax(0, 1fr);
+gap: 18px;
+}
+.case-study:not(.case-study--featured) .case-description {
+max-width: 620px;
+}
+}
+@media (max-width: 720px) {
+.mobile-menu {
+padding-bottom: max(24px, env(safe-area-inset-bottom));
+}
+.profile-copy {
+max-width: none;
+padding-right: 0;
+}
+.profile-copy p {
+max-width: 100%;
+}
+}
+@media (max-width: 430px) {
+.case-study > a,
+.case-study:not(.case-study--featured) > a {
+grid-template-columns: 30px minmax(0, 1fr);
+gap: 12px;
+}
+.case-arrow {
+display: none;
+}
+}
+`;
+document.head.append(style);
+const order = ["profile", "stories", "work", "contact"];
+const main = document.querySelector("main");
+const stories = document.getElementById("stories");
+const work = document.getElementById("work");
+if (main && stories && work) main.insertBefore(stories, work);
+[document.querySelector(".desktop-nav"), document.querySelector(".mobile-menu nav")].forEach((nav) => {
+if (!nav) return;
+order.forEach((id) => {
+const link = nav.querySelector(`a[href="#${id}"]`);
+if (link) nav.append(link);
+});
+});
+const mobileNumbers = { profile: "01", stories: "02", work: "03", contact: "04" };
+document.querySelectorAll('.mobile-menu nav a[href^="#"]').forEach((link) => {
+const id = link.getAttribute("href")?.slice(1);
+const number = link.querySelector("span");
+if (number && id && mobileNumbers[id]) number.textContent = mobileNumbers[id];
+});
+const heroActions = document.querySelector(".hero-actions");
+const archiveAction = heroActions?.querySelector('a[href="#stories"]');
+if (heroActions && archiveAction) heroActions.prepend(archiveAction);
+const storyMarker = stories?.querySelector(".section-marker span");
+const workMarker = work?.querySelector(".section-marker span");
+if (storyMarker) storyMarker.textContent = "02";
+if (workMarker) workMarker.textContent = "03";
+}
+installLayoutRefinements();
 const documentElement = document.documentElement;
 const body = document.body;
 const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
