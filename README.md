@@ -43,6 +43,7 @@ https://hank187548.github.io/
 - `assets/photos/`: Web-optimized travel, life, and lab photos used by the site
 - `assets/trips/china-japan/`: Media for the Taiwan, Hong Kong, Tibet, Chongqing, and Japan story chapter
 - `assets/trips/italy-2026/`: Curated and web-optimized media for the 2026 Italy story chapter
+- `assets/videos/`: Short MP4 clips used by the Motion Notes section
 - `assets/video-posters/`: Lightweight poster images for the video cards
 - `.nojekyll`: Ensures GitHub Pages serves static files directly
 
