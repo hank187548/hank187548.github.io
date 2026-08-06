@@ -1033,6 +1033,7 @@ filter 600ms ease;
 filter: saturate(0.86) contrast(1.04);
 }
 .story-card--feature summary img { object-position: 50% 48%; }
+#italy-2026 summary img { object-position: 50% 60%; }
 #diving summary img { object-position: 50% 42%; }
 #bali-australia summary img { object-position: 50% 52%; }
 #thailand-vietnam summary img { object-position: 50% 42%; }

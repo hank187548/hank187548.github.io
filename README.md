@@ -13,6 +13,10 @@ One current story chapter covers the route:
 Taiwan -> Hong Kong -> Tibet -> Chongqing -> Japan
 ```
 
+The newest chapter follows a 2026 Italy route through Milan, Rome, Florence,
+Pisa, and Cinque Terre, using a curated set of web-optimized photos, MP4 clips,
+and lightweight video posters.
+
 That route is one chapter inside the life log, not the whole site. Professional
 material is still included, but it lives in one compact expandable work section.
 
@@ -38,6 +42,7 @@ https://hank187548.github.io/
 - `CV1_Hank_quant.pdf`: Downloadable CV
 - `assets/photos/`: Web-optimized travel, life, and lab photos used by the site
 - `assets/trips/china-japan/`: Media for the Taiwan, Hong Kong, Tibet, Chongqing, and Japan story chapter
+- `assets/trips/italy-2026/`: Curated and web-optimized media for the 2026 Italy story chapter
 - `assets/videos/`: Short MP4 clips used by the Motion Notes section
 - `assets/video-posters/`: Lightweight poster images for the video cards
 - `.nojekyll`: Ensures GitHub Pages serves static files directly
