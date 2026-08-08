@@ -1,0 +1,80 @@
+name: Apply hero crop fix
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/apply-hero-crop-fix.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch-site:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fix hero image crops
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          styles_path = Path('styles.css')
+          index_path = Path('index.html')
+
+          styles = styles_path.read_text(encoding='utf-8')
+          old = '''.hero-slide:nth-child(1) img { object-position: 50% 47%; }
+          .hero-slide:nth-child(2) img { object-position: 55% 65%; }
+          .hero-slide:nth-child(3) img { object-position: 52% 42%; }
+          .hero-slide:nth-child(4) img { object-position: 50% 50%; }'''
+          new = '''.hero-slide[data-label="Cinque Terre / 2026"] img { object-position: 50% 60%; }
+          .hero-slide[data-label="Tibet / 2025"] img { object-position: 50% 47%; }
+          .hero-slide[data-label="Chongqing / 2025"] img { object-position: 55% 65%; }
+          .hero-slide[data-label="Okinawa / Open Water"] img { object-position: 52% 42%; }
+          .hero-slide[data-label="Sydney / Australia"] img { object-position: 50% 50%; }'''
+          if old not in styles:
+              raise SystemExit('Could not find legacy hero nth-child crop rules')
+          styles = styles.replace(old, new, 1)
+          styles_path.write_text(styles, encoding='utf-8')
+
+          index = index_path.read_text(encoding='utf-8')
+          old_version = 'styles.css?v=20260806-italy'
+          new_version = 'styles.css?v=20260808-hero-crop'
+          if old_version not in index:
+              raise SystemExit('Could not find current stylesheet cache version')
+          index = index.replace(old_version, new_version, 1)
+          index_path.write_text(index, encoding='utf-8')
+          PY
+
+      - name: Validate hero crop rules
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          styles = Path('styles.css').read_text(encoding='utf-8')
+          index = Path('index.html').read_text(encoding='utf-8')
+          assert '.hero-slide:nth-child(1) img' not in styles
+          assert '[data-label="Cinque Terre / 2026"]' in styles
+          assert '[data-label="Tibet / 2025"]' in styles
+          assert '[data-label="Chongqing / 2025"]' in styles
+          assert '[data-label="Okinawa / Open Water"]' in styles
+          assert '[data-label="Sydney / Australia"]' in styles
+          assert 'styles.css?v=20260808-hero-crop' in index
+          print('Hero crop fix validated')
+          PY
+
+      - name: Commit patched site
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add styles.css index.html
+          git commit -m 'Fix hero image crop mapping'
+          git push origin main
