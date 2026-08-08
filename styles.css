@@ -405,10 +405,11 @@ filter: saturate(0.92) contrast(1.04);
 transform: translate3d(0, var(--hero-parallax, 0px), 0) scale(1.02);
 will-change: transform;
 }
-.hero-slide:nth-child(1) img { object-position: 50% 47%; }
-.hero-slide:nth-child(2) img { object-position: 55% 65%; }
-.hero-slide:nth-child(3) img { object-position: 52% 42%; }
-.hero-slide:nth-child(4) img { object-position: 50% 50%; }
+.hero-slide[data-label="Cinque Terre / 2026"] img { object-position: 50% 60%; }
+.hero-slide[data-label="Tibet / 2025"] img { object-position: 50% 47%; }
+.hero-slide[data-label="Chongqing / 2025"] img { object-position: 55% 65%; }
+.hero-slide[data-label="Okinawa / Open Water"] img { object-position: 52% 42%; }
+.hero-slide[data-label="Sydney / Australia"] img { object-position: 50% 50%; }
 .hero-shade {
 z-index: -3;
 background:
