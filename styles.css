@@ -1835,3 +1835,18 @@ transition: transform 7600ms linear;
 transform: translate3d(0, var(--hero-parallax, 0px), 0) scale(1.055);
 }
 }
+
+/* Gallery mosaic gap fix / 20260808 */
+@media (min-width: 721px) {
+  .media-grid {
+    grid-auto-rows: clamp(260px, 23vw, 320px);
+  }
+
+  .media-tile--video {
+    grid-row: span 1;
+  }
+
+  #italy-2026 .media-grid > .media-tile:last-child {
+    grid-column: 1 / -1;
+  }
+}
