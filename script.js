@@ -250,7 +250,7 @@ if (!visible || !header) return;
 const theme = visible.target.getAttribute("data-section-theme") || "light";
 header.classList.remove("is-on-dark", "is-on-light", "is-on-accent");
 header.classList.add(`is-on-${theme}`);
-const themeColors = { dark: "#11110f", light: "#f3f0e8", accent: "#ff5a1f" };
+const themeColors = { dark: "#151311", light: "#f4efe6", accent: "#b84d2d" };
 themeColorMeta?.setAttribute("content", themeColors[theme] || themeColors.light);
 },
 {
