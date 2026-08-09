@@ -1690,8 +1690,8 @@ margin-bottom: 15px;
 font-size: 0.58rem;
 }
 .hero-heading h1 {
-font-size: clamp(3.35rem, 15.2vw, 6.2rem);
-line-height: 0.9;
+font-size: clamp(2.85rem, 11.5vw, 5.2rem);
+line-height: 0.94;
 }
 .hero-heading h1 em {
 display: inline-block;
@@ -1742,8 +1742,9 @@ height: 38px;
 }
 .section h2,
 .footer h2 {
-font-size: clamp(3.1rem, 13.7vw, 5.4rem);
-line-height: 0.94;
+font-size: clamp(2.15rem, 9.3vw, 4.25rem);
+line-height: 0.98;
+letter-spacing: -0.055em;
 }
 .profile::before {
 display: none;
@@ -1752,7 +1753,8 @@ display: none;
 gap: 42px;
 }
 .profile-copy p {
-font-size: 0.94rem;
+font-size: 0.84rem;
+line-height: 1.65;
 }
 .profile-facts {
 margin-top: 68px;
@@ -1789,7 +1791,8 @@ font-size: 0.58rem;
 }
 .case-copy h3,
 .case-study:not(.case-study--featured) h3 {
-font-size: clamp(2.65rem, 12vw, 4.2rem);
+font-size: clamp(2.2rem, 9.5vw, 3.7rem);
+line-height: 0.96;
 }
 .case-description {
 margin-top: 20px;
@@ -1841,7 +1844,11 @@ font-size: 0.54rem;
 }
 .story-title strong,
 .story-grid .story-title strong {
-font-size: clamp(2.7rem, 12.4vw, 4.8rem);
+font-size: clamp(2.1rem, 8.8vw, 3.8rem);
+line-height: 0.96;
+}
+.story-title strong br {
+display: none;
 }
 .story-title em {
 margin-top: 12px;
@@ -1858,7 +1865,7 @@ padding: 34px 20px 42px;
 gap: 36px;
 }
 .story-intro > p {
-font-size: 2rem;
+font-size: 1.7rem;
 }
 .timeline li {
 grid-template-columns: 88px 1fr;
@@ -1901,7 +1908,8 @@ background: rgba(9, 11, 9, 0.62);
 font-size: 0.58rem;
 }
 .manifesto-grid blockquote {
-font-size: clamp(3rem, 12.6vw, 5.2rem);
+font-size: clamp(2.3rem, 9vw, 4.2rem);
+line-height: 1;
 }
 .footer {
 padding-top: 88px;
@@ -1911,7 +1919,7 @@ margin-bottom: 70px;
 }
 .footer-cta {
 padding: 20px 0;
-font-size: 2.3rem;
+font-size: 2rem;
 }
 .footer-cta i {
 width: 44px;
@@ -1934,7 +1942,7 @@ display: none;
 grid-template-columns: 1fr;
 }
 .mobile-menu nav a {
-font-size: 3.3rem;
+font-size: 2.8rem;
 }
 .story-card,
 .story-card--feature {
