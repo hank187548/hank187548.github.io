@@ -486,6 +486,132 @@ window.addEventListener("popstate", () => openHashTarget(window.location.hash));
 if (window.location.hash) {
 window.addEventListener("load", () => openHashTarget(window.location.hash, true), { once: true });
 }
+const lightbox = document.querySelector("[data-lightbox]");
+const lightboxImage = lightbox?.querySelector("[data-lightbox-image]");
+const lightboxCaption = lightbox?.querySelector("[data-lightbox-caption]");
+const lightboxCounter = lightbox?.querySelector("[data-lightbox-counter]");
+const lightboxCloseButton = lightbox?.querySelector("[data-lightbox-close]");
+const lightboxPreviousButton = lightbox?.querySelector("[data-lightbox-prev]");
+const lightboxNextButton = lightbox?.querySelector("[data-lightbox-next]");
+let lightboxItems = [];
+let activeLightboxIndex = 0;
+let lightboxReturnFocus = null;
+let lightboxHideTimer = 0;
+function lightboxIsOpen() {
+return Boolean(lightbox && !lightbox.hidden);
+}
+function photoSource(image) {
+return image.currentSrc || image.getAttribute("src") || image.getAttribute("data-src") || "";
+}
+function preloadLightboxNeighbor(index) {
+if (!lightboxItems.length) return;
+const item = lightboxItems[(index + lightboxItems.length) % lightboxItems.length];
+const source = photoSource(item.image);
+if (!source) return;
+const preloadImage = new Image();
+preloadImage.src = source;
+}
+function setLightboxPhoto(index) {
+if (!lightboxImage || !lightboxItems.length) return;
+activeLightboxIndex = (index + lightboxItems.length) % lightboxItems.length;
+const item = lightboxItems[activeLightboxIndex];
+const source = photoSource(item.image);
+lightboxImage.src = source;
+lightboxImage.alt = item.image.alt || item.caption || "Travel photograph";
+if (lightboxCaption) lightboxCaption.textContent = item.caption;
+if (lightboxCounter) lightboxCounter.textContent = `${formatIndex(activeLightboxIndex)} / ${String(lightboxItems.length).padStart(2, "0")}`;
+const hasMultiplePhotos = lightboxItems.length > 1;
+if (lightboxPreviousButton) lightboxPreviousButton.hidden = !hasMultiplePhotos;
+if (lightboxNextButton) lightboxNextButton.hidden = !hasMultiplePhotos;
+preloadLightboxNeighbor(activeLightboxIndex - 1);
+preloadLightboxNeighbor(activeLightboxIndex + 1);
+}
+function openLightbox(tile) {
+if (!lightbox || !lightboxImage) return;
+const gallery = tile.closest(".media-grid");
+if (!gallery) return;
+lightboxItems = [...gallery.querySelectorAll(".media-tile--zoomable")]
+.map((galleryTile) => {
+const image = galleryTile.querySelector("img");
+const caption = galleryTile.querySelector("figcaption")?.textContent?.trim() || image?.alt || "";
+return image ? { tile: galleryTile, image, caption } : null;
+})
+.filter(Boolean);
+const selectedIndex = lightboxItems.findIndex((item) => item.tile === tile);
+if (selectedIndex < 0) return;
+window.clearTimeout(lightboxHideTimer);
+lightboxReturnFocus = tile;
+lightbox.hidden = false;
+lightbox.setAttribute("aria-hidden", "false");
+body.classList.add("lightbox-open");
+stopHeroTimer();
+setLightboxPhoto(selectedIndex);
+window.requestAnimationFrame(() => lightbox.classList.add("is-open"));
+lightboxCloseButton?.focus({ preventScroll: true });
+}
+function closeLightbox() {
+if (!lightboxIsOpen()) return;
+lightbox.classList.remove("is-open");
+lightbox.setAttribute("aria-hidden", "true");
+body.classList.remove("lightbox-open");
+lightboxHideTimer = window.setTimeout(() => {
+lightbox.hidden = true;
+lightboxImage?.removeAttribute("src");
+}, 220);
+if (lightboxReturnFocus instanceof HTMLElement) lightboxReturnFocus.focus({ preventScroll: true });
+lightboxReturnFocus = null;
+startHeroTimer();
+}
+function moveLightbox(direction) {
+if (!lightboxIsOpen() || lightboxItems.length < 2) return;
+setLightboxPhoto(activeLightboxIndex + direction);
+}
+document.querySelectorAll(".media-grid .media-tile").forEach((tile) => {
+const image = tile.querySelector("img");
+if (!image) return;
+tile.classList.add("media-tile--zoomable");
+tile.tabIndex = 0;
+tile.setAttribute("role", "button");
+const caption = tile.querySelector("figcaption")?.textContent?.trim() || image.alt || "photo";
+tile.setAttribute("aria-label", `Open photo: ${caption}`);
+tile.addEventListener("click", () => openLightbox(tile));
+tile.addEventListener("keydown", (event) => {
+if (event.key !== "Enter" && event.key !== " ") return;
+event.preventDefault();
+openLightbox(tile);
+});
+});
+lightboxCloseButton?.addEventListener("click", closeLightbox);
+lightboxPreviousButton?.addEventListener("click", () => moveLightbox(-1));
+lightboxNextButton?.addEventListener("click", () => moveLightbox(1));
+lightbox?.addEventListener("click", (event) => {
+if (event.target === lightbox) closeLightbox();
+});
+document.addEventListener("keydown", (event) => {
+if (!lightboxIsOpen()) return;
+if (event.key === "Escape") {
+event.preventDefault();
+closeLightbox();
+} else if (event.key === "ArrowLeft") {
+event.preventDefault();
+moveLightbox(-1);
+} else if (event.key === "ArrowRight") {
+event.preventDefault();
+moveLightbox(1);
+} else if (event.key === "Tab") {
+const controls = [lightboxCloseButton, lightboxPreviousButton, lightboxNextButton].filter((control) => control && !control.hidden);
+if (!controls.length) return;
+const firstControl = controls[0];
+const lastControl = controls[controls.length - 1];
+if (event.shiftKey && document.activeElement === firstControl) {
+event.preventDefault();
+lastControl.focus();
+} else if (!event.shiftKey && document.activeElement === lastControl) {
+event.preventDefault();
+firstControl.focus();
+}
+}
+});
 const cursorLight = document.querySelector(".cursor-light");
 if (finePointerQuery.matches && cursorLight) {
 let cursorX = -100;

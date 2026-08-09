@@ -24,7 +24,7 @@ rel="stylesheet"
 />
 <link rel="preload" as="image" href="./assets/trips/italy-2026/cinque-terre-cover.jpg" fetchpriority="high" />
 <script>document.documentElement.classList.replace("no-js", "js");</script>
-<link rel="stylesheet" href="./styles.css?v=20260808-gallery-grid" />
+<link rel="stylesheet" href="./styles.css?v=20260809-photo-lightbox" />
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -464,6 +464,18 @@ structure, honesty, and a result that earns attention.
 </div>
 </div>
 </footer>
-<script src="./script.js?v=20260803-force-motion"></script>
+<div class="photo-lightbox" data-lightbox role="dialog" aria-modal="true" aria-label="Photo viewer" aria-hidden="true" hidden>
+<button class="photo-lightbox__close" type="button" data-lightbox-close aria-label="Close photo viewer">×</button>
+<button class="photo-lightbox__nav photo-lightbox__nav--previous" type="button" data-lightbox-prev aria-label="Previous photo">←</button>
+<figure class="photo-lightbox__stage">
+<img class="photo-lightbox__image" data-lightbox-image alt="" />
+<figcaption class="photo-lightbox__meta">
+<span data-lightbox-caption></span>
+<span data-lightbox-counter aria-live="polite"></span>
+</figcaption>
+</figure>
+<button class="photo-lightbox__nav photo-lightbox__nav--next" type="button" data-lightbox-next aria-label="Next photo">→</button>
+</div>
+<script src="./script.js?v=20260809-photo-lightbox"></script>
 </body>
 </html>
