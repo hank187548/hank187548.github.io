@@ -32,29 +32,28 @@ max-width: 100%;
 .case-description,
 .story-title em,
 .footer-meta p,
-.case-copy h3,
-.case-kicker,
-.profile-grid h2 {
+.case-kicker {
 overflow-wrap: anywhere;
 }
 .profile::before {
 right: max(0px, calc((100% - var(--shell)) / 2));
 }
 .profile-grid {
-grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.62fr);
-gap: clamp(44px, 6vw, 108px);
+grid-template-columns: minmax(0, 1fr) max-content;
+gap: clamp(48px, 6vw, 96px);
 }
 .profile-copy {
 width: 100%;
-max-width: 400px;
+max-width: none;
 justify-self: end;
 padding: 0 clamp(12px, 1.2vw, 18px) 8px 0;
 }
 .profile-copy p {
-max-width: 42ch;
+max-width: none;
+white-space: nowrap;
 }
 .work-heading {
-grid-template-columns: minmax(0, 1.45fr) minmax(260px, 0.52fr);
+grid-template-columns: 1fr;
 gap: clamp(44px, 6vw, 108px);
 }
 .stories-heading {
@@ -128,6 +127,7 @@ padding-right: 0;
 }
 .profile-copy p {
 max-width: 100%;
+white-space: normal;
 }
 }
 @media (max-width: 430px) {
