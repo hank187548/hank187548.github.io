@@ -180,7 +180,7 @@ const mobileMenu = document.querySelector(".mobile-menu");
 const mobileMenuLinks = mobileMenu ? [...mobileMenu.querySelectorAll("a[href]")] : [];
 const navLinks = [...document.querySelectorAll('.desktop-nav a[href^="#"]')];
 const sectionTargets = [...document.querySelectorAll("[data-section-theme]")];
-const reducedMotion = () => false;
+const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 let menuLastFocus = null;
 document.querySelectorAll("[data-year]").forEach((item) => {
 item.textContent = String(new Date().getFullYear());
@@ -331,7 +331,7 @@ heroSlides.forEach((slide, slideIndex) => {
 slide.classList.toggle("is-active", slideIndex === activeHeroIndex);
 });
 if (heroCurrent) heroCurrent.textContent = formatIndex(activeHeroIndex);
-if (heroTotal) heroTotal.textContent = formatIndex(heroSlides.length - 1);
+if (heroTotal) heroTotal.textContent = String(heroSlides.length).padStart(2, "0");
 if (heroLabel) heroLabel.textContent = heroSlides[activeHeroIndex].dataset.label || "Visual archive";
 if (restart) startHeroTimer();
 }
@@ -368,6 +368,114 @@ else startHeroTimer();
 });
 setHeroSlide(0, false);
 startHeroTimer();
+
+const coverflow = document.querySelector("[data-coverflow]");
+const coverflowStage = coverflow?.querySelector("[data-coverflow-stage]");
+const travelCards = coverflow ? [...coverflow.querySelectorAll("[data-travel-card]")] : [];
+const coverflowPreviousButton = coverflow?.querySelector("[data-coverflow-prev]");
+const coverflowNextButton = coverflow?.querySelector("[data-coverflow-next]");
+const coverflowCurrent = coverflow?.querySelector("[data-coverflow-current]");
+const coverflowLabel = coverflow?.querySelector("[data-coverflow-label]");
+let activeTravelIndex = 0;
+let coverflowPointerId = null;
+let coverflowDragStart = 0;
+let coverflowDragDistance = 0;
+let coverflowWasDragged = false;
+function wrappedCardDistance(index) {
+let distance = index - activeTravelIndex;
+const midpoint = travelCards.length / 2;
+if (distance > midpoint) distance -= travelCards.length;
+if (distance < -midpoint) distance += travelCards.length;
+return distance;
+}
+function travelCardLabel(card) {
+return card.dataset.title || "Journey";
+}
+function renderCoverflow() {
+if (!coverflowStage || !travelCards.length) return;
+const isMobile = window.innerWidth <= 720;
+const isTablet = window.innerWidth <= 960;
+const spacing = isMobile
+? Math.min(coverflowStage.clientWidth * 0.56, 190)
+: isTablet
+? Math.min(coverflowStage.clientWidth * 0.31, 235)
+: Math.min(coverflowStage.clientWidth * 0.245, 320);
+travelCards.forEach((card, index) => {
+const distance = wrappedCardDistance(index);
+const absoluteDistance = Math.abs(distance);
+const direction = Math.sign(distance);
+const hiddenDistance = isMobile ? 2 : 3;
+card.style.setProperty("--travel-x", `${distance * spacing}px`);
+card.style.setProperty("--travel-z", `${-absoluteDistance * (isMobile ? 130 : 180)}px`);
+card.style.setProperty("--travel-rotate", `${direction * (isMobile ? -34 : -42)}deg`);
+card.style.setProperty("--travel-scale", String(Math.max(0.7, 1 - absoluteDistance * (isMobile ? 0.09 : 0.08))));
+card.style.setProperty("--travel-opacity", String(absoluteDistance > hiddenDistance ? 0 : Math.max(0.3, 1 - absoluteDistance * 0.18)));
+card.style.zIndex = String(20 - absoluteDistance);
+card.classList.toggle("is-active", index === activeTravelIndex);
+card.tabIndex = index === activeTravelIndex ? 0 : -1;
+card.setAttribute("aria-hidden", String(absoluteDistance > hiddenDistance));
+});
+if (coverflowCurrent) coverflowCurrent.textContent = formatIndex(activeTravelIndex);
+if (coverflowLabel) coverflowLabel.textContent = travelCardLabel(travelCards[activeTravelIndex]);
+}
+function setActiveTravel(index, focusCard = false) {
+if (!travelCards.length) return;
+activeTravelIndex = (index + travelCards.length) % travelCards.length;
+renderCoverflow();
+if (focusCard) travelCards[activeTravelIndex]?.focus({ preventScroll: true });
+}
+coverflowPreviousButton?.addEventListener("click", () => setActiveTravel(activeTravelIndex - 1));
+coverflowNextButton?.addEventListener("click", () => setActiveTravel(activeTravelIndex + 1));
+travelCards.forEach((card, index) => {
+card.addEventListener("click", (event) => {
+if (coverflowWasDragged) {
+event.preventDefault();
+coverflowWasDragged = false;
+return;
+}
+if (index === activeTravelIndex) return;
+event.preventDefault();
+setActiveTravel(index, true);
+});
+});
+coverflow?.addEventListener("keydown", (event) => {
+if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+event.preventDefault();
+setActiveTravel(activeTravelIndex + (event.key === "ArrowRight" ? 1 : -1), true);
+});
+coverflowStage?.addEventListener("wheel", (event) => {
+if (Math.abs(event.deltaX) <= Math.abs(event.deltaY) && !event.shiftKey) return;
+event.preventDefault();
+setActiveTravel(activeTravelIndex + (event.deltaX + event.deltaY > 0 ? 1 : -1));
+}, { passive: false });
+coverflowStage?.addEventListener("pointerdown", (event) => {
+if (event.pointerType === "mouse" && event.button !== 0) return;
+coverflowPointerId = event.pointerId;
+coverflowDragStart = event.clientX;
+coverflowDragDistance = 0;
+coverflowWasDragged = false;
+coverflow?.classList.add("is-dragging");
+coverflowStage.setPointerCapture?.(event.pointerId);
+});
+coverflowStage?.addEventListener("pointermove", (event) => {
+if (coverflowPointerId !== event.pointerId) return;
+coverflowDragDistance = event.clientX - coverflowDragStart;
+if (Math.abs(coverflowDragDistance) > 8) coverflowWasDragged = true;
+});
+function finishCoverflowDrag(event) {
+if (coverflowPointerId !== event.pointerId) return;
+if (Math.abs(coverflowDragDistance) > 42) {
+setActiveTravel(activeTravelIndex + (coverflowDragDistance < 0 ? 1 : -1));
+}
+coverflowPointerId = null;
+coverflow?.classList.remove("is-dragging");
+window.setTimeout(() => { coverflowWasDragged = false; }, 0);
+}
+coverflowStage?.addEventListener("pointerup", finishCoverflowDrag);
+coverflowStage?.addEventListener("pointercancel", finishCoverflowDrag);
+window.addEventListener("resize", renderCoverflow, { passive: true });
+renderCoverflow();
+
 function loadPanelMedia(panel) {
 panel.querySelectorAll("img[data-src]").forEach((image) => {
 const source = image.getAttribute("data-src");

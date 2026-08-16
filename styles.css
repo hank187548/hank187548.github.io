@@ -2018,3 +2018,457 @@ transform: translate3d(0, var(--hero-parallax, 0px), 0) scale(1.055);
     grid-column: 1 / -1;
   }
 }
+
+/* World map hero / travel coverflow */
+.hero-map {
+position: absolute;
+inset: 0;
+z-index: -4;
+overflow: hidden;
+background:
+radial-gradient(circle at 76% 42%, rgba(199, 255, 61, 0.1), transparent 29%),
+radial-gradient(circle at 50% 62%, rgba(98, 145, 117, 0.09), transparent 36%),
+#070907;
+}
+.hero-map__halo {
+position: absolute;
+inset: 8% 2% 4% 24%;
+border-radius: 50%;
+background: radial-gradient(circle, rgba(199, 255, 61, 0.08), transparent 66%);
+filter: blur(26px);
+}
+.hero-map__grid {
+position: absolute;
+inset: 0;
+opacity: 0.2;
+background-image:
+linear-gradient(rgba(243, 246, 237, 0.13) 1px, transparent 1px),
+linear-gradient(90deg, rgba(243, 246, 237, 0.13) 1px, transparent 1px);
+background-size: 8vw 8vw;
+mask-image: linear-gradient(90deg, transparent 8%, #000 42%, #000 100%);
+}
+.hero-map__projection {
+position: absolute;
+top: 50%;
+right: -3vw;
+width: min(90vw, 1540px);
+aspect-ratio: 1357 / 628;
+transform: translateY(-49%) translate3d(0, var(--hero-parallax, 0px), 0);
+}
+.hero-map__image {
+position: absolute;
+inset: 0;
+width: 100%;
+height: 100%;
+object-fit: fill;
+opacity: 0.46;
+filter: invert(1) sepia(0.9) saturate(3.5) hue-rotate(29deg) brightness(0.68) contrast(1.25);
+mix-blend-mode: screen;
+}
+.hero-map__base,
+.hero-map__stop {
+position: absolute;
+top: var(--map-y);
+left: var(--map-x);
+z-index: 2;
+font-family: var(--mono);
+text-transform: uppercase;
+transform: translate(-50%, -50%);
+}
+.hero-map__base i,
+.hero-map__stop i {
+position: absolute;
+top: 50%;
+left: 50%;
+display: block;
+width: 9px;
+height: 9px;
+border: 2px solid #080a08;
+border-radius: 50%;
+background: rgba(243, 246, 237, 0.64);
+box-shadow: 0 0 0 1px rgba(243, 246, 237, 0.34);
+transform: translate(-50%, -50%);
+transition: all 700ms var(--ease-out);
+}
+.hero-map__base i {
+width: 11px;
+height: 11px;
+background: var(--accent);
+box-shadow:
+0 0 0 1px rgba(199, 255, 61, 0.52),
+0 0 0 8px rgba(199, 255, 61, 0.08),
+0 0 28px rgba(199, 255, 61, 0.55);
+}
+.hero-map__base span,
+.hero-map__stop span,
+.hero-map__stop small {
+position: absolute;
+left: 15px;
+width: max-content;
+white-space: nowrap;
+}
+.hero-map__base span {
+top: -22px;
+color: rgba(243, 246, 237, 0.56);
+font-size: 0.55rem;
+letter-spacing: 0.08em;
+}
+.hero-map__stop span {
+top: -27px;
+font-size: 0.63rem;
+font-weight: 500;
+letter-spacing: 0.06em;
+opacity: 0;
+transform: translateY(7px);
+transition: opacity 420ms ease, transform 520ms var(--ease-out);
+}
+.hero-map__stop small {
+top: -11px;
+color: var(--accent);
+font-size: 0.5rem;
+letter-spacing: 0.08em;
+opacity: 0;
+transform: translateY(7px);
+transition: opacity 420ms ease 70ms, transform 520ms var(--ease-out) 70ms;
+}
+.hero-map__stop::after {
+content: "";
+position: absolute;
+inset: -16px;
+border: 1px solid rgba(199, 255, 61, 0.42);
+border-radius: 50%;
+opacity: 0;
+transform: scale(0.25);
+}
+.hero-map__stop.is-active {
+z-index: 3;
+}
+.hero-map__stop.is-active i {
+width: 13px;
+height: 13px;
+background: var(--accent);
+box-shadow:
+0 0 0 1px rgba(199, 255, 61, 0.8),
+0 0 0 9px rgba(199, 255, 61, 0.1),
+0 0 34px rgba(199, 255, 61, 0.9);
+}
+.hero-map__stop.is-active span,
+.hero-map__stop.is-active small {
+opacity: 1;
+transform: translateY(0);
+}
+.hero-map__stop.is-active::after {
+animation: mapPulse 2.4s ease-out infinite;
+}
+@keyframes mapPulse {
+0% { opacity: 0.75; transform: scale(0.3); }
+75%, 100% { opacity: 0; transform: scale(1.5); }
+}
+.hero-shade {
+background:
+linear-gradient(90deg, rgba(7, 9, 7, 0.97) 0%, rgba(7, 9, 7, 0.82) 30%, rgba(7, 9, 7, 0.27) 64%, rgba(7, 9, 7, 0.46) 100%),
+linear-gradient(180deg, rgba(7, 9, 7, 0.6) 0%, transparent 34%, rgba(7, 9, 7, 0.84) 100%);
+}
+.stories {
+overflow: hidden;
+background:
+radial-gradient(circle at 50% 46%, rgba(199, 255, 61, 0.055), transparent 34%),
+var(--paper);
+}
+.story-list[hidden] {
+display: none !important;
+}
+.travel-coverflow {
+position: relative;
+width: 100%;
+padding-bottom: 18px;
+outline: none;
+touch-action: pan-y;
+user-select: none;
+}
+.travel-coverflow:focus-visible {
+outline: 1px solid var(--accent);
+outline-offset: 12px;
+}
+.travel-coverflow__stage {
+position: relative;
+height: clamp(500px, 54vw, 720px);
+perspective: 1500px;
+perspective-origin: 50% 45%;
+cursor: grab;
+}
+.travel-coverflow.is-dragging .travel-coverflow__stage {
+cursor: grabbing;
+}
+.travel-card {
+--travel-x: 0px;
+--travel-z: 0px;
+--travel-rotate: 0deg;
+--travel-scale: 1;
+--travel-opacity: 1;
+position: absolute;
+top: 50%;
+left: 50%;
+display: block;
+width: clamp(230px, 25vw, 370px);
+aspect-ratio: 0.72;
+overflow: hidden;
+border: 1px solid rgba(243, 246, 237, 0.22);
+border-radius: clamp(18px, 2vw, 30px);
+opacity: var(--travel-opacity);
+background: #0b0d0b;
+box-shadow: 0 32px 90px rgba(0, 0, 0, 0.36);
+transform:
+translate(-50%, -50%)
+translate3d(var(--travel-x), 0, var(--travel-z))
+rotateY(var(--travel-rotate))
+scale(var(--travel-scale));
+transform-style: preserve-3d;
+transition:
+transform 760ms var(--ease-out),
+opacity 460ms ease,
+filter 540ms ease,
+border-color 420ms ease,
+box-shadow 560ms ease;
+will-change: transform, opacity;
+}
+.travel-card img,
+.travel-card__shade {
+position: absolute;
+inset: 0;
+}
+.travel-card img {
+height: 100%;
+object-fit: cover;
+filter: saturate(0.76) contrast(1.06) brightness(0.78);
+transform: scale(1.035);
+transition: transform 1000ms var(--ease-out), filter 600ms ease;
+pointer-events: none;
+}
+.travel-card__shade {
+background:
+linear-gradient(180deg, rgba(5, 7, 5, 0.18) 8%, transparent 38%, rgba(5, 7, 5, 0.9) 100%),
+linear-gradient(90deg, rgba(5, 7, 5, 0.28), transparent 58%);
+}
+.travel-card__number {
+position: absolute;
+top: 22px;
+left: 24px;
+font-family: var(--mono);
+font-size: 0.62rem;
+letter-spacing: 0.08em;
+}
+.travel-card__copy {
+position: absolute;
+right: 24px;
+bottom: 72px;
+left: 24px;
+display: grid;
+gap: 10px;
+}
+.travel-card__copy small {
+font-family: var(--mono);
+font-size: 0.57rem;
+font-weight: 500;
+letter-spacing: 0.06em;
+text-transform: uppercase;
+}
+.travel-card__copy strong {
+font-family: var(--serif);
+font-size: clamp(2.35rem, 3.8vw, 4rem);
+font-weight: 400;
+line-height: 0.88;
+letter-spacing: -0.045em;
+}
+.travel-card__copy em {
+font-size: 0.72rem;
+font-style: normal;
+line-height: 1.45;
+opacity: 0.72;
+}
+.travel-card__open {
+position: absolute;
+right: 24px;
+bottom: 24px;
+left: 24px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding-top: 13px;
+border-top: 1px solid rgba(243, 246, 237, 0.28);
+font-family: var(--mono);
+font-size: 0.58rem;
+letter-spacing: 0.06em;
+text-transform: uppercase;
+opacity: 0;
+transform: translateY(8px);
+transition: opacity 380ms ease, transform 480ms var(--ease-out);
+}
+.travel-card__open i {
+font-size: 1rem;
+font-style: normal;
+}
+.travel-card.is-active {
+border-color: rgba(199, 255, 61, 0.64);
+box-shadow:
+0 34px 100px rgba(0, 0, 0, 0.58),
+0 0 70px rgba(199, 255, 61, 0.08);
+}
+.travel-card.is-active img {
+filter: saturate(0.96) contrast(1.03) brightness(0.88);
+}
+.travel-card.is-active:hover img,
+.travel-card.is-active:focus-visible img {
+transform: scale(1.085);
+filter: saturate(1.06) contrast(1.02) brightness(0.92);
+}
+.travel-card.is-active .travel-card__open {
+opacity: 1;
+transform: translateY(0);
+}
+.travel-card:not(.is-active) {
+filter: saturate(0.72) brightness(0.72);
+}
+.travel-coverflow__controls {
+display: grid;
+width: min(760px, 100%);
+margin: -10px auto 0;
+grid-template-columns: 44px minmax(100px, 150px) 1fr 44px;
+gap: 18px;
+align-items: center;
+}
+.travel-coverflow__controls button {
+display: grid;
+width: 44px;
+height: 44px;
+place-items: center;
+border: 1px solid var(--line-light);
+border-radius: 50%;
+color: var(--white);
+background: transparent;
+cursor: pointer;
+transition: color 260ms ease, background 260ms ease, transform 320ms var(--ease-out);
+}
+.travel-coverflow__controls button:hover,
+.travel-coverflow__controls button:focus-visible {
+color: var(--ink);
+background: var(--accent);
+transform: scale(1.07);
+}
+.travel-coverflow__status {
+display: flex;
+align-items: center;
+gap: 10px;
+font-family: var(--mono);
+font-size: 0.62rem;
+}
+.travel-coverflow__status i {
+width: 62px;
+height: 1px;
+background: var(--line-light);
+}
+.travel-coverflow__controls p {
+font-family: var(--mono);
+font-size: 0.66rem;
+letter-spacing: 0.04em;
+text-align: center;
+text-transform: uppercase;
+}
+.travel-coverflow__hint {
+margin-top: 20px;
+color: rgba(243, 246, 237, 0.42);
+font-family: var(--mono);
+font-size: 0.56rem;
+letter-spacing: 0.08em;
+text-align: center;
+text-transform: uppercase;
+}
+@media (max-width: 960px) {
+.hero-map__projection {
+right: -22vw;
+width: 120vw;
+}
+.hero-map__image {
+opacity: 0.37;
+}
+.travel-coverflow__stage {
+height: clamp(500px, 74vw, 650px);
+}
+.travel-card {
+width: clamp(220px, 38vw, 330px);
+}
+}
+@media (max-width: 720px) {
+.hero-map__projection {
+top: 31%;
+right: -52vw;
+width: 170vw;
+opacity: 0.92;
+}
+.hero-map__image {
+opacity: 0.54;
+}
+.hero-map__grid {
+background-size: 22vw 22vw;
+}
+.hero-map__base span,
+.hero-map__stop span,
+.hero-map__stop small {
+font-size: 0.45rem;
+}
+.hero-shade {
+background:
+linear-gradient(180deg, rgba(7, 9, 7, 0.78) 0%, rgba(7, 9, 7, 0.36) 46%, rgba(7, 9, 7, 0.92) 100%),
+linear-gradient(90deg, rgba(7, 9, 7, 0.9), transparent 92%);
+}
+.stories-heading {
+margin-bottom: 52px;
+}
+.travel-coverflow {
+width: calc(100% + 32px);
+margin-left: -16px;
+}
+.travel-coverflow__stage {
+height: 455px;
+}
+.travel-card {
+width: min(68vw, 290px);
+border-radius: 20px;
+}
+.travel-card__copy {
+right: 18px;
+bottom: 64px;
+left: 18px;
+}
+.travel-card__copy strong {
+font-size: clamp(2.2rem, 11vw, 3.4rem);
+}
+.travel-card__number {
+top: 18px;
+left: 18px;
+}
+.travel-card__open {
+right: 18px;
+bottom: 18px;
+left: 18px;
+}
+.travel-coverflow__controls {
+width: calc(100% - 32px);
+grid-template-columns: 42px 1fr 42px;
+gap: 12px;
+}
+.travel-coverflow__status {
+display: none;
+}
+.travel-coverflow__controls p {
+font-size: 0.58rem;
+}
+}
+@media (prefers-reduced-motion: reduce) {
+.hero-map__stop.is-active::after {
+animation: none;
+}
+.travel-card {
+transition-duration: 1ms;
+}
+}

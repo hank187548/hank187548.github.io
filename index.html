@@ -22,9 +22,9 @@ content="Hank's portfolio: quantitative research, machine learning systems, comp
 href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap"
 rel="stylesheet"
 />
-<link rel="preload" as="image" href="./assets/trips/italy-2026/cinque-terre-cover.jpg" fetchpriority="high" />
+<link rel="preload" as="image" href="./assets/maps/world-map.png" fetchpriority="high" />
 <script>document.documentElement.classList.replace("no-js", "js");</script>
-<link rel="stylesheet" href="./styles.css?v=20260810-mobile-type" />
+<link rel="stylesheet" href="./styles.css?v=20260816-travel-map" />
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -38,7 +38,7 @@ rel="stylesheet"
 <nav class="desktop-nav" aria-label="Primary navigation">
 <a href="#profile">Profile</a>
 <a href="#work">Work</a>
-<a href="#stories">Stories</a>
+<a href="#stories">Travel</a>
 <a href="#contact">Contact</a>
 </nav>
 <div class="header-meta" aria-hidden="true">
@@ -56,7 +56,7 @@ rel="stylesheet"
 <nav aria-label="Mobile navigation">
 <a href="#profile"><span>01</span>Profile</a>
 <a href="#work"><span>02</span>Work</a>
-<a href="#stories"><span>03</span>Stories</a>
+<a href="#stories"><span>03</span>Travel</a>
 <a href="#contact"><span>04</span>Contact</a>
 </nav>
 <div class="mobile-menu__footer">
@@ -66,22 +66,28 @@ rel="stylesheet"
 </div>
 <main id="main">
 <section class="hero" id="top" data-section-theme="dark" aria-labelledby="hero-title">
-<div class="hero-media" aria-hidden="true">
-<figure class="hero-slide is-active" data-hero-slide data-label="Cinque Terre / 2026">
-<img src="./assets/trips/italy-2026/cinque-terre-cover.jpg" alt="" fetchpriority="high" decoding="async" />
-</figure>
-<figure class="hero-slide" data-hero-slide data-label="Tibet / 2025">
-<img src="./assets/trips/china-japan/Tibet_landscape_2.jpg" alt="" loading="lazy" decoding="async" />
-</figure>
-<figure class="hero-slide" data-hero-slide data-label="Chongqing / 2025">
-<img src="./assets/trips/china-japan/Chongqing_night.jpg" alt="" loading="lazy" decoding="async" />
-</figure>
-<figure class="hero-slide" data-hero-slide data-label="Okinawa / Open Water">
-<img src="./assets/trips/diving/Diving_in_okinawa.jpg" alt="" loading="lazy" decoding="async" />
-</figure>
-<figure class="hero-slide" data-hero-slide data-label="Sydney / Australia">
-<img src="./assets/trips/bali-australia/Sydney.jpg" alt="" loading="lazy" decoding="async" />
-</figure>
+<div class="hero-map" aria-hidden="true">
+<div class="hero-map__halo"></div>
+<div class="hero-map__grid"></div>
+<div class="hero-map__projection">
+<img class="hero-map__image" src="./assets/maps/world-map.png" alt="" fetchpriority="high" decoding="async" />
+<div class="hero-map__base" style="--map-x: 83.8%; --map-y: 36.1%;"><i></i><span>Taipei / Base</span></div>
+<div class="hero-map__stop is-active" data-hero-slide data-label="Italy / 2026" style="--map-x: 53.5%; --map-y: 26.2%; --route-angle: 15deg; --route-length: 31%;">
+<i></i><span>Italy</span><small>2026</small>
+</div>
+<div class="hero-map__stop" data-hero-slide data-label="Tibet · Chongqing · Japan / 2025" style="--map-x: 75.3%; --map-y: 33.6%; --route-angle: 10deg; --route-length: 9%;">
+<i></i><span>Asia overland</span><small>2025</small>
+</div>
+<div class="hero-map__stop" data-hero-slide data-label="Okinawa / Open water" style="--map-x: 85.5%; --map-y: 35.4%; --route-angle: -8deg; --route-length: 5%;">
+<i></i><span>Okinawa</span><small>Open water</small>
+</div>
+<div class="hero-map__stop" data-hero-slide data-label="Bali · Sydney · Uluru" style="--map-x: 88.8%; --map-y: 63.2%; --route-angle: -80deg; --route-length: 28%;">
+<i></i><span>Bali + Australia</span><small>Southbound</small>
+</div>
+<div class="hero-map__stop" data-hero-slide data-label="Thailand · Vietnam" style="--map-x: 79.2%; --map-y: 43.2%; --route-angle: -62deg; --route-length: 9%;">
+<i></i><span>Thailand + Vietnam</span><small>Friends & streets</small>
+</div>
+</div>
 </div>
 <div class="hero-shade" aria-hidden="true"></div>
 <div class="hero-grain" aria-hidden="true"></div>
@@ -114,7 +120,7 @@ I build market and machine-learning systems, then document life beyond the scree
 <i></i>
 <span data-hero-total>05</span>
 </div>
-<p data-hero-label>Cinque Terre / 2026</p>
+<p data-hero-label>Italy / 2026</p>
 <button type="button" class="hero-index__button" data-hero-next aria-label="Next image">→</button>
 </div>
 <a class="scroll-cue" href="#profile" aria-label="Scroll to profile">
@@ -234,15 +240,61 @@ Practical experiments in detection, tracking, and classification.
 <div class="shell">
 <div class="section-marker" data-reveal>
 <span>03</span>
-<p>Visual archive</p>
+<p>Travel archive</p>
 </div>
 <div class="stories-heading">
-<h2 id="stories-title" data-reveal><em>Life.</em></h2>
+<h2 id="stories-title" data-reveal>Travel, <em>in motion.</em></h2>
 <p data-reveal>
-Travel, diving, and life in between.
+Each card is a journey. Move through the archive, then open one to see the full route.
 </p>
 </div>
-<div class="story-list">
+<div class="travel-coverflow" data-coverflow data-reveal tabindex="0" aria-label="Travel journeys carousel">
+<div class="travel-coverflow__stage" data-coverflow-stage>
+<a class="travel-card is-active" data-travel-card data-title="Italy, in motion." href="./travel/italy-2026/" aria-label="Open Italy 2026 journey">
+<img src="./assets/trips/italy-2026/cinque-terre-cover.jpg" alt="Cinque Terre village on the Ligurian coast" decoding="async" />
+<span class="travel-card__shade" aria-hidden="true"></span>
+<span class="travel-card__number">01</span>
+<span class="travel-card__copy"><small>Jun 21—Jul 06 · 2026</small><strong>Italy,<br />in motion.</strong><em>Milano → Roma → Firenze → Cinque Terre</em></span>
+<span class="travel-card__open">Open journey <i>↗</i></span>
+</a>
+<a class="travel-card" data-travel-card data-title="Asia overland." href="./travel/asia-2025/" aria-label="Open Asia overland 2025 journey">
+<img src="./assets/trips/china-japan/Tibet_landscape_2.jpg" alt="Mountain landscape in Tibet" loading="lazy" decoding="async" />
+<span class="travel-card__shade" aria-hidden="true"></span>
+<span class="travel-card__number">02</span>
+<span class="travel-card__copy"><small>Travel chapter · 2025</small><strong>Asia<br />overland.</strong><em>Taiwan → Tibet → Chongqing → Japan</em></span>
+<span class="travel-card__open">Open journey <i>↗</i></span>
+</a>
+<a class="travel-card" data-travel-card data-title="Okinawa blue." href="./travel/okinawa/" aria-label="Open Okinawa open water journey">
+<img src="./assets/trips/diving/Diving_in_okinawa.jpg" alt="Diving in Okinawa" loading="lazy" decoding="async" />
+<span class="travel-card__shade" aria-hidden="true"></span>
+<span class="travel-card__number">03</span>
+<span class="travel-card__copy"><small>Diving · Open water</small><strong>Okinawa<br />blue.</strong><em>Training below the surface</em></span>
+<span class="travel-card__open">Open journey <i>↗</i></span>
+</a>
+<a class="travel-card" data-travel-card data-title="Southbound." href="./travel/bali-australia/" aria-label="Open Bali and Australia journey">
+<img src="./assets/trips/bali-australia/Sydney.jpg" alt="Sydney Harbour and Opera House" loading="lazy" decoding="async" />
+<span class="travel-card__shade" aria-hidden="true"></span>
+<span class="travel-card__number">04</span>
+<span class="travel-card__copy"><small>Bali · Sydney · Uluru</small><strong>South<br />bound.</strong><em>Beach, surf, road, and red earth</em></span>
+<span class="travel-card__open">Open journey <i>↗</i></span>
+</a>
+<a class="travel-card" data-travel-card data-title="Friends &amp; streets." href="./travel/thailand-vietnam/" aria-label="Open Thailand and Vietnam journey">
+<img src="./assets/trips/thailand-vietnam/Thai.jpg" alt="Thailand travel moment" loading="lazy" decoding="async" />
+<span class="travel-card__shade" aria-hidden="true"></span>
+<span class="travel-card__number">05</span>
+<span class="travel-card__copy"><small>Thailand · Vietnam</small><strong>Friends &amp;<br />streets.</strong><em>Night markets and local guides</em></span>
+<span class="travel-card__open">Open journey <i>↗</i></span>
+</a>
+</div>
+<div class="travel-coverflow__controls">
+<button type="button" data-coverflow-prev aria-label="Previous journey">←</button>
+<div class="travel-coverflow__status" aria-live="polite"><span data-coverflow-current>01</span><i></i><span>05</span></div>
+<p data-coverflow-label>Italy, in motion.</p>
+<button type="button" data-coverflow-next aria-label="Next journey">→</button>
+</div>
+<p class="travel-coverflow__hint">Drag · swipe · use arrow keys</p>
+</div>
+<div class="story-list" hidden aria-hidden="true">
 <details class="story-card story-card--feature story-card--italy" id="italy-2026" data-story data-reveal>
 <summary>
 <img src="./assets/trips/italy-2026/cinque-terre-cover.jpg" alt="Cinque Terre village on the Ligurian coast" decoding="async" />
@@ -456,6 +508,6 @@ From Taiwan to Tibet, Chongqing, and Japan.
 </figure>
 <button class="photo-lightbox__nav photo-lightbox__nav--next" type="button" data-lightbox-next aria-label="Next photo">→</button>
 </div>
-<script src="./script.js?v=20260810-black-neon"></script>
+<script src="./script.js?v=20260816-travel-map"></script>
 </body>
 </html>

@@ -2,10 +2,10 @@
 
 This repository contains the source for Hank's personal website, published with GitHub Pages.
 
-The main site is organized around Hank as the central subject: travel,
-diving, friends, lab life, everyday memories, and professional work. Larger
-experiences are grouped into expandable story chapters with timelines, notes,
-photos, and clips.
+The homepage combines quantitative-research work with a visual travel archive.
+The hero uses a world map with visited destinations, while Travel is presented
+as an interactive 3D coverflow. Each card opens a dedicated journey page with
+its own route, timeline, photographs, and clips.
 
 One current story chapter covers the route:
 
@@ -18,7 +18,7 @@ Pisa, and Cinque Terre, using a curated set of web-optimized photos, MP4 clips,
 and lightweight video posters.
 
 That route is one chapter inside the life log, not the whole site. Professional
-material is still included, but it lives in one compact expandable work section.
+material remains available in the selected-work section.
 
 The work section highlights:
 
@@ -37,7 +37,8 @@ https://hank187548.github.io/
 
 - `index.html`: Main life log page
 - `styles.css`: Responsive visual design and layout
-- `script.js`: Scroll reveal animation and expandable chapter navigation
+- `script.js`: Homepage navigation, world-map rotation, and Travel coverflow interaction
+- `travel/`: Dedicated static journey pages plus their shared gallery styles and behavior
 - `convert_heic_to_jpg.py`: Helper script for converting HEIC/HEIF images to JPG
 - `CV1_Hank_quant.pdf`: Downloadable CV
 - `assets/photos/`: Web-optimized travel, life, and lab photos used by the site
@@ -45,6 +46,7 @@ https://hank187548.github.io/
 - `assets/trips/italy-2026/`: Curated and web-optimized media for the 2026 Italy story chapter
 - `assets/videos/`: Short MP4 clips used by the Motion Notes section
 - `assets/video-posters/`: Lightweight poster images for the video cards
+- `assets/maps/world-map.png`: Public-domain blank world map used by the homepage hero
 - `.nojekyll`: Ensures GitHub Pages serves static files directly
 
 ## Local Preview
@@ -98,6 +100,7 @@ GitHub Pages will rebuild the site automatically after the push.
 ## Notes
 
 - The homepage is fully static and does not require a backend.
+- The world map is based on Wikimedia Commons `Blank-Map-World.png`, released into the public domain.
 - The CV file is served directly from the repository.
 - Contact links currently include email, GitHub, and the downloadable CV.
 - `Videoplusimage/` is ignored by Git. Move publishable media into `assets/` before referencing it from `index.html`.
