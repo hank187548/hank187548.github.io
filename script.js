@@ -142,11 +142,8 @@ display: none;
 }
 `;
 document.head.append(style);
-const order = ["profile", "stories", "work", "contact"];
-const main = document.querySelector("main");
+const order = ["profile", "stories", "contact"];
 const stories = document.getElementById("stories");
-const work = document.getElementById("work");
-if (main && stories && work) main.insertBefore(stories, work);
 [document.querySelector(".desktop-nav"), document.querySelector(".mobile-menu nav")].forEach((nav) => {
 if (!nav) return;
 order.forEach((id) => {
@@ -154,7 +151,7 @@ const link = nav.querySelector(`a[href="#${id}"]`);
 if (link) nav.append(link);
 });
 });
-const mobileNumbers = { profile: "01", stories: "02", work: "03", contact: "04" };
+const mobileNumbers = { profile: "01", stories: "02", contact: "03" };
 document.querySelectorAll('.mobile-menu nav a[href^="#"]').forEach((link) => {
 const id = link.getAttribute("href")?.slice(1);
 const number = link.querySelector("span");
@@ -164,9 +161,7 @@ const heroActions = document.querySelector(".hero-actions");
 const archiveAction = heroActions?.querySelector('a[href="#stories"]');
 if (heroActions && archiveAction) heroActions.prepend(archiveAction);
 const storyMarker = stories?.querySelector(".section-marker span");
-const workMarker = work?.querySelector(".section-marker span");
 if (storyMarker) storyMarker.textContent = "02";
-if (workMarker) workMarker.textContent = "03";
 }
 installLayoutRefinements();
 const documentElement = document.documentElement;
@@ -273,7 +268,7 @@ rootMargin: "-32% 0px -58% 0px",
 threshold: 0,
 }
 );
-["profile", "work", "stories", "contact"].forEach((id) => {
+["profile", "stories", "contact"].forEach((id) => {
 const target = document.getElementById(id);
 if (target) activeObserver.observe(target);
 });

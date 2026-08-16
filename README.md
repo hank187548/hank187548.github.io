@@ -1,11 +1,11 @@
-# Hank Life Log
+# Hank Travel & Life Archive
 
 This repository contains the source for Hank's personal website, published with GitHub Pages.
 
-The homepage combines quantitative-research work with a visual travel archive.
-The hero uses a world map with visited destinations, while Travel is presented
-as an interactive 3D coverflow. Each card opens a dedicated journey page with
-its own route, timeline, photographs, and clips.
+The homepage is a personal archive of travel and everyday life. The hero uses a
+world map with visited destinations, while Travel is presented as an interactive
+3D coverflow. Each card opens a dedicated journey page with its own route,
+timeline, photographs, and clips.
 
 One current story chapter covers the route:
 
@@ -17,15 +17,8 @@ The newest chapter follows a 2026 Italy route through Milan, Rome, Florence,
 Pisa, and Cinque Terre, using a curated set of web-optimized photos, MP4 clips,
 and lightweight video posters.
 
-That route is one chapter inside the life log, not the whole site. Professional
-material remains available in the selected-work section.
-
-The work section highlights:
-
-- Qlib Taiwan equity trading workflow
-- BTC trend forecasting
-- Image-processing research for automated native breeder chicken selection
-- Downloadable CV
+That route is one chapter inside a growing visual diary of places, people,
+water, cities, and the ordinary moments between destinations.
 
 ## Live Site
 
@@ -35,12 +28,11 @@ https://hank187548.github.io/
 
 ## Contents
 
-- `index.html`: Main life log page
+- `index.html`: Main travel and life archive
 - `styles.css`: Responsive visual design and layout
 - `script.js`: Homepage navigation, world-map rotation, and Travel coverflow interaction
 - `travel/`: Dedicated static journey pages plus their shared gallery styles and behavior
 - `convert_heic_to_jpg.py`: Helper script for converting HEIC/HEIF images to JPG
-- `CV1_Hank_quant.pdf`: Downloadable CV
 - `assets/photos/`: Web-optimized travel, life, and lab photos used by the site
 - `assets/trips/china-japan/`: Media for the Taiwan, Hong Kong, Tibet, Chongqing, and Japan story chapter
 - `assets/trips/italy-2026/`: Curated and web-optimized media for the 2026 Italy story chapter
@@ -101,6 +93,5 @@ GitHub Pages will rebuild the site automatically after the push.
 
 - The homepage is fully static and does not require a backend.
 - The world map is based on Wikimedia Commons `Blank-Map-World.png`, released into the public domain.
-- The CV file is served directly from the repository.
-- Contact links currently include email, GitHub, and the downloadable CV.
+- Contact is available by email from the homepage and journey pages.
 - `Videoplusimage/` is ignored by Git. Move publishable media into `assets/` before referencing it from `index.html`.
