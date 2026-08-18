@@ -1,97 +1,64 @@
-# Hank Travel & Life Archive
+# Hank — Systems & Stories
 
-This repository contains the source for Hank's personal website, published with GitHub Pages.
+Personal portfolio and visual archive published at `https://hank187548.github.io/`.
 
-The homepage is a personal archive of travel and everyday life. The hero uses a
-world map with visited destinations, while Travel is presented as an interactive
-3D coverflow. Each card opens a dedicated journey page with its own route,
-timeline, photographs, and clips.
+The site combines two sides of the same person: quantitative research / ML / computer vision, and a visual archive of travel and everyday life.
 
-One current story chapter covers the route:
+## Architecture
 
-```text
-Taiwan -> Hong Kong -> Tibet -> Chongqing -> Japan
-```
-
-The newest chapter follows a 2026 Italy route through Milan, Rome, Florence,
-Pisa, and Cinque Terre, using a curated set of web-optimized photos, MP4 clips,
-and lightweight video posters.
-
-That route is one chapter inside a growing visual diary of places, people,
-water, cities, and the ordinary moments between destinations.
-
-## Live Site
+The homepage is a React application while the detailed travel chapters remain stable static pages.
 
 ```text
-https://hank187548.github.io/
+app/                 React + TypeScript homepage source
+assets/              existing photos, maps, video and trip media
+travel/              existing static journey pages
+index.html           generated production homepage
+app-assets/          generated Vite JS/CSS bundles
 ```
 
-## Contents
+### Homepage stack
 
-- `index.html`: Main travel and life archive
-- `styles.css`: Responsive visual design and layout
-- `script.js`: Homepage navigation, world-map rotation, and Travel coverflow interaction
-- `travel/`: Dedicated static journey pages plus their shared gallery styles and behavior
-- `convert_heic_to_jpg.py`: Helper script for converting HEIC/HEIF images to JPG
-- `assets/photos/`: Web-optimized travel, life, and lab photos used by the site
-- `assets/trips/china-japan/`: Media for the Taiwan, Hong Kong, Tibet, Chongqing, and Japan story chapter
-- `assets/trips/italy-2026/`: Curated and web-optimized media for the 2026 Italy story chapter
-- `assets/videos/`: Short MP4 clips used by the Motion Notes section
-- `assets/video-posters/`: Lightweight poster images for the video cards
-- `assets/maps/world-map.png`: Public-domain blank world map used by the homepage hero
-- `.nojekyll`: Ensures GitHub Pages serves static files directly
+- React 19
+- TypeScript
+- Vite 8
+- Tailwind CSS 4 via the Vite plugin
+- Motion for React
 
-## Local Preview
+The repository-root `index.html` and `app-assets/` are production build output and should not be edited by hand.
 
-Open `index.html` directly in a browser, or run a local static server:
+### Migration boundary
+
+The existing `/travel/.../` URLs already contain substantial curated media and route-specific behavior. Keeping them independent lets the homepage evolve without risking regressions across every story page.
+
+## Homepage structure
+
+1. Cinematic photo-first hero
+2. Profile / work-life positioning
+3. Selected research work
+4. Editorial journey rail
+5. Interactive world atlas
+6. Contact
+
+The map remains part of the identity, but now acts as a journey index instead of competing with the first-screen photography.
+
+## Development
 
 ```bash
-python3 -m http.server 8123
+cd app
+npm install
+npm run dev
 ```
 
-Then open:
-
-```text
-http://localhost:8123
-```
-
-## HEIC Conversion
-
-Convert all HEIC/HEIF images in the main trip folder to JPG:
+Production validation:
 
 ```bash
-python3 convert_heic_to_jpg.py
-```
-
-Convert into a publishable assets folder:
-
-```bash
-python3 convert_heic_to_jpg.py Videoplusimage/China_Japen -o assets/trips/china-japan --overwrite
-```
-
-If HEIC support is missing, install:
-
-```bash
-python3 -m pip install --user pillow-heif pillow
+npm run build
 ```
 
 ## Deployment
 
-This repository is intended for GitHub Pages using the `main` branch.
+Pushing changes under `app/` to `main` triggers `.github/workflows/build-homepage.yml`. The workflow installs pinned dependencies, type-checks, runs the Vite production build, then commits generated `index.html` and `app-assets/` back to `main`. This preserves the existing branch-based GitHub Pages setup.
 
-If you need to push updates:
+## Legacy files
 
-```bash
-git add .
-git commit -m "Update portfolio website"
-git push
-```
-
-GitHub Pages will rebuild the site automatically after the push.
-
-## Notes
-
-- The homepage is fully static and does not require a backend.
-- The world map is based on Wikimedia Commons `Blank-Map-World.png`, released into the public domain.
-- Contact is available by email from the homepage and journey pages.
-- `Videoplusimage/` is ignored by Git. Move publishable media into `assets/` before referencing it from `index.html`.
+The former root `styles.css` and `script.js` are intentionally left in place for now. The new homepage does not reference them; they can be removed after the React deployment has been stable and the travel pages have been checked for accidental dependencies.

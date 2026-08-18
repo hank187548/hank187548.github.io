@@ -1,0 +1,50 @@
+name: Build React homepage
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "app/**"
+      - ".github/workflows/build-homepage.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: homepage-build
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install dependencies
+        working-directory: app
+        run: npm install --no-audit --no-fund --package-lock=false
+      - name: Type-check and build
+        working-directory: app
+        run: npm run build
+      - name: Publish build to repository root
+        run: |
+          rm -rf app-assets
+          cp app/dist/index.html ./index.html
+          cp -R app/dist/app-assets ./app-assets
+          touch .nojekyll
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A index.html app-assets .nojekyll
+          if git diff --cached --quiet; then
+            echo "Build output is already current."
+            exit 0
+          fi
+          git commit -m "Build React homepage [skip ci]"
+          git push origin HEAD:main

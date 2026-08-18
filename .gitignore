@@ -4,3 +4,5 @@ Videoplusimage/
 .DS_Store
 Thumbs.db
 **/Thumbs.db
+app/node_modules/
+app/dist/
