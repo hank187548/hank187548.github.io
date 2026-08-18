@@ -1,4 +1,11 @@
 @import url("/app/src/styles.css?v=20260818b");
+@import url("/app/src/coverflow.css?v=20260818-coverflow");
+
+:root {
+  --line: var(--line-l);
+  --line-strong: var(--line-l);
+  --muted: var(--muted-l);
+}
 
 /* Production overrides for the static-first homepage. */
 .hero-media__image {
