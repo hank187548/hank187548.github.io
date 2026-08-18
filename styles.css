@@ -80,3 +80,28 @@
     transform: translateY(-49%) translate3d(0, var(--hero-parallax, 0px), 0);
   }
 }
+
+/* Responsive marquee: the HTML already contains two identical sequences.
+   Force the full track to cover at least two viewports, then distribute both
+   halves evenly so the loop never collapses toward the left on ultrawide screens. */
+.ticker-track {
+  width: 200vw;
+  min-width: max-content;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  column-gap: clamp(12px, 0.9vw, 26px);
+  will-change: transform;
+}
+
+.ticker-track > span,
+.ticker-track > i {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+@media (min-width: 1200px) {
+  .ticker-track {
+    font-size: clamp(0.8rem, 0.7vw, 0.94rem);
+    column-gap: clamp(16px, 1vw, 30px);
+  }
+}
