@@ -1,13 +1,13 @@
-@import url("./styles-base.css?v=20260818-responsive-map-live-drag");
+@import url("./styles-base.css?v=20260818-coverflow-physics-2");
 
-/* Keep the original Travel × Life design, but adapt the hero to viewport shape. */
+/* Keep the original Travel × Life design, but adapt the hero and coverflow to viewport shape. */
 @media (min-width: 961px) {
   .hero-map__projection {
     top: 50%;
     left: 50%;
     right: auto;
-    /* 1357 / 628 ≈ 2.16. Scale from both viewport width and height so
-       the map keeps visual weight on 16:9, ultrawide, and tall displays. */
+    /* Scale from both viewport width and height so the map keeps visual weight
+       across 16:9, ultrawide, and taller desktop displays. */
     width: max(112vw, 172svh);
     max-width: none;
     transform: translate(-50%, -50%) translate3d(0, var(--hero-parallax, 0px), 0);
@@ -35,18 +35,28 @@
 
   .travel-coverflow__stage {
     width: 100%;
+    height: clamp(540px, 48vw, 760px);
+    perspective: clamp(1200px, 92vw, 1900px);
+    perspective-origin: 50% 46%;
+    touch-action: pan-y;
   }
 
-  .travel-card,
-  .travel-card img {
+  .travel-card {
+    width: clamp(250px, 22vw, 390px);
     -webkit-user-drag: none;
     user-select: none;
   }
 
-  /* Live desktop drag is rendered by JS every frame; do not make CSS chase it. */
+  .travel-card img {
+    -webkit-user-drag: none;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  /* JS renders transform/opacity continuously during drag and spring settle. */
   .travel-coverflow.is-dragging .travel-card,
   .travel-coverflow.is-settling .travel-card {
-    transition: none;
+    transition: border-color 220ms ease, box-shadow 260ms ease, filter 220ms ease;
   }
 }
 
