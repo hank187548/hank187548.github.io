@@ -6,8 +6,6 @@ The site is intentionally not a professional portfolio. It is a visual journal o
 
 ## Production architecture
 
-The public homepage is static-first:
-
 ```text
 index.html           Complete semantic homepage content
 site.css             Production styling and responsive overrides
@@ -29,15 +27,13 @@ The homepage remains readable without JavaScript. JavaScript upgrades the Travel
 
 ## Atlas
 
-The world-map markers are positioned inside the same aspect-ratio canvas as `assets/maps/world-map.png`, so geographic percentages are measured against the image rather than the padded container. Multi-stop journeys show their individual recorded stops and highlight their route together.
+`assets/maps/world-map.png` is the 1357×628 Wikimedia `Blank-Map-World.png`, which uses a Robinson projection centered around 11°15′ E rather than a linear equirectangular projection. Marker positions are therefore calculated with a Robinson projection in both the production JavaScript and React source. Markers are rendered inside the same aspect-ratio canvas as the image, and multi-stop journeys highlight their recorded route together.
 
 ## Local preview
 
 ```bash
 python3 -m http.server 8123
 ```
-
-Then open `http://localhost:8123`.
 
 ## React source
 

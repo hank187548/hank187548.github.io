@@ -37,8 +37,23 @@ export const mapRoutes: MapRoute[] = [
   {journeyId:"thailand-vietnam",stopIds:["thailand","vietnam"]}
 ];
 
+const ROBINSON_X = [1,0.9986,0.9954,0.99,0.9822,0.973,0.96,0.9427,0.9216,0.8962,0.8679,0.835,0.7986,0.7597,0.7186,0.6732,0.6213,0.5722,0.5322];
+const ROBINSON_Y = [0,0.062,0.124,0.186,0.248,0.31,0.372,0.434,0.4958,0.5571,0.6176,0.6769,0.7346,0.7903,0.8435,0.8936,0.9394,0.9761,1];
+const ROBINSON_CENTER_LON = 11.25;
+const ROBINSON_LAT_COMPRESSION = 0.95623;
+
 export function projectMapPoint(lat:number, lon:number) {
-  return { x: ((lon + 180) / 360) * 100, y: ((90 - lat) / 180) * 100 };
+  const absLat = Math.min(90, Math.abs(lat));
+  const band = Math.min(17, Math.floor(absLat / 5));
+  const t = (absLat - band * 5) / 5;
+  const xCoef = ROBINSON_X[band] + (ROBINSON_X[band + 1] - ROBINSON_X[band]) * t;
+  const yCoef = ROBINSON_Y[band] + (ROBINSON_Y[band + 1] - ROBINSON_Y[band]) * t;
+  const deltaLon = ((((lon - ROBINSON_CENTER_LON) + 180) % 360) + 360) % 360 - 180;
+  const xRaw = 0.8487 * (deltaLon * Math.PI / 180) * xCoef;
+  const yRaw = 1.3523 * yCoef * Math.sign(lat || 1) * ROBINSON_LAT_COMPRESSION;
+  const xMax = 0.8487 * Math.PI;
+  const yMax = 1.3523 * ROBINSON_LAT_COMPRESSION;
+  return { x: ((xRaw + xMax) / (2 * xMax)) * 100, y: ((yMax - yRaw) / (2 * yMax)) * 100 };
 }
 
 export const heroSlides = [journeys[0], journeys[1], journeys[2], journeys[3]];
