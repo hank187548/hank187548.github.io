@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { motion, useScroll } from "motion/react";
 
 const links = [
-  ["Profile", "#profile"],
-  ["Work", "#work"],
-  ["Journeys", "#journeys"],
+  ["Life", "#profile"],
+  ["Travel", "#journeys"],
+  ["Atlas", "#map"],
   ["Contact", "#contact"],
 ] as const;
 
@@ -31,38 +31,23 @@ export function Header() {
       <header className={`site-header ${compact ? "is-compact" : ""}`}>
         <a className="wordmark" href="#top" aria-label="Hank, back to top" onClick={() => setOpen(false)}>
           <strong>HANK</strong>
-          <span>Systems × Stories</span>
+          <span>Travel × Life</span>
         </a>
-
         <nav className="desktop-nav" aria-label="Primary navigation">
-          {links.map(([label, href]) => (
-            <a href={href} key={href}>{label}</a>
-          ))}
+          {links.map(([label, href]) => <a href={href} key={href}>{label}</a>)}
         </nav>
-
         <div className="header-meta" aria-label="Location">
           <span className="status-dot" aria-hidden="true" />
           <span>Taipei · 2026</span>
         </div>
-
-        <button
-          className="menu-toggle"
-          type="button"
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          onClick={() => setOpen((value) => !value)}
-        >
+        <button className="menu-toggle" type="button" aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen((value) => !value)}>
           <span>{open ? "Close" : "Menu"}</span>
         </button>
       </header>
-
       <div className={`mobile-menu ${open ? "is-open" : ""}`} id="mobile-menu" aria-hidden={!open}>
         <nav aria-label="Mobile navigation">
           {links.map(([label, href], index) => (
-            <a href={href} key={href} onClick={() => setOpen(false)}>
-              <span>0{index + 1}</span>
-              {label}
-            </a>
+            <a href={href} key={href} onClick={() => setOpen(false)}><span>0{index + 1}</span>{label}</a>
           ))}
         </nav>
         <div className="mobile-menu__footer">

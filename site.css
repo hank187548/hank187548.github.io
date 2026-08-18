@@ -1,5 +1,6 @@
-@import url("/app/src/styles.css?v=20260818b");
-@import url("/app/src/coverflow.css?v=20260818-coverflow");
+@import url("/app/src/styles.css?v=20260818-travel-life");
+@import url("/app/src/coverflow.css?v=20260818-travel-life");
+@import url("/app/src/travel-life.css?v=20260818-travel-life");
 
 :root {
   --line: var(--line-l);
@@ -7,7 +8,6 @@
   --muted: var(--muted-l);
 }
 
-/* Production overrides for the static-first homepage. */
 .hero-media__image {
   opacity: 0;
   transform: scale(1.025);
@@ -29,7 +29,6 @@
   text-transform: uppercase;
 }
 
-/* iOS/Safari resilience: keep the first screen visible even without effects. */
 @supports (-webkit-touch-callout: none) {
   .hero,
   .hero-shell { min-height: 100svh; }
