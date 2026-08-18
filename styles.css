@@ -1,8 +1,34 @@
-@import url("./styles-base.css?v=20260818-centered-home");
+@import url("./styles-base.css?v=20260818-desktop-center-3");
 
-/* Homepage geometry corrections: keep the original visual language, fix the axes. */
-@media (min-width: 721px) {
-  /* Make the Travel carousel use the viewport as its centering reference instead of the inner shell. */
+/* Keep the original Travel × Life design, but lock desktop geometry to the viewport. */
+@media (min-width: 961px) {
+  /* The world map is the hero's central visual, not a right-side decoration. */
+  .hero-map__projection {
+    top: 50%;
+    left: 50%;
+    right: auto;
+    width: min(100vw, 1850px);
+    max-width: none;
+    transform: translate(-50%, -50%) translate3d(0, var(--hero-parallax, 0px), 0);
+  }
+
+  .hero-map__image {
+    opacity: 0.62;
+  }
+
+  /* Remove the old left-heavy shade that made a centered map look right-aligned. */
+  .hero-shade {
+    background:
+      linear-gradient(180deg, rgba(7, 9, 7, 0.58) 0%, rgba(7, 9, 7, 0.10) 38%, rgba(7, 9, 7, 0.76) 100%),
+      radial-gradient(circle at 50% 48%, rgba(7, 9, 7, 0.02) 10%, rgba(7, 9, 7, 0.22) 60%, rgba(7, 9, 7, 0.52) 100%);
+  }
+
+  .hero-map__halo {
+    inset: 6% 8%;
+    background: radial-gradient(circle at 50% 50%, rgba(199, 255, 61, 0.10), transparent 66%);
+  }
+
+  /* Break the Travel carousel out of the content shell so 50% is the viewport centre. */
   .travel-coverflow {
     width: 100vw;
     margin-left: calc(50% - 50vw);
@@ -12,33 +38,30 @@
     width: 100%;
   }
 
-  /* The map is the hero, not a right-side decoration. */
-  .hero-map__projection {
-    left: 50%;
-    right: auto;
-    width: min(104vw, 1800px);
-    transform: translate(-50%, -49%) translate3d(0, var(--hero-parallax, 0px), 0);
-  }
-
-  .hero-map__image {
-    opacity: 0.56;
+  .travel-card,
+  .travel-card img {
+    -webkit-user-drag: none;
+    user-select: none;
   }
 }
 
 @media (min-width: 721px) and (max-width: 960px) {
   .hero-map__projection {
+    top: 50%;
     left: 50%;
     right: auto;
     width: 124vw;
-    transform: translate(-50%, -49%) translate3d(0, var(--hero-parallax, 0px), 0);
+    transform: translate(-50%, -50%) translate3d(0, var(--hero-parallax, 0px), 0);
   }
 }
 
+/* Mobile was already working; preserve its composition. */
 @media (max-width: 720px) {
   .hero-map__projection {
-    left: 50%;
-    right: auto;
+    top: 31%;
+    left: auto;
+    right: -52vw;
     width: 170vw;
-    transform: translate(-50%, -49%) translate3d(0, var(--hero-parallax, 0px), 0);
+    transform: translateY(-49%) translate3d(0, var(--hero-parallax, 0px), 0);
   }
 }
