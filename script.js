@@ -3,9 +3,54 @@
 
   const desktopPointer = window.matchMedia("(min-width: 961px) and (hover: hover) and (pointer: fine)");
 
+  const simpleCardLabels = [
+    { title: "Italy", html: "Italy", aria: "Open Italy journey" },
+    { title: "China → Tokyo", html: "China →<br />Tokyo", aria: "Open China to Tokyo journey" },
+    { title: "Okinawa", html: "Okinawa", aria: "Open Okinawa journey" },
+    { title: "Bali → Australia", html: "Bali →<br />Australia", aria: "Open Bali to Australia journey" },
+    { title: "Southeast Asia", html: "Southeast<br />Asia", aria: "Open Southeast Asia journey" },
+  ];
+
+  function simplifyTravelCards() {
+    const cards = [...document.querySelectorAll("[data-travel-card]")];
+    cards.forEach((card, index) => {
+      const label = simpleCardLabels[index];
+      if (!label) return;
+      card.dataset.title = label.title;
+      card.setAttribute("aria-label", label.aria);
+      const copy = card.querySelector(".travel-card__copy");
+      if (!copy) return;
+      copy.classList.add("travel-card__copy--simple");
+      copy.innerHTML = `<strong>${label.html}</strong>`;
+    });
+
+    const statusLabel = document.querySelector("[data-coverflow-label]");
+    if (statusLabel) statusLabel.textContent = simpleCardLabels[0].title;
+
+    if (!document.querySelector("style[data-simple-travel-cards]")) {
+      const style = document.createElement("style");
+      style.dataset.simpleTravelCards = "true";
+      style.textContent = `
+        .travel-card__copy--simple { gap: 0; }
+        .travel-card__copy--simple strong {
+          max-width: 92%;
+          font-size: clamp(2.15rem, 3.25vw, 3.9rem);
+          line-height: .92;
+          letter-spacing: -.055em;
+        }
+        @media (max-width: 720px) {
+          .travel-card__copy--simple strong {
+            font-size: clamp(2rem, 10vw, 3.25rem);
+          }
+        }
+      `;
+      document.head.append(style);
+    }
+  }
+
   const loadBaseScript = () => new Promise((resolve, reject) => {
     const script = document.createElement("script");
-    script.src = "./script-base.js?v=20260819-coverflow-arrow-clean";
+    script.src = "./script-base.js?v=20260819-card-links-clean";
     script.async = false;
     script.onload = resolve;
     script.onerror = reject;
@@ -13,17 +58,21 @@
   });
 
   function installDesktopCoverflow() {
-    const desktop = desktopPointer;
+    if (!desktopPointer.matches) return;
+
     const coverflow = document.querySelector("[data-coverflow]");
-    const stage = coverflow?.querySelector("[data-coverflow-stage]");
-    const cards = coverflow ? [...coverflow.querySelectorAll("[data-travel-card]")] : [];
+    const originalStage = coverflow?.querySelector("[data-coverflow-stage]");
     const currentLabel = coverflow?.querySelector("[data-coverflow-current]");
     const journeyLabel = coverflow?.querySelector("[data-coverflow-label]");
-    if (!coverflow || !stage || cards.length < 2) return;
+    if (!coverflow || !originalStage) return;
 
-    // The legacy base script already attached click listeners directly to the two
-    // arrow buttons. Replace the DOM nodes after base initialization so those
-    // listeners are physically gone instead of trying to race/cancel them.
+    // The legacy base script owns its own card/pointer listeners and active index.
+    // Replace the stage after base initialization so desktop has one event system only.
+    const stage = originalStage.cloneNode(true);
+    originalStage.replaceWith(stage);
+    const cards = [...stage.querySelectorAll("[data-travel-card]")];
+    if (cards.length < 2) return;
+
     const replaceButtonWithoutListeners = (selector) => {
       const oldButton = coverflow.querySelector(selector);
       if (!oldButton) return null;
@@ -166,24 +215,20 @@
       settleTo(target, arrowVelocity, false, forceMotion);
     }
 
-    // These cloned buttons have no legacy listeners. A click can therefore only
-    // take the spring path below.
     previousButton?.addEventListener("click", (event) => {
-      if (!desktop.matches) return;
+      if (!desktopPointer.matches) return;
       event.preventDefault();
       nudge(-1, true);
     });
 
     nextButton?.addEventListener("click", (event) => {
-      if (!desktop.matches) return;
+      if (!desktopPointer.matches) return;
       event.preventDefault();
       nudge(1, true);
     });
 
     function handlePointerDown(event) {
-      if (!desktop.matches || event.button !== 0) return;
-      event.stopImmediatePropagation();
-      event.preventDefault();
+      if (!desktopPointer.matches || event.button !== 0) return;
       cancelSpring();
       const now = performance.now();
       drag = {
@@ -194,17 +239,25 @@
         lastTime: now,
         velocity: 0,
         moved: false,
+        captured: false,
       };
-      coverflow.classList.add("is-dragging");
-      stage.setPointerCapture?.(event.pointerId);
     }
 
     function handlePointerMove(event) {
-      if (!desktop.matches || !drag || drag.id !== event.pointerId) return;
-      event.stopImmediatePropagation();
-      event.preventDefault();
+      if (!desktopPointer.matches || !drag || drag.id !== event.pointerId) return;
       const pitch = Math.max(metrics().pitch, 1);
       const deltaX = event.clientX - drag.startX;
+
+      if (!drag.moved && Math.abs(deltaX) > 4) {
+        drag.moved = true;
+        drag.captured = true;
+        coverflow.classList.add("is-dragging");
+        stage.setPointerCapture?.(event.pointerId);
+      }
+
+      if (!drag.moved) return;
+      event.preventDefault();
+
       const nextPosition = drag.startPosition - deltaX / pitch;
       const now = performance.now();
       const elapsed = Math.max(5, now - drag.lastTime) / 1000;
@@ -213,65 +266,61 @@
       drag.velocity = drag.velocity * 0.68 + instantaneousVelocity * 0.32;
       drag.lastPosition = nextPosition;
       drag.lastTime = now;
-      drag.moved ||= Math.abs(deltaX) > 4;
       position = nextPosition;
       render();
     }
 
     function finishPointer(event) {
-      if (!desktop.matches || !drag || drag.id !== event.pointerId) return;
-      event.stopImmediatePropagation();
-      event.preventDefault();
+      if (!desktopPointer.matches || !drag || drag.id !== event.pointerId) return;
       const finished = drag;
       drag = null;
-      stage.releasePointerCapture?.(event.pointerId);
 
-      if (finished.moved) suppressClickUntil = performance.now() + 320;
+      if (finished.captured) stage.releasePointerCapture?.(event.pointerId);
+      coverflow.classList.remove("is-dragging");
+
+      // A normal click never gets pointer capture or preventDefault, so the active
+      // card remains a real link. Only an actual drag suppresses the click.
+      if (!finished.moved) return;
+
+      event.preventDefault();
+      suppressClickUntil = performance.now() + 320;
       const projectedMomentum = clamp(finished.velocity * 0.18, -1.8, 1.8);
       const target = Math.round(position + projectedMomentum);
       settleTo(target, finished.velocity * 0.45);
     }
 
-    stage.addEventListener("pointerdown", handlePointerDown, true);
-    stage.addEventListener("pointermove", handlePointerMove, true);
-    stage.addEventListener("pointerup", finishPointer, true);
-    stage.addEventListener("pointercancel", finishPointer, true);
-    stage.addEventListener("dragstart", (event) => {
-      if (!desktop.matches) return;
-      event.preventDefault();
-      event.stopImmediatePropagation();
-    }, true);
+    stage.addEventListener("pointerdown", handlePointerDown);
+    stage.addEventListener("pointermove", handlePointerMove, { passive: false });
+    stage.addEventListener("pointerup", finishPointer);
+    stage.addEventListener("pointercancel", finishPointer);
+    stage.addEventListener("dragstart", (event) => event.preventDefault());
 
     stage.addEventListener("wheel", (event) => {
-      if (!desktop.matches) return;
+      if (!desktopPointer.matches) return;
       if (Math.abs(event.deltaX) <= Math.abs(event.deltaY) && !event.shiftKey) return;
       event.preventDefault();
-      event.stopImmediatePropagation();
       nudge(event.deltaX + event.deltaY > 0 ? 1 : -1);
-    }, { capture: true, passive: false });
+    }, { passive: false });
 
-    coverflow.addEventListener("click", (event) => {
-      if (!desktop.matches) return;
-      const card = event.target.closest?.("[data-travel-card]");
-      if (!card) return;
+    cards.forEach((card, index) => {
+      card.addEventListener("click", (event) => {
+        if (!desktopPointer.matches) return;
+        if (performance.now() < suppressClickUntil) {
+          event.preventDefault();
+          return;
+        }
 
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      if (performance.now() < suppressClickUntil) return;
+        const activeIndex = indexAt(position);
+        if (index === activeIndex) return;
 
-      const index = cards.indexOf(card);
-      const activeIndex = indexAt(position);
-      if (index !== activeIndex) {
+        event.preventDefault();
         goTo(index, true);
-        return;
-      }
+      });
+    });
 
-      const href = card.getAttribute("href");
-      if (href) window.location.assign(href);
-    }, true);
-
+    // Capture keyboard navigation before the legacy listener on the outer coverflow.
     coverflow.addEventListener("keydown", (event) => {
-      if (!desktop.matches || (event.key !== "ArrowLeft" && event.key !== "ArrowRight")) return;
+      if (!desktopPointer.matches || (event.key !== "ArrowLeft" && event.key !== "ArrowRight")) return;
       event.preventDefault();
       event.stopImmediatePropagation();
       nudge(event.key === "ArrowRight" ? 1 : -1);
@@ -281,11 +330,19 @@
     nextButton?.setAttribute("title", "Next journey");
 
     window.addEventListener("resize", () => {
-      if (desktop.matches) render();
+      if (desktopPointer.matches) render();
     }, { passive: true });
 
-    if (desktop.matches) render();
+    render();
   }
 
-  loadBaseScript().then(installDesktopCoverflow).catch(() => installDesktopCoverflow());
+  loadBaseScript()
+    .then(() => {
+      simplifyTravelCards();
+      installDesktopCoverflow();
+    })
+    .catch(() => {
+      simplifyTravelCards();
+      installDesktopCoverflow();
+    });
 })();
