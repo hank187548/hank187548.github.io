@@ -1,9 +1,26 @@
 (() => {
   "use strict";
 
+  const desktopPointer = window.matchMedia("(min-width: 961px) and (hover: hover) and (pointer: fine)");
+  let arrowNavigate = null;
+
+  // Intercept desktop arrow clicks before the legacy base handlers can run.
+  // The handler is installed immediately, before script-base.js is loaded.
+  const bindArrowInterceptor = (button, direction) => {
+    button?.addEventListener("click", (event) => {
+      if (!desktopPointer.matches) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      arrowNavigate?.(direction);
+    }, true);
+  };
+
+  bindArrowInterceptor(document.querySelector("[data-coverflow-prev]"), -1);
+  bindArrowInterceptor(document.querySelector("[data-coverflow-next]"), 1);
+
   const loadBaseScript = () => new Promise((resolve, reject) => {
     const script = document.createElement("script");
-    script.src = "./script-base.js?v=20260818-coverflow-physics-2";
+    script.src = "./script-base.js?v=20260819-coverflow-arrow-fix";
     script.async = false;
     script.onload = resolve;
     script.onerror = reject;
@@ -11,7 +28,7 @@
   });
 
   function installDesktopCoverflow() {
-    const desktop = window.matchMedia("(min-width: 961px) and (hover: hover) and (pointer: fine)");
+    const desktop = desktopPointer;
     const coverflow = document.querySelector("[data-coverflow]");
     const stage = coverflow?.querySelector("[data-coverflow-stage]");
     const cards = coverflow ? [...coverflow.querySelectorAll("[data-travel-card]")] : [];
@@ -93,28 +110,30 @@
       coverflow.classList.remove("is-settling");
     }
 
-    function settleTo(target, initialVelocity = 0, focusCard = false) {
+    function settleTo(target, initialVelocity = 0, focusCard = false, forceMotion = false) {
       cancelSpring();
       springTarget = target;
       const activeIndex = indexAt(target);
       coverflow.classList.remove("is-dragging");
 
-      if (reducedMotion()) {
+      // Keep reduced-motion behaviour for passive/gesture settling, but a deliberate
+      // desktop arrow click should still show the requested short navigation motion.
+      if (reducedMotion() && !forceMotion) {
         position = target;
         render();
         if (focusCard) cards[activeIndex]?.focus({ preventScroll: true });
         return;
       }
 
-      const stiffness = 230;
-      const damping = 28;
-      const mass = 0.9;
+      const stiffness = 205;
+      const damping = 24;
+      const mass = 0.92;
       let velocity = initialVelocity;
       let lastTime = performance.now();
       coverflow.classList.add("is-settling");
 
       const step = (now) => {
-        const dt = Math.min(0.032, Math.max(0.001, (now - lastTime) / 1000));
+        const dt = Math.min(0.028, Math.max(0.001, (now - lastTime) / 1000));
         lastTime = now;
         const displacement = position - target;
         const springForce = -stiffness * displacement;
@@ -144,12 +163,16 @@
       settleTo(target, 0, focusCard);
     }
 
-    function nudge(direction) {
+    function nudge(direction, forceMotion = false) {
       const baseTarget = springFrame ? springTarget : Math.round(position);
       const target = baseTarget + direction;
-      const arrowVelocity = direction * 2.15;
-      settleTo(target, arrowVelocity);
+      const arrowVelocity = direction * 1.55;
+      settleTo(target, arrowVelocity, false, forceMotion);
     }
+
+    // Arrow buttons use only this spring path on desktop. The early capture
+    // interceptors above prevent the legacy setActiveTravel() jump from firing.
+    arrowNavigate = (direction) => nudge(direction, true);
 
     function handlePointerDown(event) {
       if (!desktop.matches || event.button !== 0) return;
@@ -221,18 +244,16 @@
       nudge(event.deltaX + event.deltaY > 0 ? 1 : -1);
     }, { capture: true, passive: false });
 
+    // Card selection stays delegated to the coverflow. Arrow clicks are handled
+    // directly at the buttons and intentionally excluded here.
     coverflow.addEventListener("click", (event) => {
       if (!desktop.matches) return;
-      const previous = event.target.closest?.("[data-coverflow-prev]");
-      const next = event.target.closest?.("[data-coverflow-next]");
       const card = event.target.closest?.("[data-travel-card]");
-      if (!previous && !next && !card) return;
+      if (!card) return;
 
       event.preventDefault();
       event.stopImmediatePropagation();
       if (performance.now() < suppressClickUntil) return;
-      if (previous) return nudge(-1);
-      if (next) return nudge(1);
 
       const index = cards.indexOf(card);
       const activeIndex = indexAt(position);
