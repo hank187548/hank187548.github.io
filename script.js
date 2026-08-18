@@ -3,7 +3,7 @@
 
   const loadBaseScript = () => new Promise((resolve, reject) => {
     const script = document.createElement("script");
-    script.src = "./script-base.js?v=20260818-live-drag-1";
+    script.src = "./script-base.js?v=20260818-coverflow-physics-2";
     script.async = false;
     script.onload = resolve;
     script.onerror = reject;
@@ -25,11 +25,26 @@
     const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let position = Math.max(0, cards.findIndex((card) => card.classList.contains("is-active")));
     let drag = null;
-    let settleFrame = 0;
+    let springFrame = 0;
     let suppressClickUntil = 0;
 
     const indexAt = (value) => ((Math.round(value) % count) + count) % count;
-    const spacing = () => Math.min(stage.clientWidth * 0.245, 320);
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+    function metrics() {
+      const stageWidth = Math.max(stage.clientWidth, window.innerWidth, 1);
+      const cardWidth = Math.max(cards[0]?.getBoundingClientRect().width || 0, 260);
+      // Adapt the centre-to-centre distance to both card size and viewport width.
+      // Smaller desktops stay compact; wide displays naturally breathe without a fixed px cap.
+      const responsivePitch = stageWidth * 0.205;
+      const cardPitch = cardWidth + Math.max(18, stageWidth * 0.018);
+      const pitch = clamp(Math.min(responsivePitch, cardPitch), cardWidth * 0.72, cardWidth * 1.12);
+      return {
+        cardWidth,
+        pitch,
+        depth: cardWidth * 0.48,
+      };
+    }
 
     function wrappedDistance(index, value) {
       let distance = index - value;
@@ -45,70 +60,90 @@
     }
 
     function render(value = position) {
-      const pitch = spacing();
+      const { pitch, depth } = metrics();
       const activeIndex = indexAt(value);
+
       cards.forEach((card, index) => {
         const distance = wrappedDistance(index, value);
         const absoluteDistance = Math.abs(distance);
         const direction = Math.sign(distance);
+        const depthRamp = Math.pow(absoluteDistance, 0.82);
+        const centreBlend = Math.min(1, absoluteDistance);
+        const rotation = -direction * 44 * Math.pow(centreBlend, 0.72);
+        const scale = clamp(1 - depthRamp * 0.075, 0.72, 1);
+        const opacity = absoluteDistance > 3 ? 0 : clamp(1 - depthRamp * 0.17, 0.28, 1);
+
         card.style.setProperty("--travel-x", `${distance * pitch}px`);
-        card.style.setProperty("--travel-z", `${-absoluteDistance * 180}px`);
-        card.style.setProperty("--travel-rotate", `${direction * -42}deg`);
-        card.style.setProperty("--travel-scale", String(Math.max(0.7, 1 - absoluteDistance * 0.08)));
-        card.style.setProperty("--travel-opacity", String(absoluteDistance > 3 ? 0 : Math.max(0.3, 1 - absoluteDistance * 0.18)));
-        card.style.zIndex = String(30 - Math.round(absoluteDistance * 3));
+        card.style.setProperty("--travel-z", `${-depth * depthRamp}px`);
+        card.style.setProperty("--travel-rotate", `${rotation}deg`);
+        card.style.setProperty("--travel-scale", String(scale));
+        card.style.setProperty("--travel-opacity", String(opacity));
+        card.style.zIndex = String(40 - Math.round(absoluteDistance * 4));
         card.classList.toggle("is-active", index === activeIndex);
         card.tabIndex = index === activeIndex ? 0 : -1;
         card.setAttribute("aria-hidden", String(absoluteDistance > 3));
       });
+
       updateMeta(activeIndex);
     }
 
-    function cancelSettle() {
-      if (!settleFrame) return;
-      window.cancelAnimationFrame(settleFrame);
-      settleFrame = 0;
+    function cancelSpring() {
+      if (!springFrame) return;
+      window.cancelAnimationFrame(springFrame);
+      springFrame = 0;
       coverflow.classList.remove("is-settling");
     }
 
-    function settleTo(target, focusCard = false) {
-      cancelSettle();
-      const start = position;
-      const delta = target - start;
+    function settleTo(target, initialVelocity = 0, focusCard = false) {
+      cancelSpring();
       const activeIndex = indexAt(target);
-      const duration = Math.min(620, 360 + Math.abs(delta) * 100);
-      const startedAt = performance.now();
       coverflow.classList.remove("is-dragging");
 
-      if (reducedMotion() || Math.abs(delta) < 0.001) {
+      if (reducedMotion()) {
         position = target;
         render();
         if (focusCard) cards[activeIndex]?.focus({ preventScroll: true });
         return;
       }
 
+      // Near-critically damped spring: physical rather than a fixed-duration tween.
+      // Values are tuned to the same family of spring behaviour used by Ruixen-style carousels.
+      const stiffness = 230;
+      const damping = 28;
+      const mass = 0.9;
+      let velocity = initialVelocity;
+      let lastTime = performance.now();
       coverflow.classList.add("is-settling");
+
       const step = (now) => {
-        const t = Math.min(1, (now - startedAt) / duration);
-        const eased = 1 - Math.pow(1 - t, 4);
-        position = start + delta * eased;
+        const dt = Math.min(0.032, Math.max(0.001, (now - lastTime) / 1000));
+        lastTime = now;
+        const displacement = position - target;
+        const springForce = -stiffness * displacement;
+        const dampingForce = -damping * velocity;
+        const acceleration = (springForce + dampingForce) / mass;
+
+        velocity += acceleration * dt;
+        position += velocity * dt;
         render();
-        if (t < 1) {
-          settleFrame = window.requestAnimationFrame(step);
+
+        if (Math.abs(target - position) < 0.0007 && Math.abs(velocity) < 0.008) {
+          position = target;
+          render();
+          springFrame = 0;
+          coverflow.classList.remove("is-settling");
+          if (focusCard) cards[activeIndex]?.focus({ preventScroll: true });
           return;
         }
-        position = target;
-        render();
-        settleFrame = 0;
-        coverflow.classList.remove("is-settling");
-        if (focusCard) cards[activeIndex]?.focus({ preventScroll: true });
+        springFrame = window.requestAnimationFrame(step);
       };
-      settleFrame = window.requestAnimationFrame(step);
+
+      springFrame = window.requestAnimationFrame(step);
     }
 
     function goTo(index, focusCard = false) {
       const target = index + Math.round((position - index) / count) * count;
-      settleTo(target, focusCard);
+      settleTo(target, 0, focusCard);
     }
 
     function nudge(direction) {
@@ -118,7 +153,8 @@
     function handlePointerDown(event) {
       if (!desktop.matches || event.button !== 0) return;
       event.stopImmediatePropagation();
-      cancelSettle();
+      event.preventDefault();
+      cancelSpring();
       const now = performance.now();
       drag = {
         id: event.pointerId,
@@ -137,15 +173,18 @@
       if (!desktop.matches || !drag || drag.id !== event.pointerId) return;
       event.stopImmediatePropagation();
       event.preventDefault();
-      const pitch = Math.max(spacing(), 1);
+      const pitch = Math.max(metrics().pitch, 1);
       const deltaX = event.clientX - drag.startX;
       const nextPosition = drag.startPosition - deltaX / pitch;
       const now = performance.now();
-      const elapsed = Math.max(8, now - drag.lastTime);
-      drag.velocity = ((nextPosition - drag.lastPosition) / elapsed) * 1000;
+      const elapsed = Math.max(5, now - drag.lastTime) / 1000;
+      const instantaneousVelocity = (nextPosition - drag.lastPosition) / elapsed;
+
+      // Smooth noisy mouse samples before using velocity for release momentum.
+      drag.velocity = drag.velocity * 0.68 + instantaneousVelocity * 0.32;
       drag.lastPosition = nextPosition;
       drag.lastTime = now;
-      drag.moved ||= Math.abs(deltaX) > 5;
+      drag.moved ||= Math.abs(deltaX) > 4;
       position = nextPosition;
       render();
     }
@@ -153,11 +192,15 @@
     function finishPointer(event) {
       if (!desktop.matches || !drag || drag.id !== event.pointerId) return;
       event.stopImmediatePropagation();
+      event.preventDefault();
       const finished = drag;
       drag = null;
+      stage.releasePointerCapture?.(event.pointerId);
+
       if (finished.moved) suppressClickUntil = performance.now() + 320;
-      const inertia = Math.max(-1.35, Math.min(1.35, finished.velocity * 0.16));
-      settleTo(Math.round(position + inertia));
+      const projectedMomentum = clamp(finished.velocity * 0.18, -1.8, 1.8);
+      const target = Math.round(position + projectedMomentum);
+      settleTo(target, finished.velocity * 0.45);
     }
 
     stage.addEventListener("pointerdown", handlePointerDown, true);
