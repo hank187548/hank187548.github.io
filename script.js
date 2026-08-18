@@ -26,6 +26,7 @@
     let position = Math.max(0, cards.findIndex((card) => card.classList.contains("is-active")));
     let drag = null;
     let springFrame = 0;
+    let springTarget = position;
     let suppressClickUntil = 0;
 
     const indexAt = (value) => ((Math.round(value) % count) + count) % count;
@@ -34,8 +35,6 @@
     function metrics() {
       const stageWidth = Math.max(stage.clientWidth, window.innerWidth, 1);
       const cardWidth = Math.max(cards[0]?.getBoundingClientRect().width || 0, 260);
-      // Adapt the centre-to-centre distance to both card size and viewport width.
-      // Smaller desktops stay compact; wide displays naturally breathe without a fixed px cap.
       const responsivePitch = stageWidth * 0.205;
       const cardPitch = cardWidth + Math.max(18, stageWidth * 0.018);
       const pitch = clamp(Math.min(responsivePitch, cardPitch), cardWidth * 0.72, cardWidth * 1.12);
@@ -96,6 +95,7 @@
 
     function settleTo(target, initialVelocity = 0, focusCard = false) {
       cancelSpring();
+      springTarget = target;
       const activeIndex = indexAt(target);
       coverflow.classList.remove("is-dragging");
 
@@ -106,8 +106,6 @@
         return;
       }
 
-      // Near-critically damped spring: physical rather than a fixed-duration tween.
-      // Values are tuned to the same family of spring behaviour used by Ruixen-style carousels.
       const stiffness = 230;
       const damping = 28;
       const mass = 0.9;
@@ -147,7 +145,10 @@
     }
 
     function nudge(direction) {
-      settleTo(Math.round(position) + direction);
+      const baseTarget = springFrame ? springTarget : Math.round(position);
+      const target = baseTarget + direction;
+      const arrowVelocity = direction * 2.15;
+      settleTo(target, arrowVelocity);
     }
 
     function handlePointerDown(event) {
@@ -180,7 +181,6 @@
       const elapsed = Math.max(5, now - drag.lastTime) / 1000;
       const instantaneousVelocity = (nextPosition - drag.lastPosition) / elapsed;
 
-      // Smooth noisy mouse samples before using velocity for release momentum.
       drag.velocity = drag.velocity * 0.68 + instantaneousVelocity * 0.32;
       drag.lastPosition = nextPosition;
       drag.lastTime = now;
