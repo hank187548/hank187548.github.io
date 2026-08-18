@@ -1,13 +1,14 @@
-@import url("./styles-base.css?v=20260818-desktop-center-3");
+@import url("./styles-base.css?v=20260818-responsive-map-live-drag");
 
-/* Keep the original Travel × Life design, but lock desktop geometry to the viewport. */
+/* Keep the original Travel × Life design, but adapt the hero to viewport shape. */
 @media (min-width: 961px) {
-  /* The world map is the hero's central visual, not a right-side decoration. */
   .hero-map__projection {
     top: 50%;
     left: 50%;
     right: auto;
-    width: min(100vw, 1850px);
+    /* 1357 / 628 ≈ 2.16. Scale from both viewport width and height so
+       the map keeps visual weight on 16:9, ultrawide, and tall displays. */
+    width: max(112vw, 172svh);
     max-width: none;
     transform: translate(-50%, -50%) translate3d(0, var(--hero-parallax, 0px), 0);
   }
@@ -16,7 +17,6 @@
     opacity: 0.62;
   }
 
-  /* Remove the old left-heavy shade that made a centered map look right-aligned. */
   .hero-shade {
     background:
       linear-gradient(180deg, rgba(7, 9, 7, 0.58) 0%, rgba(7, 9, 7, 0.10) 38%, rgba(7, 9, 7, 0.76) 100%),
@@ -24,11 +24,10 @@
   }
 
   .hero-map__halo {
-    inset: 6% 8%;
-    background: radial-gradient(circle at 50% 50%, rgba(199, 255, 61, 0.10), transparent 66%);
+    inset: 3% 3%;
+    background: radial-gradient(circle at 50% 50%, rgba(199, 255, 61, 0.11), transparent 68%);
   }
 
-  /* Break the Travel carousel out of the content shell so 50% is the viewport centre. */
   .travel-coverflow {
     width: 100vw;
     margin-left: calc(50% - 50vw);
@@ -43,6 +42,12 @@
     -webkit-user-drag: none;
     user-select: none;
   }
+
+  /* Live desktop drag is rendered by JS every frame; do not make CSS chase it. */
+  .travel-coverflow.is-dragging .travel-card,
+  .travel-coverflow.is-settling .travel-card {
+    transition: none;
+  }
 }
 
 @media (min-width: 721px) and (max-width: 960px) {
@@ -50,12 +55,12 @@
     top: 50%;
     left: 50%;
     right: auto;
-    width: 124vw;
+    width: max(124vw, 158svh);
     transform: translate(-50%, -50%) translate3d(0, var(--hero-parallax, 0px), 0);
   }
 }
 
-/* Mobile was already working; preserve its composition. */
+/* Mobile was already working; preserve its composition and original interaction. */
 @media (max-width: 720px) {
   .hero-map__projection {
     top: 31%;
