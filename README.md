@@ -1,53 +1,97 @@
-# Hank — Travel & Life Archive
+# Hank Travel & Life Archive
 
-Personal travel and life archive published with GitHub Pages.
+This repository contains the source for Hank's personal website, published with GitHub Pages.
 
-The site is intentionally not a professional portfolio. It is a visual journal of journeys, people, water, cities, and everyday life.
+The homepage is a personal archive of travel and everyday life. The hero uses a
+world map with visited destinations, while Travel is presented as an interactive
+3D coverflow. Each card opens a dedicated journey page with its own route,
+timeline, photographs, and clips.
 
-## Production architecture
+One current story chapter covers the route:
 
 ```text
-index.html           Complete semantic homepage content
-site.css             Production styling and responsive overrides
-site.js              Progressive enhancement for navigation, hero, coverflow, and atlas
-assets/               Photos, maps, video, and trip media
-travel/               Dedicated static journey pages
-app/                  React + TypeScript source retained for development
+Taiwan -> Hong Kong -> Tibet -> Chongqing -> Japan
 ```
 
-The homepage remains readable without JavaScript. JavaScript upgrades the Travel section into the 3D coverflow and makes the Atlas interactive.
+The newest chapter follows a 2026 Italy route through Milan, Rome, Florence,
+Pisa, and Cinque Terre, using a curated set of web-optimized photos, MP4 clips,
+and lightweight video posters.
 
-## Homepage structure
+That route is one chapter inside a growing visual diary of places, people,
+water, cities, and the ordinary moments between destinations.
 
-1. Cinematic photo-first hero
-2. Life / visual archive introduction
-3. Travel coverflow
-4. Journey atlas
-5. Contact
+## Live Site
 
-## Atlas
+```text
+https://hank187548.github.io/
+```
 
-`assets/maps/world-map.png` is the 1357×628 Wikimedia `Blank-Map-World.png`, which uses a Robinson projection centered around 11°15′ E rather than a linear equirectangular projection. Marker positions are therefore calculated with a Robinson projection in both the production JavaScript and React source. Markers are rendered inside the same aspect-ratio canvas as the image, and multi-stop journeys highlight their recorded route together.
+## Contents
 
-## Local preview
+- `index.html`: Main travel and life archive
+- `styles.css`: Responsive visual design and layout
+- `script.js`: Homepage navigation, world-map rotation, and Travel coverflow interaction
+- `travel/`: Dedicated static journey pages plus their shared gallery styles and behavior
+- `convert_heic_to_jpg.py`: Helper script for converting HEIC/HEIF images to JPG
+- `assets/photos/`: Web-optimized travel, life, and lab photos used by the site
+- `assets/trips/china-japan/`: Media for the Taiwan, Hong Kong, Tibet, Chongqing, and Japan story chapter
+- `assets/trips/italy-2026/`: Curated and web-optimized media for the 2026 Italy story chapter
+- `assets/videos/`: Short MP4 clips used by the Motion Notes section
+- `assets/video-posters/`: Lightweight poster images for the video cards
+- `assets/maps/world-map.png`: Public-domain blank world map used by the homepage hero
+- `.nojekyll`: Ensures GitHub Pages serves static files directly
+
+## Local Preview
+
+Open `index.html` directly in a browser, or run a local static server:
 
 ```bash
 python3 -m http.server 8123
 ```
 
-## React source
+Then open:
 
-```bash
-cd app
-npm install
-npm run dev
-npm run build
+```text
+http://localhost:8123
 ```
 
-The root `index.html`, `site.css`, and `site.js` remain the canonical GitHub Pages production files.
+## HEIC Conversion
+
+Convert all HEIC/HEIF images in the main trip folder to JPG:
+
+```bash
+python3 convert_heic_to_jpg.py
+```
+
+Convert into a publishable assets folder:
+
+```bash
+python3 convert_heic_to_jpg.py Videoplusimage/China_Japen -o assets/trips/china-japan --overwrite
+```
+
+If HEIC support is missing, install:
+
+```bash
+python3 -m pip install --user pillow-heif pillow
+```
+
+## Deployment
+
+This repository is intended for GitHub Pages using the `main` branch.
+
+If you need to push updates:
+
+```bash
+git add .
+git commit -m "Update portfolio website"
+git push
+```
+
+GitHub Pages will rebuild the site automatically after the push.
 
 ## Notes
 
-- Existing `/travel/.../` URLs and media paths are preserved.
-- The homepage supports mobile safe areas and `prefers-reduced-motion`.
-- Journey pages remain focused on Travel × Life.
+- The homepage is fully static and does not require a backend.
+- The world map is based on Wikimedia Commons `Blank-Map-World.png`, released into the public domain.
+- Contact is available by email from the homepage and journey pages.
+- `Videoplusimage/` is ignored by Git. Move publishable media into `assets/` before referencing it from `index.html`.
