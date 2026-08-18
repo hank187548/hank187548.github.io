@@ -2,25 +2,10 @@
   "use strict";
 
   const desktopPointer = window.matchMedia("(min-width: 961px) and (hover: hover) and (pointer: fine)");
-  let arrowNavigate = null;
-
-  // Intercept desktop arrow clicks before the legacy base handlers can run.
-  // The handler is installed immediately, before script-base.js is loaded.
-  const bindArrowInterceptor = (button, direction) => {
-    button?.addEventListener("click", (event) => {
-      if (!desktopPointer.matches) return;
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      arrowNavigate?.(direction);
-    }, true);
-  };
-
-  bindArrowInterceptor(document.querySelector("[data-coverflow-prev]"), -1);
-  bindArrowInterceptor(document.querySelector("[data-coverflow-next]"), 1);
 
   const loadBaseScript = () => new Promise((resolve, reject) => {
     const script = document.createElement("script");
-    script.src = "./script-base.js?v=20260819-coverflow-arrow-fix";
+    script.src = "./script-base.js?v=20260819-coverflow-arrow-clean";
     script.async = false;
     script.onload = resolve;
     script.onerror = reject;
@@ -32,11 +17,23 @@
     const coverflow = document.querySelector("[data-coverflow]");
     const stage = coverflow?.querySelector("[data-coverflow-stage]");
     const cards = coverflow ? [...coverflow.querySelectorAll("[data-travel-card]")] : [];
-    const previousButton = coverflow?.querySelector("[data-coverflow-prev]");
-    const nextButton = coverflow?.querySelector("[data-coverflow-next]");
     const currentLabel = coverflow?.querySelector("[data-coverflow-current]");
     const journeyLabel = coverflow?.querySelector("[data-coverflow-label]");
     if (!coverflow || !stage || cards.length < 2) return;
+
+    // The legacy base script already attached click listeners directly to the two
+    // arrow buttons. Replace the DOM nodes after base initialization so those
+    // listeners are physically gone instead of trying to race/cancel them.
+    const replaceButtonWithoutListeners = (selector) => {
+      const oldButton = coverflow.querySelector(selector);
+      if (!oldButton) return null;
+      const freshButton = oldButton.cloneNode(true);
+      oldButton.replaceWith(freshButton);
+      return freshButton;
+    };
+
+    const previousButton = replaceButtonWithoutListeners("[data-coverflow-prev]");
+    const nextButton = replaceButtonWithoutListeners("[data-coverflow-next]");
 
     const count = cards.length;
     const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -116,8 +113,6 @@
       const activeIndex = indexAt(target);
       coverflow.classList.remove("is-dragging");
 
-      // Keep reduced-motion behaviour for passive/gesture settling, but a deliberate
-      // desktop arrow click should still show the requested short navigation motion.
       if (reducedMotion() && !forceMotion) {
         position = target;
         render();
@@ -152,6 +147,7 @@
           if (focusCard) cards[activeIndex]?.focus({ preventScroll: true });
           return;
         }
+
         springFrame = window.requestAnimationFrame(step);
       };
 
@@ -170,9 +166,19 @@
       settleTo(target, arrowVelocity, false, forceMotion);
     }
 
-    // Arrow buttons use only this spring path on desktop. The early capture
-    // interceptors above prevent the legacy setActiveTravel() jump from firing.
-    arrowNavigate = (direction) => nudge(direction, true);
+    // These cloned buttons have no legacy listeners. A click can therefore only
+    // take the spring path below.
+    previousButton?.addEventListener("click", (event) => {
+      if (!desktop.matches) return;
+      event.preventDefault();
+      nudge(-1, true);
+    });
+
+    nextButton?.addEventListener("click", (event) => {
+      if (!desktop.matches) return;
+      event.preventDefault();
+      nudge(1, true);
+    });
 
     function handlePointerDown(event) {
       if (!desktop.matches || event.button !== 0) return;
@@ -244,8 +250,6 @@
       nudge(event.deltaX + event.deltaY > 0 ? 1 : -1);
     }, { capture: true, passive: false });
 
-    // Card selection stays delegated to the coverflow. Arrow clicks are handled
-    // directly at the buttons and intentionally excluded here.
     coverflow.addEventListener("click", (event) => {
       if (!desktop.matches) return;
       const card = event.target.closest?.("[data-travel-card]");
@@ -261,6 +265,7 @@
         goTo(index, true);
         return;
       }
+
       const href = card.getAttribute("href");
       if (href) window.location.assign(href);
     }, true);
@@ -274,6 +279,7 @@
 
     previousButton?.setAttribute("title", "Previous journey");
     nextButton?.setAttribute("title", "Next journey");
+
     window.addEventListener("resize", () => {
       if (desktop.matches) render();
     }, { passive: true });
