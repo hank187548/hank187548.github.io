@@ -1,30 +1,254 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="theme-color" content="#090a08" />
-<meta name="description" content="Hank's portfolio and visual archive: quantitative research, machine learning, computer vision, travel, water, cities, and life in motion." />
-<meta property="og:type" content="website" />
-<meta property="og:title" content="Hank — Systems & Stories" />
-<meta property="og:description" content="I build systems. I collect moments. Quant research, ML, computer vision, and a visual archive of life beyond the screen." />
-<meta property="og:url" content="https://hank187548.github.io/" />
-<meta property="og:image" content="https://hank187548.github.io/assets/trips/italy-2026/cinque-terre-cover.jpg" />
-<meta name="twitter:card" content="summary_large_image" />
-<link rel="canonical" href="https://hank187548.github.io/" />
-<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="preconnect" href="https://esm.sh" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/app/src/styles.css?v=20260818" />
-<link rel="preload" as="image" href="/assets/trips/italy-2026/cinque-terre-cover.jpg" fetchpriority="high" />
-<style>.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease)}.reveal.is-visible{opacity:1;transform:none}.hero-fade{animation:heroFade 1s var(--ease)}@keyframes heroFade{from{opacity:0;transform:scale(1.025)}to{opacity:1;transform:scale(1)}}@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}.hero-fade{animation:none}}</style>
-<title>Hank — Systems & Stories</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0b09" />
+  <meta name="description" content="Hank's portfolio and visual archive: quantitative research, machine learning, computer vision, travel, water, cities, and life in motion." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Hank — Systems & Stories" />
+  <meta property="og:description" content="I build systems. I collect moments. Quant research, ML, computer vision, and a visual archive of life beyond the screen." />
+  <meta property="og:url" content="https://hank187548.github.io/" />
+  <meta property="og:image" content="https://hank187548.github.io/assets/trips/italy-2026/cinque-terre-cover.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="https://hank187548.github.io/" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="preload" as="image" href="/assets/trips/italy-2026/cinque-terre-cover.jpg" fetchpriority="high" />
+  <link rel="stylesheet" href="/site.css?v=20260818b" />
+  <title>Hank — Systems & Stories</title>
 </head>
 <body>
-<div id="root"></div>
-<noscript>This portfolio requires JavaScript for the React homepage. Journey pages remain directly available under /travel/.</noscript>
-<script type="module" src="/v2.js?v=20260818"></script>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="scroll-progress" data-scroll-progress aria-hidden="true"></div>
+
+  <header class="site-header" data-header>
+    <a class="wordmark" href="#top" aria-label="Hank, back to top">
+      <strong>HANK</strong>
+      <span>Systems × Stories</span>
+    </a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="#profile">Profile</a>
+      <a href="#work">Work</a>
+      <a href="#journeys">Journeys</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="header-meta" aria-label="Location and year">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span>Taipei · 2026</span>
+    </div>
+    <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu">Menu</button>
+  </header>
+
+  <div class="mobile-menu" id="mobile-menu" data-mobile-menu aria-hidden="true">
+    <nav aria-label="Mobile navigation">
+      <a href="#profile"><span>01</span>Profile</a>
+      <a href="#work"><span>02</span>Work</a>
+      <a href="#journeys"><span>03</span>Journeys</a>
+      <a href="#contact"><span>04</span>Contact</a>
+    </nav>
+    <div class="mobile-menu__footer">
+      <a href="mailto:hank187548@gmail.com">hank187548@gmail.com</a>
+      <span>Taipei, Taiwan</span>
+    </div>
+  </div>
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero-media" aria-hidden="true">
+        <img class="hero-media__image is-active" data-hero-slide data-label="Italy / 2026" src="/assets/trips/italy-2026/cinque-terre-cover.jpg" alt="" fetchpriority="high" decoding="async" />
+        <img class="hero-media__image" data-hero-slide data-label="Tibet · Chongqing · Japan / 2025" src="/assets/trips/china-japan/Tibet_landscape_2.jpg" alt="" loading="lazy" decoding="async" />
+        <img class="hero-media__image" data-hero-slide data-label="Okinawa / Open water" src="/assets/trips/diving/Diving_in_okinawa.jpg" alt="" loading="lazy" decoding="async" />
+        <img class="hero-media__image" data-hero-slide data-label="Bali · Sydney · Uluru" src="/assets/trips/bali-australia/Sydney.jpg" alt="" loading="lazy" decoding="async" />
+      </div>
+      <div class="hero-overlay" aria-hidden="true"></div>
+      <div class="hero-grain" aria-hidden="true"></div>
+
+      <div class="hero-shell shell">
+        <div class="hero-kicker">
+          <span>Independent portfolio / Taipei</span>
+          <span>Quant · ML · Vision · Life</span>
+        </div>
+        <div class="hero-title-wrap">
+          <p class="hero-pretitle">I build systems.<br />I collect moments.</p>
+          <h1 id="hero-title">HANK<span>.</span></h1>
+        </div>
+        <div class="hero-bottom">
+          <p>Graduate researcher working across quantitative systems, machine learning, and computer vision — with a visual archive of travel, water, cities, and everything beyond the screen.</p>
+          <div class="hero-links">
+            <a href="#work">Selected work <span>↘</span></a>
+            <a href="#journeys">Open journeys <span>↘</span></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-index" aria-label="Featured image controls">
+        <div class="hero-index__count"><span data-hero-current>01</span><i></i><span>04</span></div>
+        <div class="hero-index__label" data-hero-label>Italy / 2026</div>
+        <div class="hero-index__dots">
+          <button class="is-active" type="button" data-hero-dot aria-label="Show Italy image"></button>
+          <button type="button" data-hero-dot aria-label="Show Tibet image"></button>
+          <button type="button" data-hero-dot aria-label="Show Okinawa image"></button>
+          <button type="button" data-hero-dot aria-label="Show Sydney image"></button>
+        </div>
+      </div>
+      <a class="scroll-cue" href="#profile" aria-label="Scroll to profile"><span>Scroll</span><i aria-hidden="true"></i></a>
+    </section>
+
+    <section class="profile section shell" id="profile" aria-labelledby="profile-title">
+      <div class="section-marker"><span>01</span><p>Profile</p></div>
+      <div class="profile-grid">
+        <div class="profile-copy">
+          <p class="eyebrow">Work–life, without the split.</p>
+          <h2 id="profile-title">I like problems that need <em>structure</em>, and places that make me forget it.</h2>
+          <p class="profile-lede">Based in Taipei. Graduate researcher in quantitative research, with work across machine learning and computer vision. Outside the model, I keep a visual diary of people, light, water, and movement.</p>
+          <div class="profile-actions">
+            <a href="/CV1_Hank_quant.pdf" target="_blank" rel="noreferrer">View CV <span>↗</span></a>
+            <a href="https://github.com/hank187548" target="_blank" rel="noreferrer">GitHub <span>↗</span></a>
+          </div>
+        </div>
+        <div class="profile-portrait">
+          <figure class="profile-portrait__frame">
+            <img src="/assets/life/ME.jpg" alt="Hank" loading="lazy" decoding="async" />
+            <figcaption>Hank / Taipei</figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="profile-facts">
+        <article><span>Base</span><strong>Taipei, Taiwan</strong></article>
+        <article><span>Research</span><strong>Quant / ML / Vision</strong></article>
+        <article><span>Core stack</span><strong>Python / Qlib / PyTorch</strong></article>
+        <article><span>Elsewhere</span><strong>Travel / Ocean / Cities</strong></article>
+      </div>
+    </section>
+
+    <section class="work section" id="work" aria-labelledby="work-title">
+      <div class="shell">
+        <div class="section-marker section-marker--dark"><span>02</span><p>Selected work</p></div>
+        <div class="work-heading">
+          <div><h2 id="work-title">Systems built to answer <em>real questions.</em></h2></div>
+          <div><p>Research workflows, forecasting experiments, and vision systems — built to be tested, compared, and used.</p></div>
+        </div>
+        <div class="case-list">
+          <a class="case-study case-study--featured" href="https://github.com/hank187548/qlib-public" target="_blank" rel="noreferrer">
+            <span class="case-number">01</span>
+            <div class="case-copy">
+              <p class="case-kicker">Qlib / Taiwan Equity / Research System</p>
+              <h3>Taiwan equity research pipeline</h3>
+              <p class="case-description">End-to-end research and trading workflow for Taiwan equities, from model experiments and backtests to scheduled execution and alerts.</p>
+              <ul class="tag-list"><li>Python</li><li>Qlib</li><li>LightGBM</li><li>CatBoost</li></ul>
+            </div>
+            <div class="case-code"><span>TWSE / RESEARCH</span><i></i></div>
+            <span class="case-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="case-study" href="https://github.com/hank187548/Binance3_public" target="_blank" rel="noreferrer">
+            <span class="case-number">02</span>
+            <div class="case-copy">
+              <p class="case-kicker">BTC / Sequence Modeling</p>
+              <h3>Market direction forecasting</h3>
+              <p class="case-description">GRU + attention experiments for BTC/USDT with preprocessing, triple-barrier labels, hyperparameter search, and scheduled inference.</p>
+              <ul class="tag-list"><li>GRU</li><li>Attention</li><li>Time series</li></ul>
+            </div>
+            <div class="case-code"><span>BTC / SIGNAL</span><i></i></div>
+            <span class="case-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="case-study" href="https://github.com/hank187548/Image-Processing" target="_blank" rel="noreferrer">
+            <span class="case-number">03</span>
+            <div class="case-copy">
+              <p class="case-kicker">Vision / Applied ML</p>
+              <h3>Computer vision research</h3>
+              <p class="case-description">Image-processing experiments spanning morphology, contour analysis, enhancement, and practical vision pipelines.</p>
+              <ul class="tag-list"><li>Python</li><li>Vision</li><li>Image processing</li></ul>
+            </div>
+            <div class="case-code"><span>CV / EXPERIMENTS</span><i></i></div>
+            <span class="case-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="journeys section" id="journeys" aria-labelledby="journeys-title">
+      <div class="shell">
+        <div class="section-marker"><span>03</span><p>Journeys</p></div>
+        <div class="journeys-heading">
+          <div><h2 id="journeys-title">Places pass by.<br /><em>Moments stay.</em></h2></div>
+          <div><p>Each chapter keeps a route, a sequence of images, and the ordinary details that would otherwise disappear.</p></div>
+        </div>
+      </div>
+      <div class="journey-rail" aria-label="Travel chapters">
+        <a class="journey-card" href="/travel/italy-2026/">
+          <div class="journey-card__media"><img src="/assets/trips/italy-2026/cinque-terre-cover.jpg" alt="Cinque Terre village on the Ligurian coast" loading="lazy" decoding="async" /><span class="journey-card__shade"></span><span class="journey-card__number">01</span><span class="journey-card__arrow">↗</span></div>
+          <div class="journey-card__meta"><span>Jun 21 — Jul 06 · 2026</span><h3>Italy, in motion.</h3><p>Milano → Roma → Firenze → Cinque Terre</p></div>
+        </a>
+        <a class="journey-card" href="/travel/asia-2025/">
+          <div class="journey-card__media"><img src="/assets/trips/china-japan/Tibet_landscape_2.jpg" alt="Mountain landscape in Tibet" loading="lazy" decoding="async" /><span class="journey-card__shade"></span><span class="journey-card__number">02</span><span class="journey-card__arrow">↗</span></div>
+          <div class="journey-card__meta"><span>Travel chapter · 2025</span><h3>Asia overland.</h3><p>Taiwan → Tibet → Chongqing → Japan</p></div>
+        </a>
+        <a class="journey-card" href="/travel/okinawa/">
+          <div class="journey-card__media"><img src="/assets/trips/diving/Diving_in_okinawa.jpg" alt="Diving in Okinawa" loading="lazy" decoding="async" /><span class="journey-card__shade"></span><span class="journey-card__number">03</span><span class="journey-card__arrow">↗</span></div>
+          <div class="journey-card__meta"><span>Diving · Open water</span><h3>Okinawa blue.</h3><p>Training below the surface</p></div>
+        </a>
+        <a class="journey-card" href="/travel/bali-australia/">
+          <div class="journey-card__media"><img src="/assets/trips/bali-australia/Sydney.jpg" alt="Sydney Harbour and Opera House" loading="lazy" decoding="async" /><span class="journey-card__shade"></span><span class="journey-card__number">04</span><span class="journey-card__arrow">↗</span></div>
+          <div class="journey-card__meta"><span>Bali · Sydney · Uluru</span><h3>Southbound.</h3><p>Beach, surf, road, and red earth</p></div>
+        </a>
+        <a class="journey-card" href="/travel/thailand-vietnam/">
+          <div class="journey-card__media"><img src="/assets/trips/thailand-vietnam/Thai.jpg" alt="A travel moment in Thailand" loading="lazy" decoding="async" /><span class="journey-card__shade"></span><span class="journey-card__number">05</span><span class="journey-card__arrow">↗</span></div>
+          <div class="journey-card__meta"><span>Thailand · Vietnam</span><h3>Friends & streets.</h3><p>Night markets and local guides</p></div>
+        </a>
+      </div>
+      <div class="shell rail-note"><span>Swipe horizontally</span><i></i><span>Open a chapter ↗</span></div>
+    </section>
+
+    <section class="map-section section" id="map" aria-labelledby="map-title">
+      <div class="shell">
+        <div class="section-marker section-marker--dark"><span>04</span><p>Atlas</p></div>
+        <div class="map-heading">
+          <div><h2 id="map-title">One base.<br /><em>Many directions.</em></h2></div>
+          <div><p>The map works as a journey index: choose a stop and reopen its chapter from there.</p></div>
+        </div>
+        <div class="atlas">
+          <div class="atlas-map">
+            <div class="atlas-map__grid" aria-hidden="true"></div>
+            <img src="/assets/maps/world-map.png" alt="World map showing journey destinations" loading="lazy" decoding="async" />
+            <span class="atlas-base" style="--x:83.8%;--y:36.1%"><i></i><b>Taipei</b></span>
+            <button class="atlas-stop is-active" type="button" style="--x:53.5%;--y:26.2%" data-atlas-stop data-eyebrow="Italy / 2026" data-title="Italy, in motion." data-route="Milano → Roma → Firenze → Cinque Terre" data-image="/assets/trips/italy-2026/cinque-terre-cover.jpg" data-alt="Cinque Terre village on the Ligurian coast" data-href="/travel/italy-2026/" aria-pressed="true"><span>01</span></button>
+            <button class="atlas-stop" type="button" style="--x:75.3%;--y:33.6%" data-atlas-stop data-eyebrow="Tibet · Chongqing · Japan / 2025" data-title="Asia overland." data-route="Taiwan → Tibet → Chongqing → Japan" data-image="/assets/trips/china-japan/Tibet_landscape_2.jpg" data-alt="Mountain landscape in Tibet" data-href="/travel/asia-2025/" aria-pressed="false"><span>02</span></button>
+            <button class="atlas-stop" type="button" style="--x:85.5%;--y:35.4%" data-atlas-stop data-eyebrow="Okinawa / Open water" data-title="Okinawa blue." data-route="Training below the surface" data-image="/assets/trips/diving/Diving_in_okinawa.jpg" data-alt="Diving in Okinawa" data-href="/travel/okinawa/" aria-pressed="false"><span>03</span></button>
+            <button class="atlas-stop" type="button" style="--x:88.8%;--y:63.2%" data-atlas-stop data-eyebrow="Bali · Sydney · Uluru" data-title="Southbound." data-route="Beach, surf, road, and red earth" data-image="/assets/trips/bali-australia/Sydney.jpg" data-alt="Sydney Harbour and Opera House" data-href="/travel/bali-australia/" aria-pressed="false"><span>04</span></button>
+            <button class="atlas-stop" type="button" style="--x:79.2%;--y:43.2%" data-atlas-stop data-eyebrow="Thailand · Vietnam" data-title="Friends & streets." data-route="Night markets and local guides" data-image="/assets/trips/thailand-vietnam/Thai.jpg" data-alt="A travel moment in Thailand" data-href="/travel/thailand-vietnam/" aria-pressed="false"><span>05</span></button>
+          </div>
+          <article class="atlas-card" aria-live="polite">
+            <div class="atlas-card__inner">
+              <div class="atlas-card__media"><img data-atlas-image src="/assets/trips/italy-2026/cinque-terre-cover.jpg" alt="Cinque Terre village on the Ligurian coast" loading="lazy" decoding="async" /></div>
+              <span class="atlas-card__eyebrow" data-atlas-eyebrow>Italy / 2026</span>
+              <h3 data-atlas-title>Italy, in motion.</h3>
+              <p data-atlas-route>Milano → Roma → Firenze → Cinque Terre</p>
+              <a data-atlas-link href="/travel/italy-2026/">Open journey <span>↗</span></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact section" id="contact" aria-labelledby="contact-title">
+      <div class="shell">
+        <div class="section-marker"><span>05</span><p>Contact</p></div>
+        <div class="contact-title">
+          <p>Research, collaboration, or a good story.</p>
+          <h2 id="contact-title">Build something.<br /><em>Go somewhere.</em></h2>
+        </div>
+        <div class="contact-links">
+          <a href="mailto:hank187548@gmail.com"><span>Email</span><strong>hank187548@gmail.com</strong><i aria-hidden="true">↗</i></a>
+          <a href="https://github.com/hank187548" target="_blank" rel="noreferrer"><span>GitHub</span><strong>@hank187548</strong><i aria-hidden="true">↗</i></a>
+        </div>
+        <footer class="site-footer"><span>Hank / Taipei, Taiwan</span><span>Systems × Stories / 2026</span><a href="#top">Back to top ↑</a></footer>
+      </div>
+    </section>
+  </main>
+
+  <script src="/site.js?v=20260818b" defer></script>
 </body>
 </html>

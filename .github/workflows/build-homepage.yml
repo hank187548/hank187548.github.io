@@ -1,4 +1,4 @@
-name: Build React homepage
+name: Validate React source
 
 on:
   push:
@@ -6,23 +6,25 @@ on:
     paths:
       - "app/**"
       - ".github/workflows/build-homepage.yml"
+  pull_request:
+    paths:
+      - "app/**"
+      - ".github/workflows/build-homepage.yml"
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: homepage-build
+  group: react-source-validation-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -33,18 +35,3 @@ jobs:
       - name: Type-check and build
         working-directory: app
         run: npm run build
-      - name: Publish build to repository root
-        run: |
-          rm -rf app-assets
-          cp app/dist/index.html ./index.html
-          cp -R app/dist/app-assets ./app-assets
-          touch .nojekyll
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A index.html app-assets .nojekyll
-          if git diff --cached --quiet; then
-            echo "Build output is already current."
-            exit 0
-          fi
-          git commit -m "Build React homepage [skip ci]"
-          git push origin HEAD:main
