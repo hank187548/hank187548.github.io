@@ -3,8 +3,79 @@
 
   const desktopPointer = window.matchMedia("(min-width: 961px) and (hover: hover) and (pointer: fine)");
 
-  // This section no longer belongs in the visual archive.
-  document.querySelector(".manifesto")?.remove();
+  function simplifyHomepageLayout() {
+    // Keep the world map as the hero and reduce the copy to one word.
+    document.querySelector(".hero-topline")?.remove();
+    document.querySelector(".hero-bottom")?.remove();
+    document.querySelector(".hero-heading .section-code")?.remove();
+    document.querySelector(".manifesto")?.remove();
+
+    const heroInner = document.querySelector(".hero-inner");
+    const heroTitle = document.querySelector("#hero-title");
+    heroInner?.classList.add("hero-inner--minimal");
+    if (heroTitle) heroTitle.textContent = "Journeys";
+
+    const scrollCue = document.querySelector(".scroll-cue");
+    if (scrollCue) {
+      scrollCue.setAttribute("href", "#stories");
+      scrollCue.setAttribute("aria-label", "Scroll to travel archive");
+    }
+
+    // Travel becomes section 01 and sits immediately after the ticker.
+    const ticker = document.querySelector(".ticker");
+    const stories = document.querySelector("#stories");
+    const profile = document.querySelector("#profile");
+    if (ticker && stories) ticker.after(stories);
+    else if (profile && stories) profile.before(stories);
+
+    const storiesNumber = stories?.querySelector(".section-marker > span");
+    const profileNumber = profile?.querySelector(".section-marker > span");
+    if (storiesNumber) storiesNumber.textContent = "01";
+    if (profileNumber) profileNumber.textContent = "02";
+
+    // Match navigation order to the page order.
+    const reorderNav = (nav) => {
+      if (!nav) return;
+      const travel = nav.querySelector('a[href="#stories"]');
+      const life = nav.querySelector('a[href="#profile"]');
+      if (travel && life) nav.insertBefore(travel, life);
+      [...nav.querySelectorAll("a")].forEach((link, index) => {
+        const number = link.querySelector("span");
+        if (number) number.textContent = String(index + 1).padStart(2, "0");
+      });
+    };
+
+    reorderNav(document.querySelector(".desktop-nav"));
+    reorderNav(document.querySelector(".mobile-menu nav"));
+
+    if (!document.querySelector("style[data-minimal-hero]")) {
+      const style = document.createElement("style");
+      style.dataset.minimalHero = "true";
+      style.textContent = `
+        .hero-inner--minimal {
+          grid-template-rows: 1fr;
+        }
+        .hero-inner--minimal .hero-heading {
+          align-self: center;
+          padding: 0;
+        }
+        .hero-inner--minimal .hero-heading h1 {
+          max-width: none;
+          font-size: clamp(5rem, 10vw, 11rem);
+          line-height: .86;
+          letter-spacing: -.075em;
+        }
+        @media (max-width: 720px) {
+          .hero-inner--minimal .hero-heading h1 {
+            font-size: clamp(4.2rem, 19vw, 6.8rem);
+          }
+        }
+      `;
+      document.head.append(style);
+    }
+  }
+
+  simplifyHomepageLayout();
 
   const simpleCardLabels = [
     { title: "Italy", html: "Italy", aria: "Open Italy journey" },
@@ -53,7 +124,7 @@
 
   const loadBaseScript = () => new Promise((resolve, reject) => {
     const script = document.createElement("script");
-    script.src = "./script-base.js?v=20260820-ultrawide-coverflow";
+    script.src = "./script-base.js?v=20260820-minimal-hero";
     script.async = false;
     script.onload = resolve;
     script.onerror = reject;
@@ -69,8 +140,6 @@
     const journeyLabel = coverflow?.querySelector("[data-coverflow-label]");
     if (!coverflow || !originalStage) return;
 
-    // The legacy base script owns its own card/pointer listeners and active index.
-    // Replace the stage after base initialization so desktop has one event system only.
     const stage = originalStage.cloneNode(true);
     originalStage.replaceWith(stage);
     const cards = [...stage.querySelectorAll("[data-travel-card]")];
@@ -103,10 +172,6 @@
       const viewportHeight = Math.max(window.innerHeight, 1);
       const cardWidth = Math.max(cards[0]?.getBoundingClientRect().width || 0, 260);
       const aspectRatio = stageWidth / viewportHeight;
-
-      // 16:9 stays close to the current composition. As the screen becomes
-      // ultrawide, card pitch grows with the viewport instead of hitting a
-      // card-width cap. 21:9 therefore uses the side space instead of clustering.
       const wideBoost = clamp((aspectRatio - 1.72) / 0.78, 0, 1);
       const responsivePitch = stageWidth * (0.205 + wideBoost * 0.052);
       const minimumPitch = cardWidth * 0.72;
@@ -292,8 +357,6 @@
       if (finished.captured) stage.releasePointerCapture?.(event.pointerId);
       coverflow.classList.remove("is-dragging");
 
-      // A normal click never gets pointer capture or preventDefault, so the active
-      // card remains a real link. Only an actual drag suppresses the click.
       if (!finished.moved) return;
 
       event.preventDefault();
@@ -332,7 +395,6 @@
       });
     });
 
-    // Capture keyboard navigation before the legacy listener on the outer coverflow.
     coverflow.addEventListener("keydown", (event) => {
       if (!desktopPointer.matches || (event.key !== "ArrowLeft" && event.key !== "ArrowRight")) return;
       event.preventDefault();
