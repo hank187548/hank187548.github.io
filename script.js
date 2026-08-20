@@ -3,6 +3,9 @@
 
   const desktopPointer = window.matchMedia("(min-width: 961px) and (hover: hover) and (pointer: fine)");
 
+  // This section no longer belongs in the visual archive.
+  document.querySelector(".manifesto")?.remove();
+
   const simpleCardLabels = [
     { title: "Italy", html: "Italy", aria: "Open Italy journey" },
     { title: "China → Tokyo", html: "China →<br />Tokyo", aria: "Open China to Tokyo journey" },
@@ -50,7 +53,7 @@
 
   const loadBaseScript = () => new Promise((resolve, reject) => {
     const script = document.createElement("script");
-    script.src = "./script-base.js?v=20260819-card-links-clean";
+    script.src = "./script-base.js?v=20260820-ultrawide-coverflow";
     script.async = false;
     script.onload = resolve;
     script.onerror = reject;
@@ -97,14 +100,24 @@
 
     function metrics() {
       const stageWidth = Math.max(stage.clientWidth, window.innerWidth, 1);
+      const viewportHeight = Math.max(window.innerHeight, 1);
       const cardWidth = Math.max(cards[0]?.getBoundingClientRect().width || 0, 260);
-      const responsivePitch = stageWidth * 0.205;
-      const cardPitch = cardWidth + Math.max(18, stageWidth * 0.018);
-      const pitch = clamp(Math.min(responsivePitch, cardPitch), cardWidth * 0.72, cardWidth * 1.12);
+      const aspectRatio = stageWidth / viewportHeight;
+
+      // 16:9 stays close to the current composition. As the screen becomes
+      // ultrawide, card pitch grows with the viewport instead of hitting a
+      // card-width cap. 21:9 therefore uses the side space instead of clustering.
+      const wideBoost = clamp((aspectRatio - 1.72) / 0.78, 0, 1);
+      const responsivePitch = stageWidth * (0.205 + wideBoost * 0.052);
+      const minimumPitch = cardWidth * 0.72;
+      const maximumPitch = cardWidth * (1.12 + wideBoost * 0.52);
+      const pitch = clamp(responsivePitch, minimumPitch, maximumPitch);
+
       return {
         cardWidth,
         pitch,
         depth: cardWidth * 0.48,
+        wideBoost,
       };
     }
 
@@ -122,7 +135,7 @@
     }
 
     function render(value = position) {
-      const { pitch, depth } = metrics();
+      const { pitch, depth, wideBoost } = metrics();
       const activeIndex = indexAt(value);
 
       cards.forEach((card, index) => {
@@ -134,8 +147,9 @@
         const rotation = -direction * 44 * Math.pow(centreBlend, 0.72);
         const scale = clamp(1 - depthRamp * 0.075, 0.72, 1);
         const opacity = absoluteDistance > 3 ? 0 : clamp(1 - depthRamp * 0.17, 0.28, 1);
+        const outerSpread = 1 + Math.max(0, absoluteDistance - 1) * wideBoost * 0.09;
 
-        card.style.setProperty("--travel-x", `${distance * pitch}px`);
+        card.style.setProperty("--travel-x", `${distance * pitch * outerSpread}px`);
         card.style.setProperty("--travel-z", `${-depth * depthRamp}px`);
         card.style.setProperty("--travel-rotate", `${rotation}deg`);
         card.style.setProperty("--travel-scale", String(scale));
