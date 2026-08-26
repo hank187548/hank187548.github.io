@@ -31,7 +31,7 @@ The original media stays in that local folder. Only selected, web-optimized copi
 - `travel/story.css`, `travel/story.js`: shared journey-gallery layout and interaction
 - `travel/<slug>/index.html`: one clean URL per folder
 - `assets/archive/<slug>/`: WebP photographs, compressed MP4 clips, posters, and covers
-- `assets/maps/world-map.png`: homepage map
+- `assets/maps/world-map-hq.webp`: high-resolution NASA Blue Marble homepage map
 - `.nojekyll`: serves the static files directly on GitHub Pages
 
 ## Local preview
@@ -55,3 +55,7 @@ Then open `http://127.0.0.1:8123/`.
 ## Deployment
 
 The `main` branch is the GitHub Pages source. Pushing a commit publishes the updated static site automatically.
+
+## Map imagery
+
+The homepage uses NASA Earth Observatory's Blue Marble: Next Generation imagery with topography and bathymetry, resized and compressed for the web. Imagery by Reto Stöckli, NASA Earth Observatory.

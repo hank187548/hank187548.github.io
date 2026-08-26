@@ -67,14 +67,14 @@
   const yearFrom = (dates) => dates.match(/\d{4}(?!.*\d{4})/)?.[0] || "";
   const shortDates = (dates) => dates.replace(/\s*·\s*\d{4}\s*$/, "");
 
-  function applyMapFocus(journey, overview = false) {
+  function applyMapFocus(journey) {
     if (!mapFrame) return;
-    const focus = overview ? { x: 50, y: 50, mobileScale: 1, desktopScale: 1 } : (journey.focus || { x: 50, y: 50, mobileScale: 1, desktopScale: 1 });
+    const focus = journey.focus || { x: 50, y: 50, mobileScale: 1, desktopScale: 1 };
     const scale = mobileLayout.matches ? (focus.mobileScale || 1) : (focus.desktopScale || 1);
     const width = mapFrame.offsetWidth;
     const height = mapFrame.offsetHeight;
     const panX = -((focus.x / 100) - .5) * width * scale;
-    const lift = overview ? 0 : window.innerHeight * (mobileLayout.matches ? .07 : .025);
+    const lift = window.innerHeight * (mobileLayout.matches ? .07 : .025);
     const panY = -((focus.y / 100) - .5) * height * scale - lift;
     currentMapScale = scale;
     mapFrame.style.setProperty("--map-scale", String(scale));
@@ -204,7 +204,7 @@
       city.style.setProperty("--label-y", `${(stop.labelY || 0) * finalLabelScale}px`);
       city.innerHTML = `<i></i><span>${stop.name}</span>`;
       routeCities.append(city);
-      const timer = window.setTimeout(() => city.classList.add("is-visible"), 1650 + index * 300);
+      const timer = window.setTimeout(() => city.classList.add("is-visible"), 620 + index * 300);
       cityTimers.push(timer);
     });
   }
@@ -246,10 +246,7 @@
       button.toggleAttribute("aria-current", buttonIndex === index);
     });
     renderCities(journey);
-    applyMapFocus(journey, !reducedMotion.matches);
-    if (!reducedMotion.matches) {
-      cityTimers.push(window.setTimeout(() => applyMapFocus(journey), 1450));
-    }
+    applyMapFocus(journey);
     sizeRouteCanvas();
     routeProgress = 0;
     drawRoute(0);

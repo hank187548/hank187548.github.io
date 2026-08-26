@@ -16,10 +16,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="preload" as="image" href="./assets/maps/world-map.png" fetchpriority="high" />
+  <link rel="preload" as="image" href="./assets/maps/world-map-hq.webp" type="image/webp" fetchpriority="high" />
   <title>Hank — Travel × Life</title>
   <script>document.documentElement.classList.replace("no-js", "js");</script>
-  <link rel="stylesheet" href="./styles.css?v=20260827-routes" />
+  <link rel="stylesheet" href="./styles.css?v=20260827-smooth-map" />
 </head>
 <body>
   <a class="skip-link" href="#archive">Skip to archive</a>
@@ -49,7 +49,7 @@
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="map" aria-hidden="true">
         <div class="map-frame" data-map-frame>
-          <img src="./assets/maps/world-map.png" alt="" fetchpriority="high" decoding="async" />
+          <img src="./assets/maps/world-map-hq.webp" alt="" fetchpriority="high" decoding="async" />
           <canvas class="route-canvas" data-route-canvas></canvas>
           <div class="route-cities" data-route-cities></div>
         </div>
@@ -110,7 +110,7 @@
     <div class="footer-base"><span>Taipei, Taiwan</span><span>© <span data-year></span> Hank</span></div>
   </footer>
 
-  <script src="./content/journeys.js?v=20260827-routes"></script>
-  <script src="./script.js?v=20260827-routes"></script>
+  <script src="./content/journeys.js?v=20260827-smooth-map"></script>
+  <script src="./script.js?v=20260827-smooth-map"></script>
 </body>
 </html>
