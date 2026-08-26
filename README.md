@@ -2,7 +2,7 @@
 
 Hank's personal travel and life archive, published as a static site with GitHub Pages.
 
-Every folder under the local media library represents one trip or one life chapter. The homepage turns those folders into a world map and an interactive coverflow; every card opens a chronological, curated gallery of photographs and films.
+Every folder under the local media library represents one trip or one life chapter. The homepage animates six travel routes across the world map and turns all seven folders into an interactive coverflow; every card opens a chronological, curated gallery of photographs and films.
 
 ## Live site
 
@@ -25,7 +25,7 @@ The original media stays in that local folder. Only selected, web-optimized copi
 
 ## Site structure
 
-- `index.html`, `styles.css`, `script.js`: homepage, map, and folder carousel
+- `index.html`, `styles.css`, `script.js`: homepage, animated travel routes, and folder carousel
 - `content/journeys.js`: chapter titles, dates, source-folder names, covers, and destinations
 - `content/archive.js`: chronological media selection for every chapter
 - `travel/story.css`, `travel/story.js`: shared journey-gallery layout and interaction

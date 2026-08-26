@@ -1,6 +1,8 @@
 (() => {
   "use strict";
 
+  document.addEventListener("gesturestart", (event) => event.preventDefault(), { passive: false });
+
   const root = "../../";
   const slug = document.body.dataset.journey;
   const journeys = window.JOURNEYS || [];

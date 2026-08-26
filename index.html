@@ -2,12 +2,12 @@
 <html lang="en" class="no-js">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#080a08" />
-  <meta name="description" content="Hank's travel and life archive. Every folder is a chapter." />
+  <meta name="description" content="Hank's travel and life archive — journeys, photographs, and films." />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Hank — Travel × Life" />
-  <meta property="og:description" content="Every folder is a chapter: photographs, motion, people, and places." />
+  <meta property="og:description" content="Journeys, photographs, films, and life in between." />
   <meta property="og:url" content="https://hank187548.github.io/" />
   <meta property="og:image" content="https://hank187548.github.io/assets/archive/italy-2026/cover.webp" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -19,7 +19,7 @@
   <link rel="preload" as="image" href="./assets/maps/world-map.png" fetchpriority="high" />
   <title>Hank — Travel × Life</title>
   <script>document.documentElement.classList.replace("no-js", "js");</script>
-  <link rel="stylesheet" href="./styles.css?v=20260826-folder-archive" />
+  <link rel="stylesheet" href="./styles.css?v=20260827-routes" />
 </head>
 <body>
   <a class="skip-link" href="#archive">Skip to archive</a>
@@ -28,7 +28,7 @@
       <strong>Hank</strong><span>Travel × Life</span>
     </a>
     <nav aria-label="Primary navigation">
-      <a href="#archive">Archive</a>
+      <a href="#archive">Travel</a>
       <a href="#life">Life</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -39,7 +39,7 @@
 
   <div class="mobile-menu" data-mobile-menu aria-hidden="true">
     <nav aria-label="Mobile navigation">
-      <a href="#archive"><span>01</span>Archive</a>
+      <a href="#archive"><span>01</span>Travel</a>
       <a href="#life"><span>02</span>Life</a>
       <a href="#contact"><span>03</span>Contact</a>
     </nav>
@@ -48,38 +48,29 @@
   <main>
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="map" aria-hidden="true">
-        <img src="./assets/maps/world-map.png" alt="" fetchpriority="high" decoding="async" />
-        <div class="map-markers" data-map-markers></div>
-      </div>
-      <div class="hero-vignette" aria-hidden="true"></div>
-      <div class="hero-copy">
-        <p class="eyebrow">Personal visual archive · Taipei</p>
-        <h1 id="hero-title">Every folder<br />is a <em>chapter.</em></h1>
-        <div class="hero-foot">
-          <p>Journeys, people, and ordinary moments—kept in the order they happened.</p>
-          <a href="#archive">Explore the archive <span>↓</span></a>
+        <div class="map-frame" data-map-frame>
+          <img src="./assets/maps/world-map.png" alt="" fetchpriority="high" decoding="async" />
+          <canvas class="route-canvas" data-route-canvas></canvas>
+          <div class="route-cities" data-route-cities></div>
         </div>
       </div>
-      <div class="map-caption" aria-live="polite">
-        <span data-map-index>01 / 07</span>
-        <p data-map-label>Bali → Australia · 2023</p>
+      <div class="hero-vignette" aria-hidden="true"></div>
+      <div class="route-copy" data-route-copy>
+        <p class="route-count"><span data-route-index>01 / 06</span><span data-route-year>2023</span></p>
+        <h1 id="hero-title" data-route-title>Bali → Australia</h1>
+        <p class="route-dates" data-route-dates>Jul 26 — Aug 09</p>
+        <a class="route-open" data-route-open href="./travel/bali-australia-2023/">Open journey <span>↗</span></a>
+      </div>
+      <div class="route-nav" data-route-nav aria-label="Travel route slideshow"></div>
+      <div class="route-live" aria-live="polite" aria-atomic="true">
+        <span data-route-live>Bali to Australia, July to August 2023</span>
       </div>
     </section>
 
-    <div class="ticker" aria-hidden="true">
-      <div>
-        <span>Travel</span><i>✦</i><span>People</span><i>✦</i><span>Ocean</span><i>✦</i><span>Cities</span><i>✦</i><span>Everyday life</span><i>✦</i>
-        <span>Travel</span><i>✦</i><span>People</span><i>✦</i><span>Ocean</span><i>✦</i><span>Cities</span><i>✦</i><span>Everyday life</span><i>✦</i>
-      </div>
-    </div>
-
     <section class="archive" id="archive" aria-labelledby="archive-title">
       <div class="section-heading">
-        <p><span>01</span> Archive</p>
-        <div>
-          <h2 id="archive-title">Seven folders.<br /><em>Seven stories.</em></h2>
-          <p>Every card comes from one folder on this computer. Swipe or drag through them, then open a chapter for its photographs and films.</p>
-        </div>
+        <p><span>01</span> Travel</p>
+        <h2 id="archive-title">Journeys.</h2>
       </div>
 
       <div class="coverflow" data-coverflow tabindex="0" aria-label="Journey archive carousel">
@@ -89,20 +80,19 @@
           <div class="coverflow-meta" aria-live="polite">
             <span data-current>01 / 07</span>
             <strong data-current-title>Bali → Australia</strong>
-            <small data-current-folder>2023_0726-Bali_Australia</small>
+            <small data-current-route>Bali · Sydney · Uluru</small>
           </div>
           <button type="button" data-next aria-label="Next chapter">→</button>
         </div>
-        <p class="interaction-hint">Drag · swipe · arrow keys</p>
+        <p class="interaction-hint">Swipe</p>
       </div>
     </section>
 
     <section class="life" id="life" aria-labelledby="life-title">
       <div class="life-image"><img src="./assets/archive/toolmen/cover.webp" alt="Friends walking through Taipei at night" loading="lazy" decoding="async" /></div>
       <div class="life-copy">
-        <p class="eyebrow">02 · Life between destinations</p>
-        <h2 id="life-title">Not every chapter<br />needs a <em>boarding pass.</em></h2>
-        <p>The archive also keeps the people, late nights, and ordinary chaos that make a place feel like home.</p>
+        <p class="eyebrow">02 · Life</p>
+        <h2 id="life-title">Toolmen.</h2>
         <a href="./travel/toolmen/">Open Toolmen <span>↗</span></a>
       </div>
     </section>
@@ -111,7 +101,7 @@
   <footer id="contact">
     <div>
       <p class="eyebrow">03 · Contact</p>
-      <h2>See you<br /><em>somewhere.</em></h2>
+      <h2>Contact.</h2>
     </div>
     <div class="footer-links">
       <a href="mailto:hank187548@gmail.com">hank187548@gmail.com <span>↗</span></a>
@@ -120,7 +110,7 @@
     <div class="footer-base"><span>Taipei, Taiwan</span><span>© <span data-year></span> Hank</span></div>
   </footer>
 
-  <script src="./content/journeys.js?v=20260826-folder-archive"></script>
-  <script src="./script.js?v=20260826-folder-archive"></script>
+  <script src="./content/journeys.js?v=20260827-routes"></script>
+  <script src="./script.js?v=20260827-routes"></script>
 </body>
 </html>
