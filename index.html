@@ -19,7 +19,7 @@
   <link rel="preload" as="image" href="./assets/maps/world-map-hq.webp" type="image/webp" fetchpriority="high" />
   <title>Hank — Travel × Life</title>
   <script>document.documentElement.classList.replace("no-js", "js");</script>
-  <link rel="stylesheet" href="./styles.css?v=20260827-smooth-map" />
+  <link rel="stylesheet" href="./styles.css?v=20260827-route-fit" />
 </head>
 <body>
   <a class="skip-link" href="#archive">Skip to archive</a>
@@ -49,9 +49,11 @@
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="map" aria-hidden="true">
         <div class="map-frame" data-map-frame>
-          <img src="./assets/maps/world-map-hq.webp" alt="" fetchpriority="high" decoding="async" />
-          <canvas class="route-canvas" data-route-canvas></canvas>
-          <div class="route-cities" data-route-cities></div>
+          <div class="map-surface">
+            <img src="./assets/maps/world-map-hq.webp" alt="" fetchpriority="high" decoding="async" />
+            <canvas class="route-canvas" data-route-canvas></canvas>
+            <div class="route-cities" data-route-cities></div>
+          </div>
         </div>
       </div>
       <div class="hero-vignette" aria-hidden="true"></div>
@@ -110,7 +112,7 @@
     <div class="footer-base"><span>Taipei, Taiwan</span><span>© <span data-year></span> Hank</span></div>
   </footer>
 
-  <script src="./content/journeys.js?v=20260827-smooth-map"></script>
-  <script src="./script.js?v=20260827-smooth-map"></script>
+  <script src="./content/journeys.js?v=20260827-route-fit"></script>
+  <script src="./script.js?v=20260827-route-fit"></script>
 </body>
 </html>

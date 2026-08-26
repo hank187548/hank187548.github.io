@@ -42,6 +42,7 @@
   let activeRoute = 0;
   let routeTimer = 0;
   let transitionTimer = 0;
+  let flightTimer = 0;
   let routeAnimation = 0;
   let routeProgress = 0;
   let heroVisible = true;
@@ -60,27 +61,46 @@
   const clearRouteTimers = () => {
     window.clearTimeout(routeTimer);
     window.clearTimeout(transitionTimer);
+    window.clearTimeout(flightTimer);
     cityTimers.splice(0).forEach((timer) => window.clearTimeout(timer));
     window.cancelAnimationFrame(routeAnimation);
   };
 
   const yearFrom = (dates) => dates.match(/\d{4}(?!.*\d{4})/)?.[0] || "";
   const shortDates = (dates) => dates.replace(/\s*·\s*\d{4}\s*$/, "");
+  const cameraRevealDelay = () => reducedMotion.matches ? 0 : (mobileLayout.matches ? 1100 : 850);
 
   function applyMapFocus(journey) {
-    if (!mapFrame) return;
+    if (!mapFrame) return 1;
     const focus = journey.focus || { x: 50, y: 50, mobileScale: 1, desktopScale: 1 };
-    const scale = mobileLayout.matches ? (focus.mobileScale || 1) : (focus.desktopScale || 1);
+    const routeStops = journey.stops?.length ? journey.stops : [{ x: focus.x, y: focus.y }];
+    const xs = routeStops.map((stop) => stop.x);
+    const ys = routeStops.map((stop) => stop.y);
+    const minX = Math.min(...xs);
+    const maxX = Math.max(...xs);
+    const minY = Math.min(...ys);
+    const maxY = Math.max(...ys);
+    const centerX = (minX + maxX) / 2;
+    const centerY = (minY + maxY) / 2;
+    const scaleLimit = mobileLayout.matches ? (focus.mobileScale || 1) : (focus.desktopScale || 1);
     const width = mapFrame.offsetWidth;
     const height = mapFrame.offsetHeight;
-    const panX = -((focus.x / 100) - .5) * width * scale;
+    const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const paddedRouteWidth = Math.max(maxX - minX + (mobileLayout.matches ? 4 : 3), 1) / 100 * width;
+    const paddedRouteHeight = Math.max(maxY - minY + 4, 1) / 100 * height;
+    const fitX = viewportWidth * (mobileLayout.matches ? .76 : .82) / paddedRouteWidth;
+    const fitY = viewportHeight * (mobileLayout.matches ? .48 : .62) / paddedRouteHeight;
+    const scale = Math.max(1, Math.min(scaleLimit, fitX, fitY));
+    const panX = -((centerX / 100) - .5) * width * scale;
     const lift = window.innerHeight * (mobileLayout.matches ? .07 : .025);
-    const panY = -((focus.y / 100) - .5) * height * scale - lift;
+    const panY = -((centerY / 100) - .5) * height * scale - lift;
     currentMapScale = scale;
     mapFrame.style.setProperty("--map-scale", String(scale));
     mapFrame.style.setProperty("--map-pan-x", `${panX}px`);
     mapFrame.style.setProperty("--map-pan-y", `${panY}px`);
     mapFrame.style.setProperty("--label-scale", String(1 / scale));
+    return scale;
   }
 
   function buildRouteSegments(journey, width, height) {
@@ -186,11 +206,11 @@
     }
   }
 
-  function renderCities(journey) {
+  function renderCities(journey, mapScale) {
     if (!routeCities) return;
     routeCities.replaceChildren();
     const seen = new Set();
-    const finalLabelScale = mobileLayout.matches ? (journey.focus?.mobileScale || 1) : (journey.focus?.desktopScale || 1);
+    const finalLabelScale = mapScale || 1;
     journey.stops.forEach((stop, index) => {
       if (seen.has(stop.name)) return;
       seen.add(stop.name);
@@ -204,7 +224,7 @@
       city.style.setProperty("--label-y", `${(stop.labelY || 0) * finalLabelScale}px`);
       city.innerHTML = `<i></i><span>${stop.name}</span>`;
       routeCities.append(city);
-      const timer = window.setTimeout(() => city.classList.add("is-visible"), 620 + index * 300);
+      const timer = window.setTimeout(() => city.classList.add("is-visible"), cameraRevealDelay() + index * 300);
       cityTimers.push(timer);
     });
   }
@@ -245,8 +265,8 @@
       button.classList.toggle("is-active", buttonIndex === index);
       button.toggleAttribute("aria-current", buttonIndex === index);
     });
-    renderCities(journey);
-    applyMapFocus(journey);
+    const mapScale = applyMapFocus(journey);
+    renderCities(journey, mapScale);
     sizeRouteCanvas();
     routeProgress = 0;
     drawRoute(0);
@@ -262,7 +282,7 @@
       window.requestAnimationFrame(() => {
         hero?.classList.remove("route-changing");
         routeCopy?.classList.remove("route-copy--changing");
-        animateRoute();
+        flightTimer = window.setTimeout(animateRoute, cameraRevealDelay());
         scheduleNextRoute();
       });
     };
