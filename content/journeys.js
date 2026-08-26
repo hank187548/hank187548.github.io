@@ -1,0 +1,93 @@
+window.JOURNEYS = [
+  {
+    slug: "bali-australia-2023",
+    sourceFolder: "2023_0726-Bali_Australia",
+    type: "Travel",
+    title: "Bali → Australia",
+    shortTitle: "Southbound",
+    dates: "Jul 26 — Aug 09 · 2023",
+    route: "Bali · Sydney · Uluru",
+    note: "Surf, coastlines, city light, and red earth.",
+    cover: "./assets/archive/bali-australia-2023/cover.webp",
+    href: "./travel/bali-australia-2023/",
+    map: { x: 88.8, y: 63.2 }
+  },
+  {
+    slug: "thailand-2024",
+    sourceFolder: "2024_0510-Thai",
+    type: "Travel",
+    title: "Thailand",
+    shortTitle: "Four nights",
+    dates: "May 10 — May 14 · 2024",
+    route: "Thailand · With friends",
+    note: "Four nights, one shared frame.",
+    cover: "./assets/archive/thailand-2024/cover.webp",
+    href: "./travel/thailand-2024/",
+    map: { x: 79.2, y: 43.2 }
+  },
+  {
+    slug: "tibet-japan-2025",
+    sourceFolder: "2025_0709-Tibet_Japen",
+    type: "Travel",
+    title: "Tibet → Japan",
+    shortTitle: "Asia overland",
+    dates: "Jul 10 — Aug 19 · 2025",
+    route: "Tibet · Chongqing · Japan",
+    note: "Rails, altitude, temples, and city light.",
+    cover: "./assets/archive/tibet-japan-2025/cover.webp",
+    href: "./travel/tibet-japan-2025/",
+    map: { x: 75.3, y: 33.6 }
+  },
+  {
+    slug: "okinawa-2025",
+    sourceFolder: "2025_0827-Okinawa",
+    type: "Travel",
+    title: "Okinawa",
+    shortTitle: "Okinawa blue",
+    dates: "Aug — Dec · 2025",
+    route: "Okinawa · Open water",
+    note: "Training below the surface.",
+    cover: "./assets/archive/okinawa-2025/cover.webp",
+    href: "./travel/okinawa-2025/",
+    map: { x: 85.5, y: 35.4 }
+  },
+  {
+    slug: "thailand-vietnam-2026",
+    sourceFolder: "2026_0122-Thai_Vietnam",
+    type: "Travel",
+    title: "Thailand → Vietnam",
+    shortTitle: "Friends & streets",
+    dates: "Jan 22 — Feb 05 · 2026",
+    route: "Thailand · Vietnam",
+    note: "Night streets, boats, and friends.",
+    cover: "./assets/archive/thailand-vietnam-2026/cover.webp",
+    href: "./travel/thailand-vietnam-2026/",
+    map: { x: 80.4, y: 43.8 }
+  },
+  {
+    slug: "italy-2026",
+    sourceFolder: "2026_0820-Italy",
+    type: "Travel",
+    title: "Italy",
+    shortTitle: "Italy in motion",
+    dates: "Jun 21 — Jul 06 · 2026",
+    route: "Milano · Roma · Firenze · Liguria",
+    note: "Cities, old stones, friends, and the sea.",
+    cover: "./assets/archive/italy-2026/cover.webp",
+    href: "./travel/italy-2026/",
+    map: { x: 53.5, y: 26.2 }
+  },
+  {
+    slug: "toolmen",
+    sourceFolder: "Toolmen",
+    type: "Life",
+    title: "Toolmen",
+    shortTitle: "The people chapter",
+    dates: "2024 — 2025",
+    route: "Taipei · Ordinary nights",
+    note: "Friends, late nights, and the chaos worth keeping.",
+    cover: "./assets/archive/toolmen/cover.webp",
+    href: "./travel/toolmen/",
+    map: { x: 83.8, y: 36.1 }
+  }
+];

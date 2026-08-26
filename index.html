@@ -1,430 +1,126 @@
 <!doctype html>
 <html lang="en" class="no-js">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="theme-color" content="#090b09" />
-<meta property="og:type" content="website" />
-<meta property="og:title" content="Hank — Travel & Life Archive" />
-<meta property="og:description" content="A visual archive of journeys, people, water, and everyday life." />
-<meta property="og:url" content="https://hank187548.github.io/" />
-<meta name="twitter:card" content="summary" />
-<link rel="canonical" href="https://hank187548.github.io/" />
-<link rel="icon" href="./favicon.svg" type="image/svg+xml" />
-<meta
-name="description"
-content="Hank's visual travel and life archive: journeys, photographs, short films, people, and everyday moments."
-/>
-<title>Hank — Travel & Life Archive</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap"
-rel="stylesheet"
-/>
-<link rel="preload" as="image" href="./assets/maps/world-map.png" fetchpriority="high" />
-<script>document.documentElement.classList.replace("no-js", "js");</script>
-<link rel="stylesheet" href="./styles.css?v=20260816-travel-map" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#080a08" />
+  <meta name="description" content="Hank's travel and life archive. Every folder is a chapter." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Hank — Travel × Life" />
+  <meta property="og:description" content="Every folder is a chapter: photographs, motion, people, and places." />
+  <meta property="og:url" content="https://hank187548.github.io/" />
+  <meta property="og:image" content="https://hank187548.github.io/assets/archive/italy-2026/cover.webp" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="https://hank187548.github.io/" />
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preload" as="image" href="./assets/maps/world-map.png" fetchpriority="high" />
+  <title>Hank — Travel × Life</title>
+  <script>document.documentElement.classList.replace("no-js", "js");</script>
+  <link rel="stylesheet" href="./styles.css?v=20260826-folder-archive" />
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
-<div class="scroll-progress" aria-hidden="true"><span></span></div>
-<div class="cursor-light" aria-hidden="true"></div>
-<header class="site-header" data-header>
-<a class="wordmark magnetic" href="#top" aria-label="Hank, back to top">
-<span>Hank</span>
-<small>Travel × Life</small>
-</a>
-<nav class="desktop-nav" aria-label="Primary navigation">
-<a href="#profile">Life</a>
-<a href="#stories">Travel</a>
-<a href="#contact">Contact</a>
-</nav>
-<div class="header-meta" aria-hidden="true">
-<span>Taipei</span>
-<span class="status-dot"></span>
-<span>2026</span>
-</div>
-<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu">
-<span class="menu-label">Menu</span>
-<span class="menu-icon" aria-hidden="true"><i></i><i></i></span>
-</button>
-</header>
-<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
-<div class="mobile-menu__backdrop"></div>
-<nav aria-label="Mobile navigation">
-<a href="#profile"><span>01</span>Life</a>
-<a href="#stories"><span>02</span>Travel</a>
-<a href="#contact"><span>03</span>Contact</a>
-</nav>
-<div class="mobile-menu__footer">
-<a href="mailto:hank187548@gmail.com">hank187548@gmail.com</a>
-<span>Taipei, Taiwan</span>
-</div>
-</div>
-<main id="main">
-<section class="hero" id="top" data-section-theme="dark" aria-labelledby="hero-title">
-<div class="hero-map" aria-hidden="true">
-<div class="hero-map__halo"></div>
-<div class="hero-map__grid"></div>
-<div class="hero-map__projection">
-<img class="hero-map__image" src="./assets/maps/world-map.png" alt="" fetchpriority="high" decoding="async" />
-<div class="hero-map__base" style="--map-x: 83.8%; --map-y: 36.1%;"><i></i><span>Taipei / Base</span></div>
-<div class="hero-map__stop is-active" data-hero-slide data-label="Italy / 2026" style="--map-x: 53.5%; --map-y: 26.2%; --route-angle: 15deg; --route-length: 31%;">
-<i></i><span>Italy</span><small>2026</small>
-</div>
-<div class="hero-map__stop" data-hero-slide data-label="Tibet · Chongqing · Japan / 2025" style="--map-x: 75.3%; --map-y: 33.6%; --route-angle: 10deg; --route-length: 9%;">
-<i></i><span>Asia overland</span><small>2025</small>
-</div>
-<div class="hero-map__stop" data-hero-slide data-label="Okinawa / Open water" style="--map-x: 85.5%; --map-y: 35.4%; --route-angle: -8deg; --route-length: 5%;">
-<i></i><span>Okinawa</span><small>Open water</small>
-</div>
-<div class="hero-map__stop" data-hero-slide data-label="Bali · Sydney · Uluru" style="--map-x: 88.8%; --map-y: 63.2%; --route-angle: -80deg; --route-length: 28%;">
-<i></i><span>Bali + Australia</span><small>Southbound</small>
-</div>
-<div class="hero-map__stop" data-hero-slide data-label="Thailand · Vietnam" style="--map-x: 79.2%; --map-y: 43.2%; --route-angle: -62deg; --route-length: 9%;">
-<i></i><span>Thailand + Vietnam</span><small>Friends & streets</small>
-</div>
-</div>
-</div>
-<div class="hero-shade" aria-hidden="true"></div>
-<div class="hero-grain" aria-hidden="true"></div>
-<div class="hero-inner shell">
-<div class="hero-topline" data-reveal>
-<p>Travel journals<br />Places in motion</p>
-<p>Life documented<br />one frame at a time</p>
-</div>
-<div class="hero-heading" data-reveal>
-<p class="section-code">Personal visual archive / Taipei</p>
-<h1 id="hero-title">
-Places pass by.<br />
-<em>Moments stay.</em>
-</h1>
-</div>
-<div class="hero-bottom" data-reveal>
-<p class="hero-intro">
-A visual journal of places, people, water, and the life between destinations.
-</p>
-<div class="hero-actions">
-<a class="text-link magnetic" href="#stories">Open journeys <span>↘</span></a>
-<a class="text-link magnetic" href="#profile">About the archive <span>↘</span></a>
-</div>
-</div>
-</div>
-<div class="hero-index" aria-label="Hero slideshow controls">
-<button type="button" class="hero-index__button" data-hero-prev aria-label="Previous image">←</button>
-<div class="hero-index__status">
-<span data-hero-current>01</span>
-<i></i>
-<span data-hero-total>05</span>
-</div>
-<p data-hero-label>Italy / 2026</p>
-<button type="button" class="hero-index__button" data-hero-next aria-label="Next image">→</button>
-</div>
-<a class="scroll-cue" href="#profile" aria-label="Scroll to profile">
-<span>Scroll</span>
-<i aria-hidden="true"></i>
-</a>
-</section>
-<div class="ticker" aria-hidden="true">
-<div class="ticker-track">
-<span>Travel</span><i>✦</i><span>People</span><i>✦</i><span>Ocean</span><i>✦</i><span>Cities</span><i>✦</i>
-<span>Mountains</span><i>✦</i><span>Everyday life</span><i>✦</i><span>Taipei</span><i>✦</i>
-<span>Travel</span><i>✦</i><span>People</span><i>✦</i><span>Ocean</span><i>✦</i><span>Cities</span><i>✦</i>
-<span>Mountains</span><i>✦</i><span>Everyday life</span><i>✦</i><span>Taipei</span><i>✦</i>
-</div>
-</div>
-<section class="profile section shell" id="profile" data-section-theme="light" aria-labelledby="profile-title">
-<div class="section-marker" data-reveal>
-<span>01</span>
-<p>Life</p>
-</div>
-<div class="profile-grid">
-<h2 id="profile-title" data-reveal>
-A life, <em>in motion.</em>
-</h2>
-<div class="profile-copy" data-reveal>
-<p>
-Based in Taipei, keeping a visual diary of the places I go and the people, light, and ordinary moments I find there.
-</p>
-</div>
-</div>
-<div class="profile-facts" data-reveal>
-<article>
-<span>Base</span>
-<strong>Taipei, Taiwan</strong>
-</article>
-<article>
-<span>Drawn to</span>
-<strong>Mountains / Water / Cities</strong>
-</article>
-<article>
-<span>Archive</span>
-<strong>Photos / Motion / Notes</strong>
-</article>
-</div>
-</section>
-<section class="stories section" id="stories" data-section-theme="light" aria-labelledby="stories-title">
-<div class="shell">
-<div class="section-marker" data-reveal>
-<span>02</span>
-<p>Travel archive</p>
-</div>
-<div class="stories-heading">
-<h2 id="stories-title" data-reveal>Travel, <em>in motion.</em></h2>
-<p data-reveal>
-Each card is a journey. Move through the archive, then open one to see the full route.
-</p>
-</div>
-<div class="travel-coverflow" data-coverflow data-reveal tabindex="0" aria-label="Travel journeys carousel">
-<div class="travel-coverflow__stage" data-coverflow-stage>
-<a class="travel-card is-active" data-travel-card data-title="Italy, in motion." href="./travel/italy-2026/" aria-label="Open Italy 2026 journey">
-<img src="./assets/trips/italy-2026/cinque-terre-cover.jpg" alt="Cinque Terre village on the Ligurian coast" decoding="async" />
-<span class="travel-card__shade" aria-hidden="true"></span>
-<span class="travel-card__number">01</span>
-<span class="travel-card__copy"><small>Jun 21—Jul 06 · 2026</small><strong>Italy,<br />in motion.</strong><em>Milano → Roma → Firenze → Cinque Terre</em></span>
-<span class="travel-card__open">Open journey <i>↗</i></span>
-</a>
-<a class="travel-card" data-travel-card data-title="Asia overland." href="./travel/asia-2025/" aria-label="Open Asia overland 2025 journey">
-<img src="./assets/trips/china-japan/Tibet_landscape_2.jpg" alt="Mountain landscape in Tibet" loading="lazy" decoding="async" />
-<span class="travel-card__shade" aria-hidden="true"></span>
-<span class="travel-card__number">02</span>
-<span class="travel-card__copy"><small>Travel chapter · 2025</small><strong>Asia<br />overland.</strong><em>Taiwan → Tibet → Chongqing → Japan</em></span>
-<span class="travel-card__open">Open journey <i>↗</i></span>
-</a>
-<a class="travel-card" data-travel-card data-title="Okinawa blue." href="./travel/okinawa/" aria-label="Open Okinawa open water journey">
-<img src="./assets/trips/diving/Diving_in_okinawa.jpg" alt="Diving in Okinawa" loading="lazy" decoding="async" />
-<span class="travel-card__shade" aria-hidden="true"></span>
-<span class="travel-card__number">03</span>
-<span class="travel-card__copy"><small>Diving · Open water</small><strong>Okinawa<br />blue.</strong><em>Training below the surface</em></span>
-<span class="travel-card__open">Open journey <i>↗</i></span>
-</a>
-<a class="travel-card" data-travel-card data-title="Southbound." href="./travel/bali-australia/" aria-label="Open Bali and Australia journey">
-<img src="./assets/trips/bali-australia/Sydney.jpg" alt="Sydney Harbour and Opera House" loading="lazy" decoding="async" />
-<span class="travel-card__shade" aria-hidden="true"></span>
-<span class="travel-card__number">04</span>
-<span class="travel-card__copy"><small>Bali · Sydney · Uluru</small><strong>South<br />bound.</strong><em>Beach, surf, road, and red earth</em></span>
-<span class="travel-card__open">Open journey <i>↗</i></span>
-</a>
-<a class="travel-card" data-travel-card data-title="Friends &amp; streets." href="./travel/thailand-vietnam/" aria-label="Open Thailand and Vietnam journey">
-<img src="./assets/trips/thailand-vietnam/Thai.jpg" alt="Thailand travel moment" loading="lazy" decoding="async" />
-<span class="travel-card__shade" aria-hidden="true"></span>
-<span class="travel-card__number">05</span>
-<span class="travel-card__copy"><small>Thailand · Vietnam</small><strong>Friends &amp;<br />streets.</strong><em>Night markets and local guides</em></span>
-<span class="travel-card__open">Open journey <i>↗</i></span>
-</a>
-</div>
-<div class="travel-coverflow__controls">
-<button type="button" data-coverflow-prev aria-label="Previous journey">←</button>
-<div class="travel-coverflow__status" aria-live="polite"><span data-coverflow-current>01</span><i></i><span>05</span></div>
-<p data-coverflow-label>Italy, in motion.</p>
-<button type="button" data-coverflow-next aria-label="Next journey">→</button>
-</div>
-<p class="travel-coverflow__hint">Drag · swipe · use arrow keys</p>
-</div>
-<div class="story-list" hidden aria-hidden="true">
-<details class="story-card story-card--feature story-card--italy" id="italy-2026" data-story data-reveal>
-<summary>
-<img src="./assets/trips/italy-2026/cinque-terre-cover.jpg" alt="Cinque Terre village on the Ligurian coast" decoding="async" />
-<span class="story-wash" aria-hidden="true"></span>
-<span class="story-index">01 / 06</span>
-<span class="story-title">
-<small>Travel chapter / Jun 21—Jul 06, 2026</small>
-<strong>Italy, <br />in motion.</strong>
-<em>Milano → Roma → Firenze → Pisa → Cinque Terre.</em>
-</span>
-<span class="story-toggle" aria-hidden="true"><i></i><i></i></span>
-</summary>
-<div class="story-content">
-<div class="story-intro">
-<p>
-Fourteen days from Milano to the Ligurian coast.
-</p>
-<ol class="timeline">
-<li><span>Jun 21–22</span><strong>Milano arrival.</strong></li>
-<li><span>Jun 23–26</span><strong>Northern Italy with friends.</strong></li>
-<li><span>Jun 27–28</span><strong>Vatican and Roma.</strong></li>
-<li><span>Jun 29–Jul 02</span><strong>Firenze and the Arno.</strong></li>
-<li><span>Jul 03</span><strong>Pisa and Cinque Terre.</strong></li>
-<li><span>Jul 04–06</span><strong>Sea, friends, and home.</strong></li>
-</ol>
-</div>
-<div class="media-grid">
-<figure class="media-tile media-tile--portrait"><img data-src="./assets/trips/italy-2026/milan-galleria.jpg" alt="Galleria Vittorio Emanuele II in Milan" loading="lazy" decoding="async" /><figcaption>Jun 22 · Milano</figcaption></figure>
-<figure class="media-tile media-tile--wide"><img data-src="./assets/trips/italy-2026/milan-street.jpg" alt="A street in Milan at dusk" loading="lazy" decoding="async" /><figcaption>Jun 22 · City lines</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/italy-2026/friends-north.jpg" alt="Friends walking together in northern Italy" loading="lazy" decoding="async" /><figcaption>Jun 23 · Together</figcaption></figure>
-<figure class="media-tile media-tile--video"><video controls playsinline preload="none" data-poster="./assets/video-posters/italy-2026/vatican-fountain.jpg" aria-label="Fountain at Vatican City"><source data-src="./assets/trips/italy-2026/vatican-fountain.mp4" type="video/mp4" /></video><figcaption>Jun 27 · Vatican light</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/italy-2026/rome-castel-sant-angelo.jpg" alt="Castel Sant'Angelo in Rome" loading="lazy" decoding="async" /><figcaption>Jun 27 · Castel Sant'Angelo</figcaption></figure>
-<figure class="media-tile media-tile--wide"><img data-src="./assets/trips/italy-2026/rome-trevi.jpg" alt="Trevi Fountain in Rome" loading="lazy" decoding="async" /><figcaption>Jun 27 · Trevi</figcaption></figure>
-<figure class="media-tile media-tile--wide"><img data-src="./assets/trips/italy-2026/rome-colosseum.jpg" alt="Inside the Colosseum in Rome" loading="lazy" decoding="async" /><figcaption>Jun 28 · Colosseum</figcaption></figure>
-<figure class="media-tile media-tile--wide"><img data-src="./assets/trips/italy-2026/roman-forum.jpg" alt="Roman Forum under a blue sky" loading="lazy" decoding="async" /><figcaption>Jun 28 · Roman Forum</figcaption></figure>
-<figure class="media-tile media-tile--portrait"><img data-src="./assets/trips/italy-2026/florence-duomo.jpg" alt="Florence Cathedral seen from the street" loading="lazy" decoding="async" /><figcaption>Jun 30 · Firenze</figcaption></figure>
-<figure class="media-tile media-tile--wide"><img data-src="./assets/trips/italy-2026/florence-skyline.jpg" alt="Panoramic view over Florence" loading="lazy" decoding="async" /><figcaption>Jul 01 · Skyline</figcaption></figure>
-<figure class="media-tile media-tile--portrait"><img data-src="./assets/trips/italy-2026/florence-ceiling.jpg" alt="Painted cathedral ceiling in Florence" loading="lazy" decoding="async" /><figcaption>Jul 02 · Looking up</figcaption></figure>
-<figure class="media-tile media-tile--portrait"><img data-src="./assets/trips/italy-2026/florence-arno.jpg" alt="The Arno river at sunset" loading="lazy" decoding="async" /><figcaption>Jul 02 · Arno evening</figcaption></figure>
-<figure class="media-tile media-tile--portrait"><img data-src="./assets/trips/italy-2026/pisa.jpg" alt="Leaning Tower of Pisa" loading="lazy" decoding="async" /><figcaption>Jul 03 · Pisa</figcaption></figure>
-<figure class="media-tile media-tile--wide"><img data-src="./assets/trips/italy-2026/cinque-terre-cover.jpg" alt="Colourful village in Cinque Terre" loading="lazy" decoding="async" /><figcaption>Jul 03 · Cinque Terre</figcaption></figure>
-<figure class="media-tile media-tile--wide"><img data-src="./assets/trips/italy-2026/cinque-terre-coast.jpg" alt="Ligurian coastline seen from above" loading="lazy" decoding="async" /><figcaption>Jul 03 · Ligurian blue</figcaption></figure>
-<figure class="media-tile media-tile--portrait"><img data-src="./assets/trips/italy-2026/cinque-terre-rocks.jpg" alt="Rocky swimming cove in Cinque Terre" loading="lazy" decoding="async" /><figcaption>Jul 03 · The cove</figcaption></figure>
-<figure class="media-tile media-tile--video"><video controls playsinline preload="none" data-poster="./assets/video-posters/italy-2026/cinque-terre.jpg" aria-label="Cinque Terre coast"><source data-src="./assets/trips/italy-2026/cinque-terre.mp4" type="video/mp4" /></video><figcaption>Jul 03 · Coast in motion</figcaption></figure>
-<figure class="media-tile media-tile--video"><video controls playsinline preload="none" data-poster="./assets/video-posters/italy-2026/sea-swim.jpg" aria-label="Friends swimming in Cinque Terre"><source data-src="./assets/trips/italy-2026/sea-swim.mp4" type="video/mp4" /></video><figcaption>Jul 04 · Into the water</figcaption></figure>
-<figure class="media-tile media-tile--portrait"><img data-src="./assets/trips/italy-2026/friends-swim.jpg" alt="Friends by the sea in Cinque Terre" loading="lazy" decoding="async" /><figcaption>Jul 04 · By the sea</figcaption></figure>
-<figure class="media-tile media-tile--wide"><img data-src="./assets/trips/italy-2026/friends-night.jpg" alt="Friends together on the final night" loading="lazy" decoding="async" /><figcaption>Jul 04 · Last night</figcaption></figure>
-</div>
-</div>
-</details>
-<details class="story-card story-card--feature" id="china-japan" data-story data-reveal>
-<summary>
-<img src="./assets/trips/china-japan/Tibet_landscape_2.jpg" alt="Mountain landscape in Tibet" decoding="async" />
-<span class="story-wash" aria-hidden="true"></span>
-<span class="story-index">02 / 06</span>
-<span class="story-title">
-<small>Travel chapter / 2025</small>
-<strong>Taiwan → Tibet <br />→ Chongqing → Japan</strong>
-<em>Highlands, city nights, and fireworks.</em>
-</span>
-<span class="story-toggle" aria-hidden="true"><i></i><i></i></span>
-</summary>
-<div class="story-content">
-<div class="story-intro">
-<p>
-From Taiwan to Tibet, Chongqing, and Japan.
-</p>
-<ol class="timeline">
-<li><span>Taiwan</span><strong>Departure.</strong></li>
-<li><span>Hong Kong</span><strong>Transfer.</strong></li>
-<li><span>Tibet</span><strong>Trains, temples, and highlands.</strong></li>
-<li><span>Chongqing</span><strong>Bridges and city lights.</strong></li>
-<li><span>Japan</span><strong>Friends and fireworks.</strong></li>
-</ol>
-</div>
-<div class="media-grid">
-<figure class="media-tile media-tile--wide"><img data-src="./assets/trips/china-japan/Depature_to_Hongkong.jpg" alt="Departure to Hong Kong" loading="lazy" decoding="async" /><figcaption>Departure</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/china-japan/Take_train_to_Tibet.jpg" alt="Train to Tibet" loading="lazy" decoding="async" /><figcaption>Train</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/china-japan/Heighest_template_tibet.jpg" alt="Temple in Tibet" loading="lazy" decoding="async" /><figcaption>Temple</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/china-japan/Tibet_landscape.jpg" alt="Road through Tibet" loading="lazy" decoding="async" /><figcaption>Road</figcaption></figure>
-<figure class="media-tile media-tile--wide"><img data-src="./assets/trips/china-japan/Me_in_Tibet_2.jpg" alt="Portrait in Tibet" loading="lazy" decoding="async" /><figcaption>Altitude</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/china-japan/Me_In_tibet.jpg" alt="Portrait in Tibet" loading="lazy" decoding="async" /><figcaption>Tibet</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/china-japan/The_height_moutain_tibet.jpg" alt="Tibet mountain" loading="lazy" decoding="async" /><figcaption>Mountain</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/china-japan/The_height_pool_tibet.jpg" alt="High-altitude pool in Tibet" loading="lazy" decoding="async" /><figcaption>Water</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/china-japan/Tibet3.jpg" alt="Tibet landscape" loading="lazy" decoding="async" /><figcaption>Tibet view</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/china-japan/monk_in_tibet.jpg" alt="Monk in Tibet" loading="lazy" decoding="async" /><figcaption>Monk</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/china-japan/Bye_Tibet_to_chongqing.jpg" alt="Leaving Tibet for Chongqing" loading="lazy" decoding="async" /><figcaption>Next city</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/china-japan/Chongqing.jpg" alt="Chongqing city" loading="lazy" decoding="async" /><figcaption>Chongqing</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/china-japan/Chongqing_bridge.jpg" alt="Chongqing bridge" loading="lazy" decoding="async" /><figcaption>Bridge</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/china-japan/Chongqing_Hongya_Cave.jpg" alt="Hongya Cave" loading="lazy" decoding="async" /><figcaption>Hongya Cave</figcaption></figure>
-<figure class="media-tile media-tile--wide"><img data-src="./assets/trips/china-japan/Chongqing_night.jpg" alt="Chongqing at night" loading="lazy" decoding="async" /><figcaption>Night</figcaption></figure>
-<figure class="media-tile media-tile--video"><video controls playsinline preload="none" data-poster="./assets/video-posters/chongqing-performance-first-frame.jpg" aria-label="Chongqing performance"><source data-src="./assets/trips/china-japan/Chongqing_performance.mp4" type="video/mp4" /></video><figcaption>Show</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/china-japan/Me_Japen_3.jpg" alt="Portrait in Japan" loading="lazy" decoding="async" /><figcaption>Japan</figcaption></figure>
-<figure class="media-tile media-tile--portrait"><img data-src="./assets/trips/china-japan/Take_train_to_see_firework_Japen.png" alt="Train to see fireworks in Japan" loading="lazy" decoding="async" /><figcaption>Firework train</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/china-japan/Firework.jpg" alt="Fireworks" loading="lazy" decoding="async" /><figcaption>Firework</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/china-japan/Firework%202.jpg" alt="Fireworks" loading="lazy" decoding="async" /><figcaption>Firework</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/china-japan/Sleep_in_park.jpg" alt="Resting in a park" loading="lazy" decoding="async" /><figcaption>Rest</figcaption></figure>
-<figure class="media-tile media-tile--video"><video controls playsinline preload="none" data-poster="./assets/video-posters/train-inside-first-frame.jpg" aria-label="Inside a train"><source data-src="./assets/trips/china-japan/Train_inside.mp4" type="video/mp4" /></video><figcaption>Inside train</figcaption></figure>
-</div>
-</div>
-</details>
-<div class="story-grid">
-<details class="story-card" id="diving" data-story data-reveal>
-<summary>
-<img src="./assets/trips/diving/Diving_in_okinawa.jpg" alt="Diving in Okinawa" loading="lazy" decoding="async" />
-<span class="story-wash" aria-hidden="true"></span>
-<span class="story-index">03 / 06</span>
-<span class="story-title"><small>Diving / Open water</small><strong>Okinawa <br />water</strong><em>Training and ocean light.</em></span>
-<span class="story-toggle" aria-hidden="true"><i></i><i></i></span>
-</summary>
-<div class="story-content story-content--compact">
-<div class="media-grid media-grid--compact">
-<figure class="media-tile"><img data-src="./assets/trips/diving/Div2.jpg" alt="Dive moment" loading="lazy" decoding="async" /><figcaption>Dive</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/diving/Diving_test_PADI_OW.jpg" alt="PADI open-water training" loading="lazy" decoding="async" /><figcaption>PADI</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/photos/diving-open-water.jpg" alt="Open water" loading="lazy" decoding="async" /><figcaption>Open water</figcaption></figure>
-<figure class="media-tile media-tile--video"><video controls playsinline preload="none" data-poster="./assets/video-posters/diving-first-frame.jpg" aria-label="Diving clip"><source data-src="./assets/trips/diving/Diving.mp4" type="video/mp4" /></video><figcaption>Clip</figcaption></figure>
-</div>
-</div>
-</details>
-<details class="story-card" id="bali-australia" data-story data-reveal>
-<summary>
-<img src="./assets/trips/bali-australia/Sydney.jpg" alt="Sydney travel moment" loading="lazy" decoding="async" />
-<span class="story-wash" aria-hidden="true"></span>
-<span class="story-index">04 / 06</span>
-<span class="story-title"><small>Bali / Australia</small><strong>Beach, surf, <br />road</strong><em>Bali, Sydney, and Uluru.</em></span>
-<span class="story-toggle" aria-hidden="true"><i></i><i></i></span>
-</summary>
-<div class="story-content story-content--compact">
-<div class="media-grid media-grid--compact">
-<figure class="media-tile"><img data-src="./assets/trips/bali-australia/Bali_beach.jpg" alt="Bali beach" loading="lazy" decoding="async" /><figcaption>Bali</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/bali-australia/Diamond_beach.jpg" alt="Diamond Beach" loading="lazy" decoding="async" /><figcaption>Diamond</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/bali-australia/Surf.jpg" alt="Surfing" loading="lazy" decoding="async" /><figcaption>Surf</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/bali-australia/Sydney_bridge.jpg" alt="Sydney bridge" loading="lazy" decoding="async" /><figcaption>Bridge</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/bali-australia/Uluru_with_brother.jpg" alt="Uluru with brother" loading="lazy" decoding="async" /><figcaption>Uluru</figcaption></figure>
-<figure class="media-tile media-tile--video"><video controls playsinline preload="none" data-poster="./assets/video-posters/camel-with-brother-first-frame.jpg" aria-label="Camel clip"><source data-src="./assets/trips/bali-australia/Camel_with_brother.mp4" type="video/mp4" /></video><figcaption>Camel</figcaption></figure>
-</div>
-</div>
-</details>
-<details class="story-card" id="thailand-vietnam" data-story data-reveal>
-<summary>
-<img src="./assets/trips/thailand-vietnam/Thai.jpg" alt="Thailand travel" loading="lazy" decoding="async" />
-<span class="story-wash" aria-hidden="true"></span>
-<span class="story-index">05 / 06</span>
-<span class="story-title"><small>Thailand / Vietnam</small><strong>Friends &amp; <br />streets</strong><em>Streets and friends.</em></span>
-<span class="story-toggle" aria-hidden="true"><i></i><i></i></span>
-</summary>
-<div class="story-content story-content--compact">
-<div class="media-grid media-grid--compact">
-<figure class="media-tile"><img data-src="./assets/trips/thailand-vietnam/vietnam.jpg" alt="Vietnam" loading="lazy" decoding="async" /><figcaption>Vietnam</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/thailand-vietnam/US.jpg" alt="Thailand travel" loading="lazy" decoding="async" /><figcaption>Thailand</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/thailand-vietnam/With_our_guide.jpg" alt="With a local guide" loading="lazy" decoding="async" /><figcaption>Guide</figcaption></figure>
-<figure class="media-tile"><img data-src="./assets/trips/thailand-vietnam/Weed.jpg" alt="Thailand street" loading="lazy" decoding="async" /><figcaption>Street</figcaption></figure>
-<figure class="media-tile media-tile--video"><video controls playsinline preload="none" data-poster="./assets/video-posters/thailand-first-frame.jpg" aria-label="Thailand clip"><source data-src="./assets/trips/thailand-vietnam/Thai_2_with_master.mp4" type="video/mp4" /></video><figcaption>Clip</figcaption></figure>
-</div>
-</div>
-</details>
-</div>
-</div>
-</div>
-</section>
-<section class="manifesto section section-accent" data-section-theme="accent" aria-label="Life philosophy">
-<div class="shell manifesto-grid">
-<p class="section-code" data-reveal>Life philosophy</p>
-<blockquote data-reveal>
-“Go far enough to be changed. Come home with the <em>moments.</em>”
-</blockquote>
-</div>
-</section>
-</main>
-<footer class="footer" id="contact" data-section-theme="dark">
-<div class="shell">
-<div class="section-marker section-marker--light">
-<span>03</span>
-<p>Contact</p>
-</div>
-<div class="footer-heading">
-<p>Stories, places, or a simple hello.</p>
-<h2>Say <em>hello.</em></h2>
-</div>
-<div class="footer-actions">
-<a class="footer-cta magnetic" href="mailto:hank187548@gmail.com"><span>Email me</span><i>↗</i></a>
-<a class="footer-cta magnetic" href="#stories"><span>All journeys</span><i>↗</i></a>
-</div>
-<div class="footer-meta">
-<p>Hank — Taipei, Taiwan</p>
-<p>Travel / People / Everyday life</p>
-<p>© <span data-year>2026</span></p>
-</div>
-</div>
-</footer>
-<div class="photo-lightbox" data-lightbox role="dialog" aria-modal="true" aria-label="Photo viewer" aria-hidden="true" hidden>
-<button class="photo-lightbox__close" type="button" data-lightbox-close aria-label="Close photo viewer">×</button>
-<button class="photo-lightbox__nav photo-lightbox__nav--previous" type="button" data-lightbox-prev aria-label="Previous photo">←</button>
-<figure class="photo-lightbox__stage">
-<img class="photo-lightbox__image" data-lightbox-image alt="" />
-<figcaption class="photo-lightbox__meta">
-<span data-lightbox-caption></span>
-<span data-lightbox-counter aria-live="polite"></span>
-</figcaption>
-</figure>
-<button class="photo-lightbox__nav photo-lightbox__nav--next" type="button" data-lightbox-next aria-label="Next photo">→</button>
-</div>
-<script src="./script.js?v=20260819-coverflow-arrow-clean"></script>
+  <a class="skip-link" href="#archive">Skip to archive</a>
+  <header class="site-header">
+    <a class="wordmark" href="#top" aria-label="Hank, back to top">
+      <strong>Hank</strong><span>Travel × Life</span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="#archive">Archive</a>
+      <a href="#life">Life</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" data-menu-button>
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <div class="mobile-menu" data-mobile-menu aria-hidden="true">
+    <nav aria-label="Mobile navigation">
+      <a href="#archive"><span>01</span>Archive</a>
+      <a href="#life"><span>02</span>Life</a>
+      <a href="#contact"><span>03</span>Contact</a>
+    </nav>
+  </div>
+
+  <main>
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="map" aria-hidden="true">
+        <img src="./assets/maps/world-map.png" alt="" fetchpriority="high" decoding="async" />
+        <div class="map-markers" data-map-markers></div>
+      </div>
+      <div class="hero-vignette" aria-hidden="true"></div>
+      <div class="hero-copy">
+        <p class="eyebrow">Personal visual archive · Taipei</p>
+        <h1 id="hero-title">Every folder<br />is a <em>chapter.</em></h1>
+        <div class="hero-foot">
+          <p>Journeys, people, and ordinary moments—kept in the order they happened.</p>
+          <a href="#archive">Explore the archive <span>↓</span></a>
+        </div>
+      </div>
+      <div class="map-caption" aria-live="polite">
+        <span data-map-index>01 / 07</span>
+        <p data-map-label>Bali → Australia · 2023</p>
+      </div>
+    </section>
+
+    <div class="ticker" aria-hidden="true">
+      <div>
+        <span>Travel</span><i>✦</i><span>People</span><i>✦</i><span>Ocean</span><i>✦</i><span>Cities</span><i>✦</i><span>Everyday life</span><i>✦</i>
+        <span>Travel</span><i>✦</i><span>People</span><i>✦</i><span>Ocean</span><i>✦</i><span>Cities</span><i>✦</i><span>Everyday life</span><i>✦</i>
+      </div>
+    </div>
+
+    <section class="archive" id="archive" aria-labelledby="archive-title">
+      <div class="section-heading">
+        <p><span>01</span> Archive</p>
+        <div>
+          <h2 id="archive-title">Seven folders.<br /><em>Seven stories.</em></h2>
+          <p>Every card comes from one folder on this computer. Swipe or drag through them, then open a chapter for its photographs and films.</p>
+        </div>
+      </div>
+
+      <div class="coverflow" data-coverflow tabindex="0" aria-label="Journey archive carousel">
+        <div class="coverflow-stage" data-coverflow-stage></div>
+        <div class="coverflow-controls">
+          <button type="button" data-previous aria-label="Previous chapter">←</button>
+          <div class="coverflow-meta" aria-live="polite">
+            <span data-current>01 / 07</span>
+            <strong data-current-title>Bali → Australia</strong>
+            <small data-current-folder>2023_0726-Bali_Australia</small>
+          </div>
+          <button type="button" data-next aria-label="Next chapter">→</button>
+        </div>
+        <p class="interaction-hint">Drag · swipe · arrow keys</p>
+      </div>
+    </section>
+
+    <section class="life" id="life" aria-labelledby="life-title">
+      <div class="life-image"><img src="./assets/archive/toolmen/cover.webp" alt="Friends walking through Taipei at night" loading="lazy" decoding="async" /></div>
+      <div class="life-copy">
+        <p class="eyebrow">02 · Life between destinations</p>
+        <h2 id="life-title">Not every chapter<br />needs a <em>boarding pass.</em></h2>
+        <p>The archive also keeps the people, late nights, and ordinary chaos that make a place feel like home.</p>
+        <a href="./travel/toolmen/">Open Toolmen <span>↗</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contact">
+    <div>
+      <p class="eyebrow">03 · Contact</p>
+      <h2>See you<br /><em>somewhere.</em></h2>
+    </div>
+    <div class="footer-links">
+      <a href="mailto:hank187548@gmail.com">hank187548@gmail.com <span>↗</span></a>
+      <a href="#archive">All chapters <span>↑</span></a>
+    </div>
+    <div class="footer-base"><span>Taipei, Taiwan</span><span>© <span data-year></span> Hank</span></div>
+  </footer>
+
+  <script src="./content/journeys.js?v=20260826-folder-archive"></script>
+  <script src="./script.js?v=20260826-folder-archive"></script>
 </body>
 </html>
