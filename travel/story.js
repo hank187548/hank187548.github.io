@@ -10,8 +10,10 @@
   const media = window.JOURNEY_MEDIA?.[slug] || [];
   if (!journey) return;
 
+  const mediaVersion = "20260828-primary-media";
   const absolute = (path) => root + path.replace(/^\.\//, "");
   const assetBase = `${root}assets/archive/${slug}/`;
+  const assetUrl = (filename) => `${assetBase}${filename}?v=${mediaVersion}`;
   const formatDate = (filename) => {
     const match = filename.match(/^(\d{4})-(\d{2})-(\d{2})_(\d{2})-(\d{2})/);
     if (!match) return journey.dates;
@@ -23,7 +25,7 @@
   document.querySelector('[name="description"]')?.setAttribute("content", `${journey.title}: ${journey.note}`);
   document.querySelector('[property="og:title"]')?.setAttribute("content", `${journey.title} — Hank`);
   document.querySelector('[property="og:description"]')?.setAttribute("content", journey.note);
-  document.querySelector('[property="og:image"]')?.setAttribute("content", `https://hank187548.github.io/assets/archive/${slug}/cover.webp`);
+  document.querySelector('[property="og:image"]')?.setAttribute("content", `https://hank187548.github.io/assets/archive/${slug}/cover.webp?v=${mediaVersion}`);
 
   const hero = document.querySelector("[data-story-hero]");
   if (hero) hero.style.backgroundImage = `url("${absolute(journey.cover)}")`;
@@ -43,9 +45,9 @@
     if (isVideo) {
       const poster = filename.replace(/\.mp4$/, "-poster.webp");
       figure.classList.add("media-item--video");
-      figure.innerHTML = `<video controls playsinline preload="metadata" poster="${assetBase}${poster}" aria-label="${journey.title}, ${formatDate(filename)}"><source src="${assetBase}${filename}" type="video/mp4" /></video>${caption}`;
+      figure.innerHTML = `<video controls playsinline preload="metadata" poster="${assetUrl(poster)}" aria-label="${journey.title}, ${formatDate(filename)}"><source src="${assetUrl(filename)}" type="video/mp4" /></video>${caption}`;
     } else {
-      figure.innerHTML = `<button type="button" class="photo-button" data-photo data-index="${index}" aria-label="Open photo ${index + 1}"><img src="${assetBase}${filename}" alt="${journey.title}, ${formatDate(filename)}" loading="lazy" decoding="async" /></button>${caption}`;
+      figure.innerHTML = `<button type="button" class="photo-button" data-photo data-index="${index}" aria-label="Open photo ${index + 1}"><img src="${assetUrl(filename)}" alt="${journey.title}, ${formatDate(filename)}" loading="lazy" decoding="async" /></button>${caption}`;
     }
     gallery?.append(figure);
   });
@@ -69,7 +71,7 @@
   let activePhoto = 0;
   const showPhoto = (photoIndex) => {
     activePhoto = (photoIndex + photos.length) % photos.length;
-    lightboxImage.src = assetBase + photos[activePhoto];
+    lightboxImage.src = assetUrl(photos[activePhoto]);
     lightboxImage.alt = `${journey.title}, ${formatDate(photos[activePhoto])}`;
     lightboxMeta.textContent = `${formatDate(photos[activePhoto])} · ${activePhoto + 1} / ${photos.length}`;
   };

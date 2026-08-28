@@ -8,7 +8,7 @@ window.JOURNEYS = [
     dates: "Jul 26 — Aug 09 · 2023",
     route: "Bali · Sydney · Uluru",
     note: "Surf, coastlines, city light, and red earth.",
-    cover: "./assets/archive/bali-australia-2023/cover.webp",
+    cover: "./assets/archive/bali-australia-2023/cover.webp?v=20260828-primary-media",
     href: "./travel/bali-australia-2023/",
     focus: { x: 87, y: 52, mobileScale: 1.45, desktopScale: 1.12 },
     stops: [
@@ -28,7 +28,7 @@ window.JOURNEYS = [
     dates: "May 10 — May 14 · 2024",
     route: "Thailand · With friends",
     note: "Four nights, one shared frame.",
-    cover: "./assets/archive/thailand-2024/cover.webp",
+    cover: "./assets/archive/thailand-2024/cover.webp?v=20260828-primary-media",
     href: "./travel/thailand-2024/",
     focus: { x: 81, y: 39.5, mobileScale: 2.5, desktopScale: 1.65 },
     stops: [
@@ -46,7 +46,7 @@ window.JOURNEYS = [
     dates: "Jul 10 — Aug 19 · 2025",
     route: "Tibet · Chongqing · Japan",
     note: "Rails, altitude, temples, and city light.",
-    cover: "./assets/archive/tibet-japan-2025/cover.webp",
+    cover: "./assets/archive/tibet-japan-2025/cover.webp?v=20260828-primary-media",
     href: "./travel/tibet-japan-2025/",
     focus: { x: 82, y: 34, mobileScale: 1.95, desktopScale: 1.45 },
     stops: [
@@ -67,7 +67,7 @@ window.JOURNEYS = [
     dates: "Aug — Dec · 2025",
     route: "Okinawa · Open water",
     note: "Training below the surface.",
-    cover: "./assets/archive/okinawa-2025/cover.webp",
+    cover: "./assets/archive/okinawa-2025/cover.webp?v=20260828-primary-media",
     href: "./travel/okinawa-2025/",
     focus: { x: 84.7, y: 35.7, mobileScale: 3.2, desktopScale: 2.4 },
     stops: [
@@ -85,7 +85,7 @@ window.JOURNEYS = [
     dates: "Jan 22 — Feb 05 · 2026",
     route: "Thailand · Vietnam",
     note: "Night streets, boats, and friends.",
-    cover: "./assets/archive/thailand-vietnam-2026/cover.webp",
+    cover: "./assets/archive/thailand-vietnam-2026/cover.webp?v=20260828-primary-media",
     href: "./travel/thailand-vietnam-2026/",
     focus: { x: 81, y: 40, mobileScale: 2.25, desktopScale: 1.7 },
     stops: [
@@ -104,7 +104,7 @@ window.JOURNEYS = [
     dates: "Jun 21 — Jul 06 · 2026",
     route: "Milano · Roma · Firenze · Liguria",
     note: "Cities, old stones, friends, and the sea.",
-    cover: "./assets/archive/italy-2026/cover.webp",
+    cover: "./assets/archive/italy-2026/cover.webp?v=20260828-primary-media",
     href: "./travel/italy-2026/",
     focus: { x: 53.1, y: 25.8, mobileScale: 3.1, desktopScale: 2.2 },
     stops: [
@@ -126,7 +126,7 @@ window.JOURNEYS = [
     dates: "2024 — 2025",
     route: "Taipei · Ordinary nights",
     note: "Friends, late nights, and the chaos worth keeping.",
-    cover: "./assets/archive/toolmen/cover.webp",
+    cover: "./assets/archive/toolmen/cover.webp?v=20260828-primary-media",
     href: "./travel/toolmen/"
   }
 ];
