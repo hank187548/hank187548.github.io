@@ -1,7 +1,19 @@
 (() => {
   "use strict";
 
-  const journeys = Array.isArray(window.JOURNEYS) ? window.JOURNEYS : [];
+  const journeySource = Array.isArray(window.JOURNEYS) ? window.JOURNEYS : [];
+  const projectStop = (stop) => {
+    if (!Number.isFinite(stop.lat) || !Number.isFinite(stop.lon)) return stop;
+    return {
+      ...stop,
+      x: (stop.lon + 180) / 360 * 100,
+      y: (90 - stop.lat) / 180 * 100
+    };
+  };
+  const journeys = journeySource.map((journey) => journey.stops ? {
+    ...journey,
+    stops: journey.stops.map(projectStop)
+  } : journey);
   const travelJourneys = journeys.filter((journey) => journey.type === "Travel" && journey.stops?.length > 1);
   const pad = (value) => String(value + 1).padStart(2, "0");
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -71,7 +83,7 @@
   const cameraRevealDelay = () => reducedMotion.matches ? 0 : (mobileLayout.matches ? 1100 : 850);
 
   function applyMapFocus(journey) {
-    if (!mapFrame) return 1;
+    if (!mapFrame) return;
     const focus = journey.focus || { x: 50, y: 50, mobileScale: 1, desktopScale: 1 };
     const routeStops = journey.stops?.length ? journey.stops : [{ x: focus.x, y: focus.y }];
     const xs = routeStops.map((stop) => stop.x);
@@ -100,7 +112,6 @@
     mapFrame.style.setProperty("--map-pan-x", `${panX}px`);
     mapFrame.style.setProperty("--map-pan-y", `${panY}px`);
     mapFrame.style.setProperty("--label-scale", String(1 / scale));
-    return scale;
   }
 
   function buildRouteSegments(journey, width, height) {
@@ -206,11 +217,10 @@
     }
   }
 
-  function renderCities(journey, mapScale) {
+  function renderCities(journey) {
     if (!routeCities) return;
     routeCities.replaceChildren();
     const seen = new Set();
-    const finalLabelScale = mapScale || 1;
     journey.stops.forEach((stop, index) => {
       if (seen.has(stop.name)) return;
       seen.add(stop.name);
@@ -220,8 +230,8 @@
       if (stop.y > 63) city.classList.add("route-city--above");
       city.style.setProperty("--city-x", `${stop.x}%`);
       city.style.setProperty("--city-y", `${stop.y}%`);
-      city.style.setProperty("--label-x", `${(stop.labelX || 0) * finalLabelScale}px`);
-      city.style.setProperty("--label-y", `${(stop.labelY || 0) * finalLabelScale}px`);
+      city.style.setProperty("--label-x", `${stop.labelX || 0}px`);
+      city.style.setProperty("--label-y", `${stop.labelY || 0}px`);
       city.innerHTML = `<i></i><span>${stop.name}</span>`;
       routeCities.append(city);
       const timer = window.setTimeout(() => city.classList.add("is-visible"), cameraRevealDelay() + index * 300);
@@ -265,8 +275,8 @@
       button.classList.toggle("is-active", buttonIndex === index);
       button.toggleAttribute("aria-current", buttonIndex === index);
     });
-    const mapScale = applyMapFocus(journey);
-    renderCities(journey, mapScale);
+    applyMapFocus(journey);
+    renderCities(journey);
     sizeRouteCanvas();
     routeProgress = 0;
     drawRoute(0);

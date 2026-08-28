@@ -12,11 +12,11 @@ window.JOURNEYS = [
     href: "./travel/bali-australia-2023/",
     focus: { x: 87, y: 52, mobileScale: 1.45, desktopScale: 1.12 },
     stops: [
-      { name: "Taipei", x: 83.8, y: 36.1 },
-      { name: "Bali", x: 82.0, y: 54.7 },
-      { name: "Sydney", x: 92.0, y: 68.8 },
-      { name: "Uluru", x: 86.4, y: 64.1 },
-      { name: "Taipei", x: 83.8, y: 36.1, return: true }
+      { name: "Taipei", lat: 25.0330, lon: 121.5654 },
+      { name: "Bali", lat: -8.6500, lon: 115.2167 },
+      { name: "Sydney", lat: -33.8688, lon: 151.2093 },
+      { name: "Uluru", lat: -25.3444, lon: 131.0369 },
+      { name: "Taipei", lat: 25.0330, lon: 121.5654, return: true }
     ]
   },
   {
@@ -32,9 +32,9 @@ window.JOURNEYS = [
     href: "./travel/thailand-2024/",
     focus: { x: 81, y: 39.5, mobileScale: 2.5, desktopScale: 1.65 },
     stops: [
-      { name: "Taipei", x: 83.8, y: 36.1 },
-      { name: "Bangkok", x: 77.9, y: 42.4 },
-      { name: "Taipei", x: 83.8, y: 36.1, return: true }
+      { name: "Taipei", lat: 25.0330, lon: 121.5654 },
+      { name: "Bangkok", lat: 13.7563, lon: 100.5018 },
+      { name: "Taipei", lat: 25.0330, lon: 121.5654, return: true }
     ]
   },
   {
@@ -50,12 +50,12 @@ window.JOURNEYS = [
     href: "./travel/tibet-japan-2025/",
     focus: { x: 82, y: 34, mobileScale: 1.95, desktopScale: 1.45 },
     stops: [
-      { name: "Taipei", x: 83.8, y: 36.1 },
-      { name: "Hong Kong", x: 81.7, y: 37.6 },
-      { name: "Lhasa", x: 75.3, y: 33.5 },
-      { name: "Chongqing", x: 79.6, y: 33.6 },
-      { name: "Tokyo", x: 88.8, y: 30.2 },
-      { name: "Taipei", x: 83.8, y: 36.1, return: true }
+      { name: "Taipei", lat: 25.0330, lon: 121.5654 },
+      { name: "Hong Kong", lat: 22.3193, lon: 114.1694 },
+      { name: "Lhasa", lat: 29.6520, lon: 91.1721 },
+      { name: "Chongqing", lat: 29.5630, lon: 106.5516 },
+      { name: "Tokyo", lat: 35.6762, lon: 139.6503 },
+      { name: "Taipei", lat: 25.0330, lon: 121.5654, return: true }
     ]
   },
   {
@@ -71,9 +71,9 @@ window.JOURNEYS = [
     href: "./travel/okinawa-2025/",
     focus: { x: 84.7, y: 35.7, mobileScale: 3.2, desktopScale: 2.4 },
     stops: [
-      { name: "Taipei", x: 83.8, y: 36.1 },
-      { name: "Okinawa", x: 85.5, y: 35.4 },
-      { name: "Taipei", x: 83.8, y: 36.1, return: true }
+      { name: "Taipei", lat: 25.0330, lon: 121.5654 },
+      { name: "Okinawa", lat: 26.2124, lon: 127.6809 },
+      { name: "Taipei", lat: 25.0330, lon: 121.5654, return: true }
     ]
   },
   {
@@ -89,10 +89,10 @@ window.JOURNEYS = [
     href: "./travel/thailand-vietnam-2026/",
     focus: { x: 81, y: 40, mobileScale: 2.25, desktopScale: 1.7 },
     stops: [
-      { name: "Taipei", x: 83.8, y: 36.1 },
-      { name: "Bangkok", x: 77.9, y: 42.4 },
-      { name: "Ho Chi Minh City", x: 79.6, y: 44.0 },
-      { name: "Taipei", x: 83.8, y: 36.1, return: true }
+      { name: "Taipei", lat: 25.0330, lon: 121.5654 },
+      { name: "Bangkok", lat: 13.7563, lon: 100.5018 },
+      { name: "Ho Chi Minh City", lat: 10.8231, lon: 106.6297 },
+      { name: "Taipei", lat: 25.0330, lon: 121.5654, return: true }
     ]
   },
   {
@@ -108,13 +108,13 @@ window.JOURNEYS = [
     href: "./travel/italy-2026/",
     focus: { x: 53.1, y: 25.8, mobileScale: 3.1, desktopScale: 2.2 },
     stops: [
-      { name: "Taipei", x: 83.8, y: 36.1 },
-      { name: "Milan", x: 52.6, y: 24.7, labelX: -52, labelY: -20 },
-      { name: "Rome", x: 53.5, y: 26.7, labelX: 8, labelY: 24 },
-      { name: "Florence", x: 53.1, y: 25.7, labelX: 18, labelY: -34 },
-      { name: "Pisa", x: 52.9, y: 25.7, labelX: -46, labelY: 15 },
-      { name: "Cinque Terre", x: 52.7, y: 25.5, labelX: -76, labelY: -5 },
-      { name: "Taipei", x: 83.8, y: 36.1, return: true }
+      { name: "Taipei", lat: 25.0330, lon: 121.5654 },
+      { name: "Milan", lat: 45.4642, lon: 9.1900, labelX: -52, labelY: -20 },
+      { name: "Rome", lat: 41.9028, lon: 12.4964, labelX: 8, labelY: 24 },
+      { name: "Florence", lat: 43.7696, lon: 11.2558, labelX: 18, labelY: -34 },
+      { name: "Pisa", lat: 43.7228, lon: 10.4017, labelX: -46, labelY: 15 },
+      { name: "Cinque Terre", lat: 44.1280, lon: 9.7120, labelX: -76, labelY: -5 },
+      { name: "Taipei", lat: 25.0330, lon: 121.5654, return: true }
     ]
   },
   {
