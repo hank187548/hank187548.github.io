@@ -50,7 +50,8 @@
   const routeLive = document.querySelector("[data-route-live]");
   const routeContext = routeCanvas?.getContext("2d");
   const routeButtons = [];
-  const cityTimers = [];
+  const cameraTransitionMs = 1850;
+  const routeCycleMs = 8800;
   let activeRoute = 0;
   let routeTimer = 0;
   let transitionTimer = 0;
@@ -58,7 +59,10 @@
   let routeAnimation = 0;
   let routeProgress = 0;
   let heroVisible = true;
-  let currentMapScale = 1;
+  let routeDensity = 1;
+  let currentProjection = null;
+  let routeGeometry = null;
+  let routeViewport = { width: 0, height: 0 };
 
   travelJourneys.forEach((journey, index) => {
     const button = document.createElement("button");
@@ -74,13 +78,12 @@
     window.clearTimeout(routeTimer);
     window.clearTimeout(transitionTimer);
     window.clearTimeout(flightTimer);
-    cityTimers.splice(0).forEach((timer) => window.clearTimeout(timer));
     window.cancelAnimationFrame(routeAnimation);
   };
 
   const yearFrom = (dates) => dates.match(/\d{4}(?!.*\d{4})/)?.[0] || "";
   const shortDates = (dates) => dates.replace(/\s*·\s*\d{4}\s*$/, "");
-  const cameraRevealDelay = () => reducedMotion.matches ? 0 : (mobileLayout.matches ? 1100 : 850);
+  const cameraSettleDelay = () => reducedMotion.matches ? 0 : cameraTransitionMs + 80;
 
   function applyMapFocus(journey) {
     if (!mapFrame) return;
@@ -98,144 +101,187 @@
     const width = mapFrame.offsetWidth;
     const height = mapFrame.offsetHeight;
     const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
-    const viewportHeight = window.innerHeight;
+    const viewportHeight = hero?.clientHeight || document.documentElement.clientHeight || window.innerHeight;
     const paddedRouteWidth = Math.max(maxX - minX + (mobileLayout.matches ? 4 : 3), 1) / 100 * width;
     const paddedRouteHeight = Math.max(maxY - minY + 4, 1) / 100 * height;
     const fitX = viewportWidth * (mobileLayout.matches ? .76 : .82) / paddedRouteWidth;
     const fitY = viewportHeight * (mobileLayout.matches ? .48 : .62) / paddedRouteHeight;
     const scale = Math.max(1, Math.min(scaleLimit, fitX, fitY));
     const panX = -((centerX / 100) - .5) * width * scale;
-    const lift = window.innerHeight * (mobileLayout.matches ? .07 : .025);
+    const lift = viewportHeight * (mobileLayout.matches ? .07 : .025);
     const panY = -((centerY / 100) - .5) * height * scale - lift;
-    currentMapScale = scale;
+    currentProjection = { mapWidth: width, mapHeight: height, viewportWidth, viewportHeight, scale, panX, panY };
     mapFrame.style.setProperty("--map-scale", String(scale));
     mapFrame.style.setProperty("--map-pan-x", `${panX}px`);
     mapFrame.style.setProperty("--map-pan-y", `${panY}px`);
-    mapFrame.style.setProperty("--label-scale", String(1 / scale));
   }
 
-  function buildRouteSegments(journey, width, height) {
-    return journey.stops.slice(0, -1).map((stop, index) => {
-      const next = journey.stops[index + 1];
-      const start = { x: stop.x / 100 * width, y: stop.y / 100 * height };
-      const end = { x: next.x / 100 * width, y: next.y / 100 * height };
+  function projectRouteStop(stop) {
+    if (!currentProjection) return { x: 0, y: 0 };
+    const { mapWidth, mapHeight, viewportWidth, viewportHeight, scale, panX, panY } = currentProjection;
+    return {
+      x: viewportWidth / 2 + panX + (stop.x / 100 * mapWidth - mapWidth / 2) * scale,
+      y: viewportHeight / 2 + panY + (stop.y / 100 * mapHeight - mapHeight / 2) * scale
+    };
+  }
+
+  function buildRouteGeometry(journey) {
+    if (!journey?.stops?.length || !currentProjection) return null;
+    const stops = journey.stops.map(projectRouteStop);
+    const path = new Path2D();
+    const segments = [];
+    let totalLength = 0;
+    path.moveTo(stops[0].x, stops[0].y);
+
+    stops.slice(0, -1).forEach((start, index) => {
+      const end = stops[index + 1];
       const dx = end.x - start.x;
       const dy = end.y - start.y;
       const direct = Math.max(1, Math.hypot(dx, dy));
-      const bend = Math.min(height * .1, direct * .22);
+      const bend = Math.min(routeViewport.height * .11, direct * .22);
       const direction = index % 2 === 0 ? -1 : 1;
       const control = {
         x: (start.x + end.x) / 2 + (-dy / direct) * bend * direction,
-        y: (start.y + end.y) / 2 + (dx / direct) * bend * direction - height * .012
+        y: (start.y + end.y) / 2 + (dx / direct) * bend * direction - routeViewport.height * .012
       };
       const points = [];
       let length = 0;
-      for (let step = 0; step <= 56; step += 1) {
-        const t = step / 56;
+      const samples = Math.max(72, Math.min(180, Math.ceil(direct / 3)));
+      for (let step = 0; step <= samples; step += 1) {
+        const t = step / samples;
         const inverse = 1 - t;
         const point = {
           x: inverse * inverse * start.x + 2 * inverse * t * control.x + t * t * end.x,
-          y: inverse * inverse * start.y + 2 * inverse * t * control.y + t * t * end.y
+          y: inverse * inverse * start.y + 2 * inverse * t * control.y + t * t * end.y,
+          distance: length
         };
         if (points.length) {
-          const previousPoint = points[points.length - 1];
-          length += Math.hypot(point.x - previousPoint.x, point.y - previousPoint.y);
+          const previous = points[points.length - 1];
+          length += Math.hypot(point.x - previous.x, point.y - previous.y);
+          point.distance = length;
         }
         points.push(point);
       }
-      return { points, length };
+      path.quadraticCurveTo(control.x, control.y, end.x, end.y);
+      segments.push({ start, end, control, points, length, offset: totalLength });
+      totalLength += length;
     });
+
+    let travelled = 0;
+    const stopProgress = [0];
+    segments.forEach((segment) => {
+      travelled += segment.length;
+      stopProgress.push(totalLength ? travelled / totalLength : 1);
+    });
+    return { stops, segments, path, totalLength, stopProgress };
+  }
+
+  function pointAtRouteProgress(progress) {
+    if (!routeGeometry?.segments.length) return routeGeometry?.stops[0] || null;
+    const target = routeGeometry.totalLength * Math.max(0, Math.min(1, progress));
+    const segment = routeGeometry.segments.find((item) => target <= item.offset + item.length) || routeGeometry.segments.at(-1);
+    const localDistance = Math.max(0, Math.min(segment.length, target - segment.offset));
+    let nextIndex = segment.points.findIndex((point) => point.distance >= localDistance);
+    if (nextIndex <= 0) return segment.points[0];
+    if (nextIndex < 0) return segment.points.at(-1);
+    const previous = segment.points[nextIndex - 1];
+    const next = segment.points[nextIndex];
+    const span = Math.max(.001, next.distance - previous.distance);
+    const amount = (localDistance - previous.distance) / span;
+    return {
+      x: previous.x + (next.x - previous.x) * amount,
+      y: previous.y + (next.y - previous.y) * amount
+    };
   }
 
   function sizeRouteCanvas() {
-    if (!routeCanvas || !routeContext || !mapFrame) return null;
-    const width = mapFrame.offsetWidth;
-    const height = mapFrame.offsetHeight;
-    const density = Math.min(window.devicePixelRatio || 1, 2);
-    routeCanvas.width = Math.round(width * density);
-    routeCanvas.height = Math.round(height * density);
+    if (!routeCanvas || !routeContext) return null;
+    const width = routeCanvas.parentElement?.clientWidth || document.documentElement.clientWidth || window.innerWidth;
+    const height = hero?.clientHeight || document.documentElement.clientHeight || window.innerHeight;
+    routeDensity = Math.min(3, Math.max(2, window.devicePixelRatio || 1));
+    const pixelWidth = Math.round(width * routeDensity);
+    const pixelHeight = Math.round(height * routeDensity);
+    if (routeCanvas.width !== pixelWidth || routeCanvas.height !== pixelHeight) {
+      routeCanvas.width = pixelWidth;
+      routeCanvas.height = pixelHeight;
+    }
     routeCanvas.style.width = `${width}px`;
     routeCanvas.style.height = `${height}px`;
-    routeContext.setTransform(density, 0, 0, density, 0, 0);
-    return { width, height };
+    routeContext.setTransform(routeDensity, 0, 0, routeDensity, 0, 0);
+    routeViewport = { width, height };
+    return routeViewport;
   }
 
   function drawRoute(progress) {
-    if (!routeContext || !routeCanvas || !mapFrame || !travelJourneys[activeRoute]) return;
-    const width = mapFrame.offsetWidth;
-    const height = mapFrame.offsetHeight;
-    routeContext.clearRect(0, 0, width, height);
-    const segments = buildRouteSegments(travelJourneys[activeRoute], width, height);
-    const totalLength = segments.reduce((sum, segment) => sum + segment.length, 0);
-    let remaining = totalLength * progress;
-    let movingPoint = segments[0]?.points[0];
-    const gradient = routeContext.createLinearGradient(width * .45, height * .25, width * .92, height * .68);
-    gradient.addColorStop(0, "rgba(255,255,255,.78)");
-    gradient.addColorStop(.55, "#c7ff3d");
-    gradient.addColorStop(1, "rgba(199,255,61,.35)");
+    if (!routeContext || !routeCanvas || !routeGeometry?.totalLength) return;
+    const normalized = Math.max(0, Math.min(1, progress));
+    routeContext.clearRect(0, 0, routeViewport.width, routeViewport.height);
+    if (normalized <= 0) return;
+
+    const xs = routeGeometry.stops.map((stop) => stop.x);
+    const ys = routeGeometry.stops.map((stop) => stop.y);
+    const minX = Math.min(...xs);
+    const maxX = Math.max(...xs);
+    const minY = Math.min(...ys);
+    const maxY = Math.max(...ys);
+    const gradientEndX = Math.abs(maxX - minX) < 1 ? minX + 1 : maxX;
+    const gradientEndY = Math.abs(maxY - minY) < 1 ? minY + 1 : maxY;
+    const gradient = routeContext.createLinearGradient(minX, minY, gradientEndX, gradientEndY);
+    gradient.addColorStop(0, "rgba(255,255,255,.9)");
+    gradient.addColorStop(.5, "#d7ff72");
+    gradient.addColorStop(1, "rgba(199,255,61,.72)");
+
+    routeContext.save();
     routeContext.strokeStyle = gradient;
-    routeContext.lineWidth = (mobileLayout.matches ? 1.15 : 1.35) / currentMapScale;
+    routeContext.lineWidth = mobileLayout.matches ? 1.45 : 1.7;
     routeContext.lineCap = "round";
     routeContext.lineJoin = "round";
-    routeContext.shadowColor = "rgba(199,255,61,.65)";
-    routeContext.shadowBlur = mobileLayout.matches ? 3 : 7;
+    routeContext.shadowColor = "rgba(199,255,61,.58)";
+    routeContext.shadowBlur = mobileLayout.matches ? 4 : 7;
+    routeContext.setLineDash([routeGeometry.totalLength, routeGeometry.totalLength]);
+    routeContext.lineDashOffset = routeGeometry.totalLength * (1 - normalized);
+    routeContext.stroke(routeGeometry.path);
+    routeContext.restore();
 
-    segments.forEach((segment) => {
-      if (remaining <= 0) return;
+    const movingPoint = pointAtRouteProgress(normalized);
+    if (movingPoint && normalized < 1) {
+      routeContext.save();
+      routeContext.shadowColor = "rgba(225,255,148,.9)";
+      routeContext.shadowBlur = mobileLayout.matches ? 8 : 12;
+      routeContext.fillStyle = "#fbfff1";
       routeContext.beginPath();
-      routeContext.moveTo(segment.points[0].x, segment.points[0].y);
-      let used = 0;
-      for (let index = 1; index < segment.points.length; index += 1) {
-        const previous = segment.points[index - 1];
-        const point = segment.points[index];
-        const piece = Math.hypot(point.x - previous.x, point.y - previous.y);
-        if (used + piece <= remaining) {
-          routeContext.lineTo(point.x, point.y);
-          movingPoint = point;
-          used += piece;
-          continue;
-        }
-        const partial = Math.max(0, Math.min(1, (remaining - used) / piece));
-        movingPoint = {
-          x: previous.x + (point.x - previous.x) * partial,
-          y: previous.y + (point.y - previous.y) * partial
-        };
-        routeContext.lineTo(movingPoint.x, movingPoint.y);
-        used = remaining;
-        break;
-      }
-      routeContext.stroke();
-      remaining -= segment.length;
-    });
-
-    if (movingPoint && progress > 0 && progress < 1) {
-      routeContext.shadowBlur = 12;
-      routeContext.fillStyle = "#f7ffe7";
-      routeContext.beginPath();
-      routeContext.arc(movingPoint.x, movingPoint.y, mobileLayout.matches ? 1.8 : 2.5, 0, Math.PI * 2);
+      routeContext.arc(movingPoint.x, movingPoint.y, mobileLayout.matches ? 2.2 : 2.7, 0, Math.PI * 2);
       routeContext.fill();
+      routeContext.restore();
     }
   }
 
   function renderCities(journey) {
-    if (!routeCities) return;
+    if (!routeCities || !routeGeometry) return;
     routeCities.replaceChildren();
     const seen = new Set();
     journey.stops.forEach((stop, index) => {
       if (seen.has(stop.name)) return;
       seen.add(stop.name);
+      const point = routeGeometry.stops[index];
       const city = document.createElement("div");
       city.className = "route-city";
-      if (stop.x > 86) city.classList.add("route-city--left");
-      if (stop.y > 63) city.classList.add("route-city--above");
-      city.style.setProperty("--city-x", `${stop.x}%`);
-      city.style.setProperty("--city-y", `${stop.y}%`);
+      if (point.x > routeViewport.width - 110) city.classList.add("route-city--left");
+      if (point.y > routeViewport.height - 90) city.classList.add("route-city--above");
+      city.style.setProperty("--city-x", `${point.x}px`);
+      city.style.setProperty("--city-y", `${point.y}px`);
       city.style.setProperty("--label-x", `${stop.labelX || 0}px`);
       city.style.setProperty("--label-y", `${stop.labelY || 0}px`);
+      city.dataset.reveal = String(routeGeometry.stopProgress[index] || 0);
       city.innerHTML = `<i></i><span>${stop.name}</span>`;
       routeCities.append(city);
-      const timer = window.setTimeout(() => city.classList.add("is-visible"), cameraRevealDelay() + index * 300);
-      cityTimers.push(timer);
+    });
+    updateCities(routeProgress);
+  }
+
+  function updateCities(progress) {
+    routeCities?.querySelectorAll(".route-city").forEach((city) => {
+      city.classList.toggle("is-visible", Number(city.dataset.reveal || 0) <= progress + .002);
     });
   }
 
@@ -243,15 +289,16 @@
     if (reducedMotion.matches) {
       routeProgress = 1;
       drawRoute(1);
-      routeCities?.querySelectorAll(".route-city").forEach((city) => city.classList.add("is-visible"));
+      updateCities(1);
       return;
     }
     const start = performance.now();
-    const duration = 3400;
+    const duration = 3200;
     const frame = (now) => {
       const elapsed = Math.min(1, (now - start) / duration);
-      routeProgress = 1 - Math.pow(1 - elapsed, 3);
+      routeProgress = elapsed;
       drawRoute(routeProgress);
+      updateCities(routeProgress);
       if (elapsed < 1) routeAnimation = window.requestAnimationFrame(frame);
     };
     routeAnimation = window.requestAnimationFrame(frame);
@@ -260,7 +307,7 @@
   function scheduleNextRoute() {
     window.clearTimeout(routeTimer);
     if (reducedMotion.matches || !heroVisible || document.hidden) return;
-    routeTimer = window.setTimeout(() => activateRoute(activeRoute + 1), 7200);
+    routeTimer = window.setTimeout(() => activateRoute(activeRoute + 1), routeCycleMs);
   }
 
   function updateRouteContent(journey, index) {
@@ -276,9 +323,10 @@
       button.toggleAttribute("aria-current", buttonIndex === index);
     });
     applyMapFocus(journey);
-    renderCities(journey);
     sizeRouteCanvas();
+    routeGeometry = buildRouteGeometry(journey);
     routeProgress = 0;
+    renderCities(journey);
     drawRoute(0);
   }
 
@@ -286,13 +334,17 @@
     if (!travelJourneys.length) return;
     clearRouteTimers();
     const nextIndex = (index + travelJourneys.length) % travelJourneys.length;
+    hero?.classList.add("route-changing");
+    if (!instant) routeCopy?.classList.add("route-copy--changing");
     const change = () => {
       activeRoute = nextIndex;
       updateRouteContent(travelJourneys[activeRoute], activeRoute);
       window.requestAnimationFrame(() => {
-        hero?.classList.remove("route-changing");
         routeCopy?.classList.remove("route-copy--changing");
-        flightTimer = window.setTimeout(animateRoute, cameraRevealDelay());
+        flightTimer = window.setTimeout(() => {
+          hero?.classList.remove("route-changing");
+          animateRoute();
+        }, cameraSettleDelay());
         scheduleNextRoute();
       });
     };
@@ -301,8 +353,6 @@
       change();
       return;
     }
-    hero?.classList.add("route-changing");
-    routeCopy?.classList.add("route-copy--changing");
     transitionTimer = window.setTimeout(change, 520);
   }
 
@@ -410,9 +460,10 @@
   stage?.addEventListener("dragstart", (event) => event.preventDefault());
 
   const heroObserver = new IntersectionObserver(([entry]) => {
+    const wasVisible = heroVisible;
     heroVisible = entry.isIntersecting;
-    if (heroVisible) activateRoute(activeRoute, true);
-    else clearRouteTimers();
+    if (heroVisible && !wasVisible) activateRoute(activeRoute, true);
+    else if (!heroVisible && wasVisible) clearRouteTimers();
   }, { threshold: .18 });
   if (hero) heroObserver.observe(hero);
 
@@ -422,13 +473,20 @@
   });
 
   let resizeFrame = 0;
+  let lastLayoutWidth = document.documentElement.clientWidth || window.innerWidth;
   window.addEventListener("resize", () => {
+    const nextWidth = document.documentElement.clientWidth || window.innerWidth;
+    if (mobileLayout.matches && Math.abs(nextWidth - lastLayoutWidth) < 2) return;
+    lastLayoutWidth = nextWidth;
     window.cancelAnimationFrame(resizeFrame);
     resizeFrame = window.requestAnimationFrame(() => {
       renderCoverflow();
       applyMapFocus(travelJourneys[activeRoute]);
       sizeRouteCanvas();
+      routeGeometry = buildRouteGeometry(travelJourneys[activeRoute]);
+      renderCities(travelJourneys[activeRoute]);
       drawRoute(routeProgress);
+      updateCities(routeProgress);
     });
   }, { passive: true });
 
