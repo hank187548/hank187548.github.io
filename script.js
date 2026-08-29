@@ -128,10 +128,8 @@
   function buildRouteGeometry(journey) {
     if (!journey?.stops?.length || !currentProjection) return null;
     const stops = journey.stops.map(projectRouteStop);
-    const path = new Path2D();
     const segments = [];
     let totalLength = 0;
-    path.moveTo(stops[0].x, stops[0].y);
 
     stops.slice(0, -1).forEach((start, index) => {
       const end = stops[index + 1];
@@ -153,7 +151,8 @@
         const point = {
           x: inverse * inverse * start.x + 2 * inverse * t * control.x + t * t * end.x,
           y: inverse * inverse * start.y + 2 * inverse * t * control.y + t * t * end.y,
-          distance: length
+          distance: length,
+          t
         };
         if (points.length) {
           const previous = points[points.length - 1];
@@ -162,7 +161,6 @@
         }
         points.push(point);
       }
-      path.quadraticCurveTo(control.x, control.y, end.x, end.y);
       segments.push({ start, end, control, points, length, offset: totalLength });
       totalLength += length;
     });
@@ -173,24 +171,36 @@
       travelled += segment.length;
       stopProgress.push(totalLength ? travelled / totalLength : 1);
     });
-    return { stops, segments, path, totalLength, stopProgress };
+    return { stops, segments, totalLength, stopProgress };
   }
 
-  function pointAtRouteProgress(progress) {
-    if (!routeGeometry?.segments.length) return routeGeometry?.stops[0] || null;
+  function routePositionAtProgress(progress) {
+    if (!routeGeometry?.segments.length) {
+      return { point: routeGeometry?.stops[0] || null, segment: null, t: 0, distance: 0 };
+    }
     const target = routeGeometry.totalLength * Math.max(0, Math.min(1, progress));
     const segment = routeGeometry.segments.find((item) => target <= item.offset + item.length) || routeGeometry.segments.at(-1);
     const localDistance = Math.max(0, Math.min(segment.length, target - segment.offset));
-    let nextIndex = segment.points.findIndex((point) => point.distance >= localDistance);
-    if (nextIndex <= 0) return segment.points[0];
-    if (nextIndex < 0) return segment.points.at(-1);
-    const previous = segment.points[nextIndex - 1];
-    const next = segment.points[nextIndex];
-    const span = Math.max(.001, next.distance - previous.distance);
-    const amount = (localDistance - previous.distance) / span;
+    const nextIndex = segment.points.findIndex((point) => point.distance >= localDistance);
+    let t = 0;
+    if (nextIndex < 0) {
+      t = 1;
+    } else if (nextIndex > 0) {
+      const previous = segment.points[nextIndex - 1];
+      const next = segment.points[nextIndex];
+      const span = Math.max(.001, next.distance - previous.distance);
+      const amount = (localDistance - previous.distance) / span;
+      t = previous.t + (next.t - previous.t) * amount;
+    }
+    const inverse = 1 - t;
     return {
-      x: previous.x + (next.x - previous.x) * amount,
-      y: previous.y + (next.y - previous.y) * amount
+      point: {
+        x: inverse * inverse * segment.start.x + 2 * inverse * t * segment.control.x + t * t * segment.end.x,
+        y: inverse * inverse * segment.start.y + 2 * inverse * t * segment.control.y + t * t * segment.end.y
+      },
+      segment,
+      t,
+      distance: target
     };
   }
 
@@ -231,6 +241,25 @@
     gradient.addColorStop(.5, "#d7ff72");
     gradient.addColorStop(1, "rgba(199,255,61,.72)");
 
+    const position = routePositionAtProgress(normalized);
+    const visiblePath = new Path2D();
+    visiblePath.moveTo(routeGeometry.stops[0].x, routeGeometry.stops[0].y);
+    routeGeometry.segments.some((segment) => {
+      const localDistance = position.distance - segment.offset;
+      if (localDistance <= 0) return true;
+      if (localDistance >= segment.length - .001) {
+        visiblePath.quadraticCurveTo(segment.control.x, segment.control.y, segment.end.x, segment.end.y);
+        return false;
+      }
+      const partialT = position.segment === segment ? position.t : 0;
+      if (partialT > 0) {
+        const partialControlX = segment.start.x + (segment.control.x - segment.start.x) * partialT;
+        const partialControlY = segment.start.y + (segment.control.y - segment.start.y) * partialT;
+        visiblePath.quadraticCurveTo(partialControlX, partialControlY, position.point.x, position.point.y);
+      }
+      return true;
+    });
+
     routeContext.save();
     routeContext.strokeStyle = gradient;
     routeContext.lineWidth = mobileLayout.matches ? 1.45 : 1.7;
@@ -238,12 +267,10 @@
     routeContext.lineJoin = "round";
     routeContext.shadowColor = "rgba(199,255,61,.58)";
     routeContext.shadowBlur = mobileLayout.matches ? 4 : 7;
-    routeContext.setLineDash([routeGeometry.totalLength, routeGeometry.totalLength]);
-    routeContext.lineDashOffset = routeGeometry.totalLength * (1 - normalized);
-    routeContext.stroke(routeGeometry.path);
+    routeContext.stroke(visiblePath);
     routeContext.restore();
 
-    const movingPoint = pointAtRouteProgress(normalized);
+    const movingPoint = position.point;
     if (movingPoint && normalized < 1) {
       routeContext.save();
       routeContext.shadowColor = "rgba(225,255,148,.9)";
