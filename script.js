@@ -16,7 +16,6 @@
   } : journey);
   const travelJourneys = journeys.filter((journey) => journey.type === "Travel" && journey.stops?.length > 1);
   const pad = (value) => String(value + 1).padStart(2, "0");
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const mobileLayout = window.matchMedia("(max-width: 700px)");
 
   document.addEventListener("gesturestart", (event) => event.preventDefault(), { passive: false });
@@ -352,12 +351,8 @@
   }
 
   function animateRoute() {
-    if (reducedMotion.matches) {
-      routeProgress = 1;
-      drawRoute(1);
-      updateCities(1);
-      return;
-    }
+    // The flight sequence is the homepage's primary content. Play the same
+    // progressive journey on desktop and mobile, including reduced-motion hosts.
     const startProgress = routeProgress;
     const generation = routeGeneration;
     const start = performance.now();
@@ -375,7 +370,7 @@
 
   function scheduleNextRoute() {
     window.clearTimeout(routeTimer);
-    if (reducedMotion.matches || !heroVisible || document.hidden) return;
+    if (!heroVisible || document.hidden) return;
     routeTimer = window.setTimeout(() => activateRoute(activeRoute + 1), routeCycleMs);
   }
 

@@ -218,6 +218,7 @@ footer .eyebrow { color: #555d48; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
-  .map-frame, .map-surface { transition: none !important; }
+  *, *::before, *::after { scroll-behavior: auto !important; }
+  /* Keep peripheral UI quiet without skipping the requested flight sequence. */
+  .archive-card, .mobile-menu, .menu-button span { transition-duration: .01ms !important; }
 }

@@ -15,6 +15,36 @@ const journeys = data.window.JOURNEYS.filter(j => j.type === 'Travel').map(j => 
   ...j, stops: j.stops.map(s => ({ ...s, x: (s.lon + 180) / 360 * 100, y: (90 - s.lat) / 180 * 100 }))
 }));
 
+for (const reduced of [false, true]) {
+  test(`flight plays progressively and advances with reduced motion = ${reduced}`, () => {
+    const frames = [];
+    const paints = [];
+    const timers = [];
+    const c = {
+      reducedMotion: { matches: reduced }, routeProgress: 0, routeGeneration: 1,
+      heroVisible: true, document: { hidden: false }, performance: { now: () => 0 },
+      routeAnimation: 0, routeTimer: 0, routeCycleMs: 8800, activeRoute: 0,
+      drawRoute: progress => paints.push(progress), updateCities() {}, activateRoute() {},
+      window: {
+        requestAnimationFrame: callback => { frames.push(callback); return frames.length; },
+        clearTimeout() {}, setTimeout: (callback, ms) => { timers.push({ callback, ms }); return 1; }
+      }
+    };
+    vm.createContext(c);
+    vm.runInContext(source.slice(source.indexOf('  function animateRoute('), source.indexOf('  function updateRouteContent(')), c);
+    c.animateRoute();
+    assert.deepEqual(paints, [], 'never paint the full route before the first frame');
+    frames.shift()(800);
+    assert.equal(paints.at(-1), .25);
+    frames.shift()(1600);
+    assert.equal(paints.at(-1), .5);
+    frames.shift()(3200);
+    assert.equal(paints.at(-1), 1);
+    c.scheduleNextRoute();
+    assert.equal(timers.at(-1)?.ms, 8800, 'automatic cycling is enabled on both hosts');
+  });
+}
+
 function renderer(width, height) {
   const mobile = width <= 700;
   const split = width >= 1000 && width / height >= 1.2;
