@@ -19,7 +19,7 @@
   <link rel="preload" as="image" href="./assets/maps/world-map-hq.webp" type="image/webp" fetchpriority="high" />
   <title>Hank — Travel × Life</title>
   <script>document.documentElement.classList.replace("no-js", "js");</script>
-  <link rel="stylesheet" href="./styles.css?v=20260829-crisp-routes" />
+  <link rel="stylesheet" href="./styles.css?v=20260905-responsive" />
 </head>
 <body>
   <a class="skip-link" href="#archive">Skip to archive</a>
@@ -50,7 +50,9 @@
       <div class="map" aria-hidden="true">
         <div class="map-frame" data-map-frame>
           <div class="map-surface">
+            <img class="map-repeat map-repeat--west" src="./assets/maps/world-map-hq.webp" alt="" decoding="async" />
             <img src="./assets/maps/world-map-hq.webp" alt="" fetchpriority="high" decoding="async" />
+            <img class="map-repeat map-repeat--east" src="./assets/maps/world-map-hq.webp" alt="" decoding="async" />
           </div>
         </div>
         <canvas class="route-canvas" data-route-canvas></canvas>
@@ -113,6 +115,6 @@
   </footer>
 
   <script src="./content/journeys.js?v=20260828-primary-media"></script>
-  <script src="./script.js?v=20260829-traced-routes"></script>
+  <script src="./script.js?v=20260905-responsive"></script>
 </body>
 </html>

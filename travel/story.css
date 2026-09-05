@@ -99,6 +99,20 @@ img { display: block; max-width: 100%; }
   .lightbox-meta { bottom: 30px; }
 }
 
+@media (min-width: 801px) {
+  .story-header { padding-inline: max(5vw, calc((100% - 1680px) / 2)); }
+  .story-header a, .story-header .brand span, .eyebrow, .story-hero-meta small, .story-intro-label, .folder-row, .media-item figcaption, .journey-nav span { font-size: .75rem; }
+  .story-hero, .story-hero-copy { min-height: max(640px, 100svh); }
+  .story-hero-copy { padding: 140px max(6vw, calc((100% - 1560px) / 2)) 56px; }
+  .story-hero h1 { font-size: clamp(4.5rem, min(9vw, 16svh), 10rem); line-height: .9; }
+  .story-hero-meta { width: min(100%, 860px); margin-top: 40px; }
+  .story-intro { padding: 88px max(6vw, calc((100% - 1560px) / 2)) 100px; }
+  .story-intro-main h2 { font-size: clamp(4rem, 6vw, 7rem); }
+  .gallery { padding-inline: max(3vw, calc((100% - 1680px) / 2)); }
+  .media-item { margin-bottom: clamp(48px, 6vw, 100px); }
+  .journey-nav a { min-height: 240px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }

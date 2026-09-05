@@ -38,6 +38,8 @@
 
   const hero = document.querySelector(".hero");
   const mapFrame = document.querySelector("[data-map-frame]");
+  const mapSurface = document.querySelector(".map-surface");
+  const siteHeader = document.querySelector(".site-header");
   const routeCanvas = document.querySelector("[data-route-canvas]");
   const routeCities = document.querySelector("[data-route-cities]");
   const routeCopy = document.querySelector("[data-route-copy]");
@@ -50,18 +52,19 @@
   const routeLive = document.querySelector("[data-route-live]");
   const routeContext = routeCanvas?.getContext("2d");
   const routeButtons = [];
-  const cameraTransitionMs = 1850;
   const routeCycleMs = 8800;
   let activeRoute = 0;
   let routeTimer = 0;
   let transitionTimer = 0;
-  let flightTimer = 0;
   let routeAnimation = 0;
+  let routeChangeFrame = 0;
+  let routeGeneration = 0;
   let routeProgress = 0;
   let heroVisible = true;
   let routeDensity = 1;
   let currentProjection = null;
   let routeGeometry = null;
+  let routeShape = null;
   let routeViewport = { width: 0, height: 0 };
 
   travelJourneys.forEach((journey, index) => {
@@ -75,41 +78,73 @@
   });
 
   const clearRouteTimers = () => {
+    routeGeneration += 1;
     window.clearTimeout(routeTimer);
     window.clearTimeout(transitionTimer);
-    window.clearTimeout(flightTimer);
     window.cancelAnimationFrame(routeAnimation);
+    window.cancelAnimationFrame(routeChangeFrame);
   };
 
   const yearFrom = (dates) => dates.match(/\d{4}(?!.*\d{4})/)?.[0] || "";
   const shortDates = (dates) => dates.replace(/\s*·\s*\d{4}\s*$/, "");
-  const cameraSettleDelay = () => reducedMotion.matches ? 0 : cameraTransitionMs + 80;
+
+  // Fit the entire curve, not only its city endpoints. Coordinates use the
+  // map's 2:1 projection, so fitting and painting share the same geometry.
+  function createRouteShape(journey) {
+    const stops = journey.stops.map((stop) => ({ x: stop.x / 100, y: stop.y / 200 }));
+    const segments = stops.slice(0, -1).map((start, index) => {
+      const end = stops[index + 1];
+      const dx = end.x - start.x;
+      const dy = end.y - start.y;
+      const direct = Math.max(.00001, Math.hypot(dx, dy));
+      const bend = Math.min(.05, direct * .22);
+      const direction = index % 2 === 0 ? -1 : 1;
+      const control = {
+        x: (start.x + end.x) / 2 - dy / direct * bend * direction,
+        y: (start.y + end.y) / 2 + dx / direct * bend * direction - direct * .025
+      };
+      return { start, end, control };
+    });
+    return { stops, segments };
+  }
 
   function applyMapFocus(journey) {
-    if (!mapFrame) return;
-    const focus = journey.focus || { x: 50, y: 50, mobileScale: 1, desktopScale: 1 };
-    const routeStops = journey.stops?.length ? journey.stops : [{ x: focus.x, y: focus.y }];
-    const xs = routeStops.map((stop) => stop.x);
-    const ys = routeStops.map((stop) => stop.y);
+    if (!mapFrame || !hero || !journey) return;
+    routeShape = createRouteShape(journey);
+    const fitPoints = [...routeShape.stops, ...routeShape.segments.map((segment) => segment.control)];
+    const xs = fitPoints.map((point) => point.x);
+    const ys = fitPoints.map((point) => point.y);
     const minX = Math.min(...xs);
     const maxX = Math.max(...xs);
     const minY = Math.min(...ys);
     const maxY = Math.max(...ys);
     const centerX = (minX + maxX) / 2;
     const centerY = (minY + maxY) / 2;
-    const scaleLimit = mobileLayout.matches ? (focus.mobileScale || 1) : (focus.desktopScale || 1);
-    const width = mapFrame.offsetWidth;
-    const height = mapFrame.offsetHeight;
-    const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
-    const viewportHeight = hero?.clientHeight || document.documentElement.clientHeight || window.innerHeight;
-    const paddedRouteWidth = Math.max(maxX - minX + (mobileLayout.matches ? 4 : 3), 1) / 100 * width;
-    const paddedRouteHeight = Math.max(maxY - minY + 4, 1) / 100 * height;
-    const fitX = viewportWidth * (mobileLayout.matches ? .76 : .82) / paddedRouteWidth;
-    const fitY = viewportHeight * (mobileLayout.matches ? .48 : .62) / paddedRouteHeight;
-    const scale = Math.max(1, Math.min(scaleLimit, fitX, fitY));
-    const panX = -((centerX / 100) - .5) * width * scale;
-    const lift = viewportHeight * (mobileLayout.matches ? .07 : .025);
-    const panY = -((centerY / 100) - .5) * height * scale - lift;
+    const heroStyle = getComputedStyle(hero);
+    const split = heroStyle.getPropertyValue("--route-layout").trim() === "split";
+    const viewportWidth = hero.clientWidth;
+    const viewportHeight = hero.clientHeight;
+    const width = parseFloat(getComputedStyle(mapFrame).width);
+    const height = parseFloat(getComputedStyle(mapFrame).height);
+    const gutter = split ? Math.max(32, viewportWidth * .05) : (mobileLayout.matches ? 22 : 40);
+    const headerBottom = siteHeader?.offsetHeight || 80;
+    const area = {
+      left: split ? viewportWidth * .43 : gutter,
+      right: viewportWidth - gutter,
+      top: headerBottom + (split ? 40 : 26),
+      bottom: split ? viewportHeight - Math.max(120, viewportHeight * .12) : routeCopy.offsetTop - 28
+    };
+    const paddingX = mobileLayout.matches ? 38 : 74;
+    const paddingY = mobileLayout.matches ? 24 : 38;
+    const availableWidth = Math.max(90, area.right - area.left - paddingX * 2);
+    const availableHeight = Math.max(80, area.bottom - area.top - paddingY * 2);
+    const fitX = availableWidth / Math.max((maxX - minX) * width, 1);
+    const fitY = availableHeight / Math.max((maxY - minY) * width, 1);
+    const scaleLimit = mobileLayout.matches ? journey.focus?.mobileScale || 2 : 3.4;
+    // A minimum zoom of 1 used to push long routes outside narrow windows.
+    const scale = Math.max(.05, Math.min(scaleLimit, fitX, fitY));
+    const panX = (area.left + area.right) / 2 - viewportWidth / 2 - (centerX - .5) * width * scale;
+    const panY = (area.top + area.bottom) / 2 - viewportHeight / 2 - (centerY * width - height / 2) * scale;
     currentProjection = { mapWidth: width, mapHeight: height, viewportWidth, viewportHeight, scale, panX, panY };
     mapFrame.style.setProperty("--map-scale", String(scale));
     mapFrame.style.setProperty("--map-pan-x", `${panX}px`);
@@ -120,28 +155,21 @@
     if (!currentProjection) return { x: 0, y: 0 };
     const { mapWidth, mapHeight, viewportWidth, viewportHeight, scale, panX, panY } = currentProjection;
     return {
-      x: viewportWidth / 2 + panX + (stop.x / 100 * mapWidth - mapWidth / 2) * scale,
-      y: viewportHeight / 2 + panY + (stop.y / 100 * mapHeight - mapHeight / 2) * scale
+      x: viewportWidth / 2 + panX + (stop.x * mapWidth - mapWidth / 2) * scale,
+      y: viewportHeight / 2 + panY + (stop.y * mapWidth - mapHeight / 2) * scale
     };
   }
 
   function buildRouteGeometry(journey) {
     if (!journey?.stops?.length || !currentProjection) return null;
-    const stops = journey.stops.map(projectRouteStop);
+    const stops = routeShape.stops.map(projectRouteStop);
     const segments = [];
     let totalLength = 0;
 
     stops.slice(0, -1).forEach((start, index) => {
       const end = stops[index + 1];
-      const dx = end.x - start.x;
-      const dy = end.y - start.y;
-      const direct = Math.max(1, Math.hypot(dx, dy));
-      const bend = Math.min(routeViewport.height * .11, direct * .22);
-      const direction = index % 2 === 0 ? -1 : 1;
-      const control = {
-        x: (start.x + end.x) / 2 + (-dy / direct) * bend * direction,
-        y: (start.y + end.y) / 2 + (dx / direct) * bend * direction - routeViewport.height * .012
-      };
+      const direct = Math.max(1, Math.hypot(end.x - start.x, end.y - start.y));
+      const control = projectRouteStop(routeShape.segments[index].control);
       const points = [];
       let length = 0;
       const samples = Math.max(72, Math.min(180, Math.ceil(direct / 3)));
@@ -208,7 +236,7 @@
     if (!routeCanvas || !routeContext) return null;
     const width = routeCanvas.parentElement?.clientWidth || document.documentElement.clientWidth || window.innerWidth;
     const height = hero?.clientHeight || document.documentElement.clientHeight || window.innerHeight;
-    routeDensity = Math.min(3, Math.max(2, window.devicePixelRatio || 1));
+    routeDensity = Math.min(3, Math.max(2, window.devicePixelRatio || 1), Math.sqrt(16000000 / (width * height)));
     const pixelWidth = Math.round(width * routeDensity);
     const pixelHeight = Math.round(height * routeDensity);
     if (routeCanvas.width !== pixelWidth || routeCanvas.height !== pixelHeight) {
@@ -303,6 +331,17 @@
       city.innerHTML = `<i></i><span>${stop.name}</span>`;
       routeCities.append(city);
     });
+    const layerLeft = routeCities.getBoundingClientRect().left;
+    routeCities.querySelectorAll(".route-city").forEach((city) => {
+      const label = city.querySelector("span").getBoundingClientRect();
+      const left = label.left - layerLeft;
+      const right = label.right - layerLeft;
+      const correction = Math.max(0, 12 - left) - Math.max(0, right - routeViewport.width + 12);
+      if (correction) {
+        const offset = parseFloat(city.style.getPropertyValue("--label-x")) || 0;
+        city.style.setProperty("--label-x", `${offset + correction}px`);
+      }
+    });
     updateCities(routeProgress);
   }
 
@@ -319,10 +358,13 @@
       updateCities(1);
       return;
     }
+    const startProgress = routeProgress;
+    const generation = routeGeneration;
     const start = performance.now();
     const duration = 3200;
     const frame = (now) => {
-      const elapsed = Math.min(1, (now - start) / duration);
+      if (generation !== routeGeneration || !heroVisible || document.hidden) return;
+      const elapsed = Math.min(1, startProgress + (now - start) / duration);
       routeProgress = elapsed;
       drawRoute(routeProgress);
       updateCities(routeProgress);
@@ -360,18 +402,26 @@
   function activateRoute(index, instant = false) {
     if (!travelJourneys.length) return;
     clearRouteTimers();
+    const generation = routeGeneration;
     const nextIndex = (index + travelJourneys.length) % travelJourneys.length;
     hero?.classList.add("route-changing");
     if (!instant) routeCopy?.classList.add("route-copy--changing");
     const change = () => {
+      if (generation !== routeGeneration) return;
       activeRoute = nextIndex;
       updateRouteContent(travelJourneys[activeRoute], activeRoute);
-      window.requestAnimationFrame(() => {
+      routeChangeFrame = window.requestAnimationFrame(() => {
+        if (generation !== routeGeneration) return;
         routeCopy?.classList.remove("route-copy--changing");
-        flightTimer = window.setTimeout(() => {
+        // Read after style changes to start the actual CSS transitions. Their
+        // completion, rather than a separate timer, determines flight departure.
+        mapFrame.getBoundingClientRect();
+        const cameraAnimations = [...mapFrame.getAnimations(), ...mapSurface.getAnimations()];
+        Promise.allSettled(cameraAnimations.map((animation) => animation.finished)).then(() => {
+          if (generation !== routeGeneration) return;
           hero?.classList.remove("route-changing");
           animateRoute();
-        }, cameraSettleDelay());
+        });
         scheduleNextRoute();
       });
     };
@@ -419,8 +469,9 @@
   };
 
   function renderCoverflow() {
-    const cardWidth = cards[0]?.getBoundingClientRect().width || 300;
-    const pitch = Math.min(window.innerWidth * .245, cardWidth * 1.02);
+    // Layout width is stable; transformed bounds shrink as a card rotates.
+    const cardWidth = cards[0]?.offsetWidth || 300;
+    const pitch = Math.min((stage?.clientWidth || window.innerWidth) * .245, cardWidth * 1.02);
     cards.forEach((card, index) => {
       const distance = wrappedDistance(index);
       const absoluteDistance = Math.abs(distance);
@@ -489,34 +540,63 @@
   const heroObserver = new IntersectionObserver(([entry]) => {
     const wasVisible = heroVisible;
     heroVisible = entry.isIntersecting;
-    if (heroVisible && !wasVisible) activateRoute(activeRoute, true);
+    if (heroVisible && !wasVisible) resumeRoute();
     else if (!heroVisible && wasVisible) clearRouteTimers();
   }, { threshold: .18 });
   if (hero) heroObserver.observe(hero);
 
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) clearRouteTimers();
-    else if (heroVisible) activateRoute(activeRoute, true);
+    else if (heroVisible) resumeRoute();
   });
 
   let resizeFrame = 0;
-  let lastLayoutWidth = document.documentElement.clientWidth || window.innerWidth;
-  window.addEventListener("resize", () => {
-    const nextWidth = document.documentElement.clientWidth || window.innerWidth;
-    if (mobileLayout.matches && Math.abs(nextWidth - lastLayoutWidth) < 2) return;
-    lastLayoutWidth = nextWidth;
+  let restoreTransitionFrame = 0;
+  let layoutSize = { width: 0, height: 0, density: 0 };
+
+  function refreshLayout() {
+    if (!hero || !travelJourneys.length) return;
+    window.cancelAnimationFrame(restoreTransitionFrame);
+    hero.classList.add("is-resizing");
+    renderCoverflow();
+    applyMapFocus(travelJourneys[activeRoute]);
+    sizeRouteCanvas();
+    routeGeometry = buildRouteGeometry(travelJourneys[activeRoute]);
+    renderCities(travelJourneys[activeRoute]);
+    drawRoute(routeProgress);
+    // Commit the new map transform in the same frame as the overlay.
+    mapFrame.getBoundingClientRect();
+    restoreTransitionFrame = window.requestAnimationFrame(() => hero.classList.remove("is-resizing"));
+    layoutSize = { width: hero.clientWidth, height: hero.clientHeight, density: window.devicePixelRatio };
+  }
+
+  function resumeRoute() {
+    if (!heroVisible || document.hidden) return;
+    clearRouteTimers();
+    refreshLayout();
+    hero?.classList.remove("route-changing");
+    routeCopy?.classList.remove("route-copy--changing");
+    animateRoute();
+    scheduleNextRoute();
+  }
+
+  function queueLayout() {
+    if (!hero || (layoutSize.width === hero.clientWidth && layoutSize.height === hero.clientHeight && layoutSize.density === window.devicePixelRatio)) return;
     window.cancelAnimationFrame(resizeFrame);
     resizeFrame = window.requestAnimationFrame(() => {
-      renderCoverflow();
-      applyMapFocus(travelJourneys[activeRoute]);
-      sizeRouteCanvas();
-      routeGeometry = buildRouteGeometry(travelJourneys[activeRoute]);
-      renderCities(travelJourneys[activeRoute]);
-      drawRoute(routeProgress);
-      updateCities(routeProgress);
+      refreshLayout();
+      if (window.innerWidth > 900) setMenu(false);
     });
-  }, { passive: true });
+  }
+
+  window.addEventListener("resize", queueLayout, { passive: true });
+  const layoutObserver = new ResizeObserver(queueLayout);
+  if (hero) layoutObserver.observe(hero);
+  document.fonts?.ready.then(() => refreshLayout());
 
   if (journeys.length) renderCoverflow();
-  if (travelJourneys.length) activateRoute(0, true);
+  if (travelJourneys.length) {
+    layoutSize = { width: hero.clientWidth, height: hero.clientHeight, density: window.devicePixelRatio };
+    activateRoute(0, true);
+  }
 })();
