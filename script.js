@@ -453,20 +453,22 @@
   });
 
   let selected = 0;
+  let coverPosition = 0;
+  let coverTarget = 0;
+  let coverAnimation = 0;
   let drag = null;
   let suppressClick = false;
+  const normalizeChapter = (index) => ((index % journeys.length) + journeys.length) % journeys.length;
   const wrappedDistance = (index) => {
-    let distance = index - selected;
     const half = journeys.length / 2;
-    if (distance > half) distance -= journeys.length;
-    if (distance < -half) distance += journeys.length;
-    return distance;
+    return normalizeChapter(index - coverPosition + half) - half;
   };
+  const coverPitch = () => Math.min((stage?.clientWidth || window.innerWidth) * .245, (cards[0]?.offsetWidth || 300) * 1.02);
 
   function renderCoverflow() {
     // Layout width is stable; transformed bounds shrink as a card rotates.
     const cardWidth = cards[0]?.offsetWidth || 300;
-    const pitch = Math.min((stage?.clientWidth || window.innerWidth) * .245, cardWidth * 1.02);
+    const pitch = coverPitch();
     cards.forEach((card, index) => {
       const distance = wrappedDistance(index);
       const absoluteDistance = Math.abs(distance);
@@ -474,7 +476,9 @@
       card.style.setProperty("--z", `${-absoluteDistance * cardWidth * .36}px`);
       card.style.setProperty("--rotate", `${-Math.sign(distance) * Math.min(48, absoluteDistance * 36)}deg`);
       card.style.setProperty("--scale", String(Math.max(.72, 1 - absoluteDistance * .075)));
-      card.style.setProperty("--opacity", String(absoluteDistance > 3 ? 0 : Math.max(.2, 1 - absoluteDistance * .18)));
+      // Fade out at the back seam so wrapping never sends a card across the front.
+      const edgeFade = Math.max(0, Math.min(1, (journeys.length / 2 - absoluteDistance) * 2));
+      card.style.setProperty("--opacity", String(Math.max(.2, 1 - absoluteDistance * .18) * edgeFade));
       card.style.zIndex = String(20 - Math.round(absoluteDistance * 3));
       card.classList.toggle("is-active", index === selected);
       card.tabIndex = index === selected ? 0 : -1;
@@ -483,14 +487,32 @@
 
     const journey = journeys[selected];
     if (!journey) return;
-    if (current) current.textContent = `${pad(selected)} / ${String(journeys.length).padStart(2, "0")}`;
-    if (currentTitle) currentTitle.textContent = journey.title;
-    if (currentRoute) currentRoute.textContent = journey.route;
+    const count = `${pad(selected)} / ${String(journeys.length).padStart(2, "0")}`;
+    if (current && current.textContent !== count) current.textContent = count;
+    if (currentTitle && currentTitle.textContent !== journey.title) currentTitle.textContent = journey.title;
+    if (currentRoute && currentRoute.textContent !== journey.route) currentRoute.textContent = journey.route;
+  }
+
+  function settleCoverflow(target) {
+    window.cancelAnimationFrame(coverAnimation);
+    coverTarget = target;
+    selected = normalizeChapter(target);
+    const start = coverPosition;
+    const startedAt = performance.now();
+    const tick = (now) => {
+      const progress = Math.min(1, (now - startedAt) / 650);
+      coverPosition = start + (target - start) * (1 - Math.pow(1 - progress, 3));
+      renderCoverflow();
+      coverAnimation = progress < 1 ? window.requestAnimationFrame(tick) : 0;
+    };
+    coverAnimation = window.requestAnimationFrame(tick);
   }
 
   function select(index) {
-    if (!journeys.length) return;
-    selected = (index + journeys.length) % journeys.length;
+    if (!journeys.length || drag?.moved) return;
+    const half = journeys.length / 2;
+    const delta = normalizeChapter(index - selected + half) - half;
+    settleCoverflow(coverTarget + delta);
     renderCoverflow();
   }
 
@@ -503,26 +525,47 @@
   });
 
   stage?.addEventListener("pointerdown", (event) => {
-    if (event.button !== 0) return;
-    drag = { id: event.pointerId, x: event.clientX, moved: false };
+    if (event.button !== 0 || event.isPrimary === false || drag) return;
+    suppressClick = false;
+    drag = { id: event.pointerId, x: event.clientX, y: event.clientY, moved: false, origin: coverPosition, target: coverTarget };
   });
   stage?.addEventListener("pointermove", (event) => {
     if (!drag || drag.id !== event.pointerId) return;
-    if (Math.abs(event.clientX - drag.x) > 8) drag.moved = true;
+    const dx = event.clientX - drag.x;
+    const dy = event.clientY - drag.y;
+    if (!drag.moved) {
+      if (Math.abs(dy) > 8 && Math.abs(dy) > Math.abs(dx)) { drag = null; return; }
+      if (Math.abs(dx) <= 8) return;
+      drag.moved = true;
+      drag.origin = coverPosition;
+      window.cancelAnimationFrame(coverAnimation);
+      stage.setPointerCapture(event.pointerId);
+      stage.classList.add("is-dragging");
+    }
+    event.preventDefault();
+    coverPosition = drag.origin - dx / coverPitch();
+    renderCoverflow();
   });
   const finishDrag = (event) => {
     if (!drag || drag.id !== event.pointerId) return;
-    const delta = event.clientX - drag.x;
-    if (drag.moved) {
+    const finished = drag;
+    drag = null;
+    stage.classList.remove("is-dragging");
+    if (stage.hasPointerCapture(event.pointerId)) stage.releasePointerCapture(event.pointerId);
+    if (finished.moved) {
       event.preventDefault();
       suppressClick = true;
-      select(selected + (delta < 0 ? 1 : -1));
+      const delta = finished.x - event.clientX;
+      let target = Math.round(coverPosition);
+      // Keep short phone swipes useful, while long drags may cross several cards.
+      if (Math.abs(delta) > 30 && target === Math.round(finished.origin)) target += Math.sign(delta);
+      settleCoverflow(event.type === "pointercancel" || event.type === "lostpointercapture" ? finished.target : target);
       window.setTimeout(() => { suppressClick = false; }, 250);
     }
-    drag = null;
   };
   stage?.addEventListener("pointerup", finishDrag);
   stage?.addEventListener("pointercancel", finishDrag);
+  stage?.addEventListener("lostpointercapture", finishDrag);
   stage?.addEventListener("click", (event) => {
     const card = event.target.closest(".archive-card");
     if (!card) return;
