@@ -23,6 +23,7 @@ function setup(width = 1366, cardWidth = 330) {
   const frames = new Map();
   let now = 0, sequence = 0;
   const context = {
+    mobileLayout: { matches: width <= 700 },
     journeys: Array.from({length: 7}, (_, i) => ({ title: `Journey ${i}`, route: `Route ${i}` })),
     pad: i => String(i + 1).padStart(2, '0'), performance: { now: () => now },
     document: { querySelector: selector => nodes[selector], createElement: element },
@@ -57,6 +58,7 @@ for (const [width, card] of [[1366, 330], [390, 285]]) {
     const c = setup(width, card);
     c.pointer('pointerdown', 300);
     c.pointer('pointermove', 220);
+    c.tick(16);
     assert.ok(c.x(0) < 0);
     assert.ok(c.stage.hasPointerCapture(1));
     c.pointer('pointerup', 220);
@@ -137,4 +139,54 @@ test('losing capture on the stage itself cancels safely; the next swipe still wo
   c.pointer('pointerup',250);
   c.tick(650);
   assert.equal(c.state().selected,6);
+});
+
+test('mobile incidental 35px movement returns to the current card', () => {
+  const c=setup(390,285);
+  c.pointer('pointerdown',250);
+  c.pointer('pointermove',215);
+  c.pointer('pointerup',215);
+  c.tick(460);
+  assert.equal(c.state().selected,0);
+  assert.equal(c.x(0),0);
+});
+
+test('mobile long swipes have a soft stop and advance exactly one card', () => {
+  const c=setup(390,285);
+  c.pointer('pointerdown',350);
+  c.pointer('pointermove',0);
+  assert.ok(c.state().coverPosition > 1 && c.state().coverPosition < 1.1);
+  c.pointer('pointerup',0);
+  c.tick(460);
+  assert.equal(c.state().selected,1);
+  c.pointer('pointerdown',0);
+  c.pointer('pointermove',350);
+  c.pointer('pointerup',350);
+  c.tick(460);
+  assert.equal(c.state().selected,0);
+});
+
+test('mobile drag is less sensitive and multiple moves paint only once per frame', () => {
+  const c=setup(390,285);
+  c.pointer('pointerdown',300);
+  c.pointer('pointermove',260);
+  c.pointer('pointermove',220);
+  assert.equal(c.x(0),0);
+  c.tick(16);
+  assert.ok(c.x(0) < -25 && c.x(0) > -40);
+  c.pointer('pointerup',220);
+  c.tick(230);
+  assert.ok(c.x(1) > 0);
+  c.tick(230);
+  assert.equal(c.x(1),0);
+});
+
+test('desktop retains its original drag distance and multi-card selection', () => {
+  const c=setup(1366,330);
+  c.pointer('pointerdown',1000);
+  c.pointer('pointermove',200);
+  assert.ok(Math.abs(c.x(0)+800)<.001);
+  c.pointer('pointerup',200);
+  c.tick(650);
+  assert.equal(c.state().selected,2);
 });

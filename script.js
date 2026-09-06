@@ -466,6 +466,7 @@
   let coverPosition = 0;
   let coverTarget = 0;
   let coverAnimation = 0;
+  let coverDragFrame = 0;
   let drag = null;
   let suppressClick = false;
   const normalizeChapter = (index) => ((index % journeys.length) + journeys.length) % journeys.length;
@@ -474,11 +475,10 @@
     return normalizeChapter(index - coverPosition + half) - half;
   };
   const coverPitch = () => Math.min((stage?.clientWidth || window.innerWidth) * .245, (cards[0]?.offsetWidth || 300) * 1.02);
+  const measureCoverflow = () => ({ cardWidth: cards[0]?.offsetWidth || 300, pitch: coverPitch() });
 
-  function renderCoverflow() {
-    // Layout width is stable; transformed bounds shrink as a card rotates.
-    const cardWidth = cards[0]?.offsetWidth || 300;
-    const pitch = coverPitch();
+  function renderCoverflow(metrics = measureCoverflow()) {
+    const { cardWidth, pitch } = metrics;
     cards.forEach((card, index) => {
       const distance = wrappedDistance(index);
       const absoluteDistance = Math.abs(distance);
@@ -505,12 +505,15 @@
 
   function settleCoverflow(target) {
     window.cancelAnimationFrame(coverAnimation);
+    window.cancelAnimationFrame(coverDragFrame);
+    coverDragFrame = 0;
     coverTarget = target;
     selected = normalizeChapter(target);
     const start = coverPosition;
     const startedAt = performance.now();
+    const duration = mobileLayout.matches ? 460 : 650;
     const tick = (now) => {
-      const progress = Math.min(1, (now - startedAt) / 650);
+      const progress = Math.min(1, (now - startedAt) / duration);
       coverPosition = start + (target - start) * (1 - Math.pow(1 - progress, 3));
       renderCoverflow();
       coverAnimation = progress < 1 ? window.requestAnimationFrame(tick) : 0;
@@ -537,7 +540,14 @@
   stage?.addEventListener("pointerdown", (event) => {
     if (event.button !== 0 || event.isPrimary === false || drag) return;
     suppressClick = false;
-    drag = { id: event.pointerId, x: event.clientX, y: event.clientY, moved: false, origin: coverPosition, target: coverTarget };
+    const metrics = measureCoverflow();
+    drag = {
+      id: event.pointerId, x: event.clientX, y: event.clientY, moved: false,
+      origin: coverPosition, target: coverTarget, mobile: mobileLayout.matches, metrics,
+      // Mobile finger travel is based on card width, not the much narrower
+      // overlapping-card pitch. A long swipe still only selects one neighbour.
+      travel: Math.max(180, metrics.cardWidth * .8)
+    };
   });
   stage?.addEventListener("pointermove", (event) => {
     if (!drag || drag.id !== event.pointerId) return;
@@ -545,21 +555,36 @@
     const dy = event.clientY - drag.y;
     if (!drag.moved) {
       if (Math.abs(dy) > 8 && Math.abs(dy) > Math.abs(dx)) { drag = null; return; }
-      if (Math.abs(dx) <= 8) return;
+      if (Math.abs(dx) <= (drag.mobile ? 14 : 8)) return;
       drag.moved = true;
       drag.origin = coverPosition;
       window.cancelAnimationFrame(coverAnimation);
+      coverAnimation = 0;
       stage.setPointerCapture(event.pointerId);
       stage.classList.add("is-dragging");
     }
     event.preventDefault();
-    coverPosition = drag.origin - dx / coverPitch();
-    renderCoverflow();
+    if (drag.mobile) {
+      const travel = -dx / drag.travel;
+      const magnitude = Math.abs(travel);
+      // A soft stop beyond one card, not a hard freeze or momentum across cards.
+      const resisted = magnitude <= 1 ? magnitude : 1 + .1 * (1 - Math.exp(-(magnitude - 1)));
+      coverPosition = Math.max(drag.target - 1.1, Math.min(drag.target + 1.1, drag.origin + Math.sign(travel) * resisted));
+      if (!coverDragFrame) coverDragFrame = window.requestAnimationFrame(() => {
+        coverDragFrame = 0;
+        if (drag?.moved) renderCoverflow(drag.metrics);
+      });
+    } else {
+      coverPosition = drag.origin - dx / drag.metrics.pitch;
+      renderCoverflow(drag.metrics);
+    }
   });
   const finishDrag = (event) => {
     if (!drag || drag.id !== event.pointerId) return;
     const finished = drag;
     drag = null;
+    window.cancelAnimationFrame(coverDragFrame);
+    coverDragFrame = 0;
     stage.classList.remove("is-dragging");
     if (stage.hasPointerCapture(event.pointerId)) stage.releasePointerCapture(event.pointerId);
     if (finished.moved) {
@@ -567,8 +592,13 @@
       suppressClick = true;
       const delta = finished.x - event.clientX;
       let target = Math.round(coverPosition);
-      // Keep short phone swipes useful, while long drags may cross several cards.
-      if (Math.abs(delta) > 30 && target === Math.round(finished.origin)) target += Math.sign(delta);
+      if (finished.mobile) {
+        const threshold = Math.max(48, finished.travel * .24);
+        target = finished.target + (Math.abs(delta) >= threshold ? Math.sign(delta) : 0);
+      } else if (Math.abs(delta) > 30 && target === Math.round(finished.origin)) {
+        // Preserve the existing desktop feel, including multi-card drags.
+        target += Math.sign(delta);
+      }
       settleCoverflow(event.type === "pointercancel" || event.type === "lostpointercapture" ? finished.target : target);
       window.setTimeout(() => { suppressClick = false; }, 250);
     }
