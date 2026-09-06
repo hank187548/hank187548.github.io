@@ -384,11 +384,23 @@
     routeTimer = window.setTimeout(() => activateRoute(activeRoute + 1), routeCycleMs);
   }
 
+  function fitMobileRouteTitle() {
+    if (!routeTitle) return;
+    routeTitle.style.removeProperty("--route-title-size");
+    if (!mobileLayout.matches) return;
+    const available = routeTitle.clientWidth - 2;
+    const contentWidth = routeTitle.scrollWidth;
+    if (available <= 0 || contentWidth <= routeTitle.clientWidth) return;
+    const baseSize = parseFloat(window.getComputedStyle(routeTitle).fontSize);
+    routeTitle.style.setProperty("--route-title-size", `${Math.floor(baseSize * available / contentWidth * 10) / 10}px`);
+  }
+
   function updateRouteContent(journey, index) {
     const journeyYear = yearFrom(journey.dates);
     if (routeIndexLabel) routeIndexLabel.textContent = `${pad(index)} / ${String(travelJourneys.length).padStart(2, "0")}`;
     if (routeYear) routeYear.textContent = journeyYear;
     if (routeTitle) routeTitle.textContent = journey.title;
+    fitMobileRouteTitle();
     if (routeDates) routeDates.textContent = shortDates(journey.dates);
     if (routeOpen) routeOpen.href = journey.href;
     if (routeLive) routeLive.textContent = `${journey.title}. ${journey.stops.filter((stop) => !stop.return).map((stop) => stop.name).join(" to ")}. ${journey.dates}.`;
@@ -546,7 +558,7 @@
       origin: coverPosition, target: coverTarget, mobile: mobileLayout.matches, metrics,
       // Mobile finger travel is based on card width, not the much narrower
       // overlapping-card pitch. A long swipe still only selects one neighbour.
-      travel: Math.max(180, metrics.cardWidth * .8)
+      travel: Math.max(172, metrics.cardWidth * .76)
     };
   });
   stage?.addEventListener("pointermove", (event) => {
@@ -593,7 +605,7 @@
       const delta = finished.x - event.clientX;
       let target = Math.round(coverPosition);
       if (finished.mobile) {
-        const threshold = Math.max(48, finished.travel * .24);
+        const threshold = Math.max(46, finished.travel * .24);
         target = finished.target + (Math.abs(delta) >= threshold ? Math.sign(delta) : 0);
       } else if (Math.abs(delta) > 30 && target === Math.round(finished.origin)) {
         // Preserve the existing desktop feel, including multi-card drags.
@@ -640,6 +652,7 @@
     if (!hero || !travelJourneys.length) return;
     window.cancelAnimationFrame(restoreTransitionFrame);
     hero.classList.add("is-resizing");
+    fitMobileRouteTitle();
     renderCoverflow();
     applyMapFocus(travelJourneys[activeRoute]);
     sizeRouteCanvas();

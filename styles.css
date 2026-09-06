@@ -136,20 +136,20 @@ footer .eyebrow { color: #555d48; }
   .map-surface > img { filter: saturate(.68) brightness(.46) contrast(1.24); }
   .map::after { background-size: 46px 46px; }
   .hero-vignette { background: radial-gradient(circle at 52% 39%, transparent 7%, rgba(3,7,6,.1) 47%, rgba(3,7,6,.76) 100%), linear-gradient(180deg, rgba(3,7,6,.64), transparent 27%, rgba(3,7,6,.95) 79%); }
-  .route-copy { left: 22px; bottom: calc(88px + env(safe-area-inset-bottom)); max-width: calc(100vw - 44px); }
-  .route-count { margin-bottom: 12px; font-size: .58rem; }
-  .route-copy h1 { max-width: 9ch; font-size: clamp(3.65rem, 16vw, 5.25rem); line-height: .82; }
-  .route-dates { margin: 15px 0 19px; font-size: .58rem; }
-  .route-open { font-size: .6rem; }
-  .route-nav { right: auto; bottom: calc(20px + env(safe-area-inset-bottom)); left: 22px; width: calc(100vw - 44px); gap: 6px; }
+  .route-copy { left: 22px; bottom: calc(96px + env(safe-area-inset-bottom)); width: calc(100% - 44px); max-width: none; }
+  .route-count { margin-bottom: 14px; font-size: .625rem; }
+  .route-copy h1 { width: 100%; max-width: none; font-size: var(--route-title-size, clamp(3.2rem, 14vw, 4.1rem)); line-height: 1.05; letter-spacing: -.045em; white-space: nowrap; text-wrap: nowrap; }
+  .route-dates { margin: 12px 0 20px; font-size: .625rem; }
+  .route-open { font-size: .625rem; }
+  .route-nav { right: auto; bottom: calc(20px + env(safe-area-inset-bottom)); left: 22px; width: calc(100% - 44px); gap: 6px; }
   .route-nav button { width: auto; flex: 1; }
   .route-city span { font-size: 11px; }
   .route-city i { width: 7px; height: 7px; }
-  .archive { padding-top: 80px; }
-  .section-heading { gap: 30px; padding: 0 22px; }
-  .section-heading h2 { font-size: 4.4rem; }
-  .coverflow { margin-top: 48px; }
-  .coverflow-stage { height: 458px; }
+  .archive { min-height: auto; padding: 64px 0 56px; }
+  .section-heading { gap: 22px; padding: 0 22px; }
+  .section-heading h2 { font-size: 3.6rem; }
+  .coverflow { margin-top: 36px; }
+  .coverflow-stage { height: calc(min(73vw, 315px) / .78 + 28px); }
   .archive-card { width: min(73vw, 315px); }
   .coverflow-controls { gap: 13px; margin-top: -2px; }
   .coverflow-controls button { width: 44px; height: 44px; }
