@@ -384,10 +384,9 @@
     routeTimer = window.setTimeout(() => activateRoute(activeRoute + 1), routeCycleMs);
   }
 
-  function fitMobileRouteTitle() {
+  function fitRouteTitle() {
     if (!routeTitle) return;
     routeTitle.style.removeProperty("--route-title-size");
-    if (!mobileLayout.matches) return;
     const available = routeTitle.clientWidth - 2;
     const contentWidth = routeTitle.scrollWidth;
     if (available <= 0 || contentWidth <= routeTitle.clientWidth) return;
@@ -400,7 +399,7 @@
     if (routeIndexLabel) routeIndexLabel.textContent = `${pad(index)} / ${String(travelJourneys.length).padStart(2, "0")}`;
     if (routeYear) routeYear.textContent = journeyYear;
     if (routeTitle) routeTitle.textContent = journey.title;
-    fitMobileRouteTitle();
+    fitRouteTitle();
     if (routeDates) routeDates.textContent = shortDates(journey.dates);
     if (routeOpen) routeOpen.href = journey.href;
     if (routeLive) routeLive.textContent = `${journey.title}. ${journey.stops.filter((stop) => !stop.return).map((stop) => stop.name).join(" to ")}. ${journey.dates}.`;
@@ -652,7 +651,7 @@
     if (!hero || !travelJourneys.length) return;
     window.cancelAnimationFrame(restoreTransitionFrame);
     hero.classList.add("is-resizing");
-    fitMobileRouteTitle();
+    fitRouteTitle();
     renderCoverflow();
     applyMapFocus(travelJourneys[activeRoute]);
     sizeRouteCanvas();
