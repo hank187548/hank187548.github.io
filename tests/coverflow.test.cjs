@@ -108,3 +108,33 @@ test('wraparound and repeated arrows keep the nearest continuous path', () => {
   assert.equal(c.state().selected, 1);
   assert.equal(c.x(1), 0);
 });
+
+test('touch implicit capture transfer from a card does not cancel the swipe', () => {
+  const c = setup(390, 285);
+  const finger = { pointerType: 'touch', target: c.stage.children[0] };
+  c.pointer('pointerdown', 250, 200, finger);
+  c.pointer('pointermove', 230, 200, finger);
+  // Touch implicitly captures on the hit anchor. Transferring to the stage
+  // dispatches lostpointercapture on that anchor, which bubbles to the stage.
+  c.pointer('lostpointercapture', 230, 200, finger);
+  c.pointer('pointermove', 150, 200, { pointerType: 'touch', target: c.stage });
+  c.pointer('pointerup', 150, 200, { pointerType: 'touch', target: c.stage });
+  c.tick(650);
+  assert.equal(c.state().selected, 1);
+  assert.equal(c.x(1), 0);
+});
+
+test('losing capture on the stage itself cancels safely; the next swipe still works', () => {
+  const c = setup(390,285);
+  c.pointer('pointerdown',250);
+  c.pointer('pointermove',150);
+  c.stage.releasePointerCapture(1);
+  c.pointer('lostpointercapture',150,0,{target:c.stage});
+  c.tick(650);
+  assert.equal(c.state().selected,0);
+  c.pointer('pointerdown',150);
+  c.pointer('pointermove',250);
+  c.pointer('pointerup',250);
+  c.tick(650);
+  assert.equal(c.state().selected,6);
+});

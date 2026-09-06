@@ -31,6 +31,16 @@
   };
   menuButton?.addEventListener("click", () => setMenu(menuButton.getAttribute("aria-expanded") !== "true"));
   mobileMenu?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setMenu(false)));
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && menuButton?.getAttribute("aria-expanded") === "true") {
+      setMenu(false);
+      menuButton.focus();
+    }
+  });
+  window.matchMedia("(min-width: 901px)").addEventListener("change", (event) => {
+    // A menu opened in portrait must not leave the wider page scroll-locked.
+    if (event.matches) setMenu(false);
+  });
 
   const year = document.querySelector("[data-year]");
   if (year) year.textContent = new Date().getFullYear();
@@ -565,7 +575,11 @@
   };
   stage?.addEventListener("pointerup", finishDrag);
   stage?.addEventListener("pointercancel", finishDrag);
-  stage?.addEventListener("lostpointercapture", finishDrag);
+  stage?.addEventListener("lostpointercapture", (event) => {
+    // On touchscreens, capture starts implicitly on the hit card. Moving it to
+    // the stage makes the card's loss bubble here; that is NOT a cancelled drag.
+    if (event.target === stage && !stage.hasPointerCapture(event.pointerId)) finishDrag(event);
+  });
   stage?.addEventListener("click", (event) => {
     const card = event.target.closest(".archive-card");
     if (!card) return;
