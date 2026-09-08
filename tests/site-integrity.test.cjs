@@ -9,6 +9,11 @@ for (const filename of ['journeys.js','archive.js']) vm.runInNewContext(fs.readF
 const journeys = c.window.JOURNEYS;
 const exists = filename => assert.ok(fs.existsSync(filename), `Missing file: ${path.relative(root, filename)}`);
 for (const j of journeys) {
+  test(`${j.slug}: introduction heading contains only the journey title`, () => {
+    const html = fs.readFileSync(path.join(root,j.href,'index.html'),'utf8');
+    assert.match(html, /<h2 data-title>Journey<\/h2>/);
+    assert.doesNotMatch(html, /in order\./i);
+  });
   test(`${j.slug}: page, cover, all photos, videos and posters exist in chronological order`, () => {
     exists(path.join(root,j.href,'index.html'));
     exists(path.join(root,j.cover.split('?')[0]));
