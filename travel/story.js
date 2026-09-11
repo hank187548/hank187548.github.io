@@ -45,7 +45,7 @@
   media.forEach((filename, index) => {
     const isVideo = filename.endsWith(".mp4");
     const figure = document.createElement("figure");
-    figure.className = `media-item media-item--${index % 7 === 0 || index % 7 === 4 ? "wide" : index % 5 === 0 ? "tall" : "standard"}`;
+    figure.className = "media-item";
     const caption = `<figcaption><span>${formatDate(filename)}</span><span>${String(index + 1).padStart(2, "0")} / ${String(media.length).padStart(2, "0")}</span></figcaption>`;
     if (isVideo) {
       const poster = filename.replace(/\.mp4$/, "-poster.webp");
